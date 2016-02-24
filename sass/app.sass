@@ -1,0 +1,86 @@
+@import "compass"
+$edit-icon: url('../img/pencil.png')
+
+
+form
+  border: 1px solid red
+  display: block
+  margin-top: 0em
+
+br
+  clear: both
+
+\:disabled
+  cursor: not-allowed
+
+span
+  padding-top: 7px
+  margin-bottom: 0
+
+div
+  &.div-container
+    padding: 15px 15px 15px
+    margin: 0 -15px 15px
+    border: 1px solid #e5e5e5
+    overflow: hidden
+
+  &.header
+    text-align: center
+    height: auto
+    margin: 0 auto
+
+
+
+.modal.modal-wide .modal-dialog
+  width: 90%
+
+.modal-wide .modal-body
+  overflow-y: auto
+
+@media (min-width: 768px)
+  div
+    &.div-container
+      margin-right: 0
+      margin-left: 0
+      background-color: #fff
+      border: 1px solid #ddd
+      border-radius: 4px 4px 0 0
+
+
+#loading
+  z-index: 99999
+  display: none
+  width: 50px
+  height: 57px
+  position: absolute
+  top: 50%
+  left: 50%
+  margin: -28px 0 0 -25px
+
+.description
+  width: 33%
+  display: inline-block
+  float: left
+  background: #c2c2c2
+  pre, code
+    white-space: pre-line //pre-line ,no border
+    background-color: #ffffff
+
+.hrow
+  display: flex /* equal height of the children */
+
+.col
+  flex: 1 /* additionally, equal width */
+  padding: 1em
+  border: solid
+  border-color: #FFFFFF
+  border-radius: 0.5em
+
+.edit
+  position: absolute
+  right: .1em
+  top: .1em
+
+.edit-hidden
+  display: none
+

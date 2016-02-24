@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Grid Manager demo</title>
+    <link rel="stylesheet" type="text/css" href="css/lib/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="css/lib/bootstrap.min.css"/>
+    <link href="css/lib/jquery.gridmanager.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <link href="css/lib/magicsuggest-min.css" rel="stylesheet"></link>
+    <style>pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }</style>
+    <script data-main="js/main" src="js/lib/require.js"></script>
+
+</head>
+<body>
+<div class="header"><h1>Editor Demo</h1>
+
+    <div id="open">
+        <div class="hrow">
+            <div class="description col">
+                <a href="#test/text.json" class="btn btn-primary" data-url="test/text.json">Text Test</a>
+                <pre>
+                    <code>
+                        PIN IN/OUT "sollecito":{"label":"sollecito", "value":"sollecito",...}
+                        PIN IN "esito_approvazione_in":{"label":"Esito approvazione", "value":"esito",...}
+                        PIN OUT "rif_progressivo_fascicolo":{"label":"rif_progressivo_fascicolo", "value":"rif_progressivo_fascicolo",...}
+                    </code>
+                </pre>
+            </div>
+
+            <div class="description col">
+                <a href="#test/document.json" class="btn btn-primary" data-url="test/document.json">Document Test</a>
+                <pre>
+                    <code>
+                        PIN IN "documentoPrincipale":{"label":"Documento principale", "value":"principale"}
+                    </code>
+                </pre>
+            </div>
+            <div class="description col">
+                <a href="#test/data.json" class="btn btn-primary" data-url="test/data.json">Data Test</a>
+                <pre>
+                    <code>PIN IN "data_inizio_pubblicazione":{ "label":"data_inizio_pubblicazione","type":"datetimeRef","value":"data_inizio_pubblicazione"}
+                        PIN IN/OUT "data_fine_pubblicazione":{"label":"data_fine_pubblicazione","value":"data_fine_pubblicazione",}
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <div class="hrow">
+            <div class="description col">
+                <a href="#test/object.json" class="btn btn-primary" data-url="test/object.json">Object Test</a>
+                <pre>
+                    <code>
+                        PIN IN "tipologie":{ "label":"Tipologie documentarie", "value":"tipologie", ...}
+                        PIN OUT "Result":{ "label":"Result", "value":"Result", ...}
+                    </code>
+                </pre>
+            </div>
+
+            <div class="description col">
+                <a href="#test/actor.json" class="btn btn-primary" data-url="test/actor.json">Actor Test</a>
+                <pre>
+                    <code>
+                        PIN IN "actor_in":{"label":"Attore", "value":"actor_1",...}
+                        PIN OUT "actor_out":{"label":"Figura professionale", "value":"actor_2",...}
+                    </code>
+                </pre>
+            </div>
+            <div class="description col">
+                <a href="#test/soggetto.json" class="btn btn-primary" data-url="test/soggetto.json">Soggetto Test</a>
+                <pre>
+                    <code>
+                        PIN IN   "soggetto_pf": { "label": "soggetto_pf", "value": "soggetto_pf", ...}
+                        PIN OUT  "soggetto_banca": { "label": "soggetto_banca", "value": "soggetto_banca", ...}
+                    </code>
+                </pre>
+            </div>
+            </div>
+            <div class="hrow">
+                <div class="description col">
+                    <a href="#test/classifica.json" class="btn btn-primary" data-url="test/classifica.json">Classifica Test</a>
+                <pre>
+                    <code>
+                        PIN IN "Titolario in":{"label": "Titolario", "value": "classifica_example_in", ...}
+                        PIN OUT "Titolario out":{"label": "Titolario", "value": "classifica_example_out", ...}
+                    </code>
+                </pre>
+                </div>
+
+                <div class="description col">
+                    <a href="#test/fascicolo.json" class="btn btn-primary" data-url="test/fascicolo.json">Fascicolo Test</a>
+                <pre>
+                    <code>
+                        PIN IN/OUT  "fascicolo_nuovo": { "label": "fascicolo_nuovo", "value": "fascicolo_nuovo",...}
+                        PIN IN "fascicolo_attuale": {"label": "fascicolo_attuale", "value": "fasc_proc",...}
+                    </code>
+                </pre>
+                </div>
+            </div>
+        </div>
+
+
+        <!--  <button class="btn btn-primary">Open Dialog</button> -->
+        <!-- <button type="button" class="btn btn-primary" id="#normalModal">Open Editor</button> -->
+    </div>
+</div>
+
+
+<div class="container" id="container">
+</div>
+</div>
+<img id="loading" src="img/ajax-loader.gif">
+</body>
+</html>

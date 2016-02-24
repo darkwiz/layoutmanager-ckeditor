@@ -1,0 +1,143 @@
+{
+   "_comment": "HT -ModificaUnitàDocumentaria",
+   "settings":{
+      "inputs":{
+         "comment":{
+            "label":"Commento",
+            "value":"",
+            "type":"string",
+            "hidden":true
+         },
+         "ud_definitiva_in":{
+            "label":"Versione definitiva",
+            "value":"example_text1",
+            "type":"textRef",
+            "hidden":false
+         },
+         "tipologie":{
+            "label":"Tipologie documentarie",
+            "type":"object",
+            "value":"example_obj"
+         },
+         "documentoPrincipale":{
+            "label":"Documento principale",
+            "type":"document",
+            "isCollection":false,
+            "value":"example_main_doc"
+         },
+         "allegati":{
+            "label":"Allegati",
+            "type":"document",
+            "isCollection":true,
+            "value":"example_attch_doc"
+         },
+         "annessi":{
+            "label":"Annessi",
+            "type":"document",
+            "isCollection":true,
+            "value":"example_anne_doc"
+         },
+         "annotazioni":{
+            "label":"Annotazioni",
+            "type":"document",
+            "isCollection":true,
+            "value":"example_anno_doc"
+         }
+      },
+      "outputs":{
+         "reason":{
+            "label":"Motivazione",
+            "value":"",
+            "type":"key",
+            "hidden":true
+         },
+         "ud_definitiva_out":{
+            "label":"Versione definitiva",
+            "value":"example_text",
+            "type":"textRef",
+            "hidden":false
+         },
+         "userToken":{
+            "label":"Actual Owner",
+            "value":"humanToken",
+            "type":"userToken",
+            "hidden":false
+         }
+      },
+      "props":{
+         "name":{
+            "label":"Nome",
+            "value":"Modifica unità documentar  ia!",
+            "type":"text",
+            "hidden":false
+         },
+         "description":{
+            "label":"Note",
+            "value":"Descrizione Form esempio",
+            "type":"note",
+            "hidden":false
+         },
+         "FTL":{
+            "label":"Form html",
+            "value":"<h2>Modifica unit&agrave; documentaria</h2><h5><strong>Documento principale</strong></h5><div class='panel'>  <p><strong><ahref='/AppDoc/openDoc?docNum=${documentoPrincipale.DOCNUM}'><i class='glyphicon glyphicon-edit'></i> ${documentoPrincipale.DOCNAME}</a></strong> <aclass='btn btn-primary pull-right'href='/AppBPM/bridge?TYPE=documento&action=download&DOCNUM=${documentoPrincipale.DOCNUM}'><iclass='glyphicon glyphicon-download'></i> Scarica</a><br> <spanclass='small'>Tipologia: ${documentoPrincipale.TYPE_ID}</span></p></div><!-- <#if allegati?has_content> --><hr class='clearfix'><h5><strong>Allegati</strong></h5><!-- <#list allegati as documento> -->  <div class='panel'><p><strong><a href='/AppDoc/openDoc?docNum=${documento.DOCNUM}'><i class='glyphicon glyphicon-edit'></i> ${documento.DOCNAME}</a></strong> <a class='btn btn-primary pull-right' href='/AppBPM/bridge?TYPE=documento&action=download&DOCNUM=${documento.DOCNUM}'><i class='glyphicon glyphicon-download'></i> Scarica</a> <br> <span class='small'>Tipologia: ${documento.TYPE_ID}</span></p>  </div><!-- </#list> --><!-- </#if> --><!-- <#if annessi?has_content> --><hr class='clearfix'><h5><strong>Annessi</strong></h5><!-- <#list annessi as documento> -->  <div class='panel'><p><strong><a href='/AppDoc/openDoc?docNum=${documento.DOCNUM}'><i class='glyphicon glyphicon-edit'></i> ${documento.DOCNAME}</a></strong><a class='btn btn-primary pull-right' href='/AppBPM/bridge?TYPE=documento&action=download&DOCNUM=${documento.DOCNUM}'><i class='glyphicon glyphicon-download'></i> Scarica</a> <br> <span class='small'>Tipologia: ${documento.TYPE_ID}</span></p>  </div><!-- </#list> -->  <!-- </#if> --><!-- <#if annotazioni?has_content> --><hr class='clearfix'><h5><strong>Annotazioni</strong></h5><!-- <#list annotazioni as documento> -->  <div class='panel'><p><strong><a href='/AppDoc/openDoc?docNum=${documento.DOCNUM}'><i class='glyphicon glyphicon-edit'></i> ${documento.DOCNAME}</a></strong> <a class='btn btn-primary pull-right' href='/AppBPM/bridge?TYPE=documento&action=download&DOCNUM=${documento.DOCNUM}'><i class='glyphicon glyphicon-download'></i> Scarica</a> <br> <span class='small'>Tipologia: ${documento.TYPE_ID}</span>  </div><!-- </#list> --><!-- </#if> --><h2>Aggiungi documenti</h2><form action='complete' method='POST' enctype='multipart/form-data' class='ad-search form-horizontal'><!-- <#if tipologie.ALLEGATO??> -->  <multi-upload add-button='true' mu-label='Documento principale' name-prefix='ALLEGATO' name-field='filePath'  label-prefix='' label='Allegati'></multi-upload><!-- <#else> --> <!-- </#if> --> <!--<#if tipologie.ANNESSO??> -->  <multi-upload add-button='true' name-prefix='ANNESSO' name-field='filePath' label-prefix=''  label='Annessi'></multi-upload><!-- <#else> --> <!-- </#if> --> <!-- <#if tipologie.ANNOTAZIONE??> -->  <multi-upload add-button='true' name-prefix='ANNOTAZIONE' name-field='filePath' label-prefix=''  label='Annotazioni'></multi-upload><!-- <#else> --> <!-- </#if>-->  <p class='panel'><strong>Versione definitiva:&nbsp;&nbsp;</strong>SI&nbsp;&nbsp;<input type='radio'name='ud_definitiva_out'value='si'<#if (ud_definitiva_in == 'si')>checked</#if> >&nbsp;&nbsp;&nbsp;NO&nbsp;&nbsp;<inputtype='radio' name='ud_definitiva_out' value='no' <#if (ud_definitiva_in == 'no')>checked</#if> ></p>  <button class='btn btn-small btn-primary' type='submit' name='outcome' value='Complete'>Modifica unit&agrave;documentaria  </button></form><script> var tipologieallegato = new Array();var tipologieprincipale = new Array();var tipologieannotazione = new Array();var tipologieannesso = new Array();var map = new Object();<#if tipologie.PRINCIPALE??><#list tipologie.PRINCIPALE as tipologia> tipologieprincipale[${tipologia_index}] = '${tipologia}';map['PRINCIPALE'] = tipologieprincipale;</#list><#else></#if><#if tipologie.ALLEGATO??><#list tipologie.ALLEGATO as tipologia> tipologieallegato[${tipologia_index}] = '${tipologia}';map['ALLEGATO'] = tipologieallegato;</#list><#else></#if><#if tipologie.ANNOTAZIONE??><#list tipologie.ANNOTAZIONE as tipologia>tipologieannotazione[${tipologia_index}] = '${tipologia}';map['ANNOTAZIONE'] = tipologieannotazione;</#list><#else></#if><#if tipologie.ANNESSO??><#list tipologie.ANNESSO as tipologia> tipologieannesso[${tipologia_index}] = '${tipologia}';map['ANNESSO'] = tipologieannesso;</#list> <#else></#if>$(function () {  $(document).on('ff-multi-upload-add ff-multi-upload-init', function (event, data) {var selectName = data.record.name.replace('.filePath', '');selectName = selectName + '.TYPE_ID';var elemAdded = $(event.target).find('.mu-input-row').last();var label = $('<label>').text('Tipologia');$(label).attr({'for': selectName});var s = $('<select />');s.attr('name', selectName);s.attr('class', 'table-cell input-small');for (var i = 0; i < map[data.record.firstName].length; i++) {var option = $('<option>').val(map[data.record.firstName][i]).text(map[data.record.firstName][i]);$(s).append(option);}$(elemAdded).html(label);$(elemAdded).append(s);  });}); </script>",
+            "hidden":false,
+            "type":"html"
+         },
+         "actor":{
+            "label":"Figura professionale",
+            "value":"",
+            "hidden":false,
+            "type":"actor"
+         },
+         "swimActor":{
+            "label":"Utente",
+            "value":"",
+            "hidden":false,
+            "type":"soggettoOrToken"
+         },
+         "skippable":{
+            "label":"Ignorabile",
+            "value":"",
+            "hidden":false,
+            "type":"bool"
+         },
+         "priority":{
+            "label":"Priorita'",
+            "value":"",
+            "hidden":true,
+            "type":"int"
+         }
+      },
+      "anchors":{
+         "sources":{
+            "LeftMiddle":{
+               "label":"IN"
+            }
+         },
+         "targets":{
+            "RightMiddle":{
+               "label":"OUT"
+            }
+         }
+      }
+   },
+   "offset":{
+      "top":125,
+      "left":483.453125
+   },
+   "addDynamicInputField":false,
+   "toolbox-type":"main,subprocess",
+   "icon":"img/blocks/HTModificaUD.png",
+   "className":"task human",
+   "label":"HT-ModificaUnitaDocumentaria",
+   "type":"HT-ModificaUnitaDocumentaria",
+   "addDynamicOutputField":true,
+   "onentry":"",
+   "onexit":"",
+   "id":"block0",
+   "category":"human-tasks",
+   "parentGroup":"designer",
+   "lane":"Default",
+   "width":133.60000000000002,
+   "height":104.6
+}

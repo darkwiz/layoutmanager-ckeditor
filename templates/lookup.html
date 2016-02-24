@@ -1,0 +1,32 @@
+
+{{#if fromUrl}}
+
+var source = "{{sourceUrl}}";
+$(document).ready(function() {
+    var field = "#{{elementId}}";
+    console.debug(field);
+    console.debug(source);
+    $.ajax({
+        type: 'GET',
+        url: source,
+        dataType: 'json',
+        success: function(data){
+            $(field).magicSuggest({
+                data: data,
+                displayField: 'name'
+            });
+        }
+    })
+});
+
+{{else}}
+    var field = "#{{elementId}}";
+    console.debug(field);
+    var source = "{{source}}";
+    source = source.split(",");
+        $(field).magicSuggest({
+            data: source,
+            displayField: 'name'
+        });
+
+{{/if}}

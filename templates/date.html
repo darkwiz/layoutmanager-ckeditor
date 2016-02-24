@@ -1,0 +1,13 @@
+<div class="{{containerCss}}">
+    {{#if dates}}
+    <select data-type="date" name="{{pinName}}.day">
+        {{#each dates}}<option value="{{this.day}}" >{{this}}</option>{{/each}}
+    </select>{{/if}}
+    {{#if months}}
+    <select data-type="month" name="{{pinName}}.month">{{#each months}}
+        <option value="{{this.month}}" >{{this.value}}</option>{{/each}}
+    </select>{{/if}}
+    <select data-type="year" name="{{pinName}}.year">{{#each years}}
+        <option value="{{this}}" >{{this}}</option>{{/each}}</select>
+    <!-- FTL tag selected selected="{{> selected ../this}}"  -->
+</div>
