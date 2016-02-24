@@ -1,0 +1,35 @@
+{
+   "_comment": "Test Document",
+   "settings":{
+      "inputs":{
+         "documentoPrincipale":{
+            "label":"Documento principale",
+            "type":"document",
+            "isCollection":false,
+            "value":"principale"
+         }
+      },
+      "outputs":{
+         "reason":{
+            "label":"Motivazione",
+            "value":"",
+            "type":"key",
+            "hidden":true
+         }
+      },
+      "props":{
+         "name":{
+            "label":"Nome",
+            "value":"Modifica unità documentaria",
+            "type":"text",
+            "hidden":false
+         },
+         "description":{
+            "label":"Note",
+            "value":"Form esempio tipo document",
+            "type":"note",
+            "hidden":false
+         }
+      }
+   }
+}

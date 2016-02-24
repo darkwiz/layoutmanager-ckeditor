@@ -1,0 +1,59 @@
+{
+  "_comment": "Test fascicolo",
+  "settings": {
+    "inputs": {
+      "comment": {
+        "label": "Commento",
+        "value": "",
+        "type": "string",
+        "hidden": true
+      },
+      "fascicolo_nuovo": {
+        "label": "fascicolo_nuovo",
+        "type": "fascicolo",
+        "value": "fascicolo_nuovo",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "fascicolo_attuale": {
+        "label": "fascicolo_attuale",
+        "type": "fascicolo",
+        "value": "fasc_proc",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "outputs": {
+      "reason": {
+        "label": "Motivazione",
+        "value": "",
+        "type": "key",
+        "hidden": true
+      },
+      "fascicolo_nuovo": {
+        "label": "fascicolo_nuovo",
+        "type": "fascicolo",
+        "value": "fascicolo_nuovo",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "props": {
+      "name": {
+        "label": "Nome",
+        "value": "Crea fascicolo procedimento",
+        "type": "text",
+        "hidden": false
+      },
+      "description": {
+        "label": "Note",
+        "value": "",
+        "type": "note",
+        "hidden": false
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "_comment": "Test Actor",
+  "settings":{
+    "inputs":{
+      "actor_in":{
+        "label":"Attore",
+        "value":"actor_1",
+        "hidden":false,
+        "type":"actor"
+      }
+    },
+    "outputs":{
+      "actor_out":{
+        "label":"Figura professionale",
+        "value":"actor_2",
+        "hidden":false,
+        "type":"actor"
+      }
+    },
+    "props": {
+      "name": {
+        "label": "Nome",
+        "value": "Form Test Actor",
+        "type": "text",
+        "hidden": false
+      },
+      "description": {
+        "label": "Note",
+        "value": "",
+        "type": "note",
+        "hidden": false
+      }
+    }
+    }
+}

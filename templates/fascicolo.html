@@ -1,0 +1,28 @@
+{{#if collection}}
+   ${ {{ classifica.pinValue }} } / ${ {{anno_fascicolo.pinValue}} }/ ${ {{progr_fascicolo.pinValue}} } - $ { {{des_fascicolo.pinValue}} }
+{{else}}
+<div class="form-group">
+    {{>label classifica}}
+    {{> (whichPartial classifica.elem) classifica}}
+</div>
+<div class="form-group">
+    {{>label parent_progr_fascicolo}}
+    {{> (whichPartial parent_progr_fascicolo.elem) parent_progr_fascicolo}}
+</div>
+{{#if progr_fascicolo}}
+<div class="form-group">
+    {{>label progr_fascicolo}}
+    {{> (whichPartial progr_fascicolo.elem) progr_fascicolo}}
+</div>
+{{/if}}
+<div class="form-group">
+    {{>label des_fascicolo}}
+    {{> (whichPartial des_fascicolo.elem) des_fascicolo}}
+</div>
+<div class="form-group">
+    {{>label anno_fascicolo}}
+    {{> (whichPartial anno_fascicolo.elem) anno_fascicolo}}
+</div>
+
+<p class="help-block">{{helpValue}}</p>
+{{/if}}
