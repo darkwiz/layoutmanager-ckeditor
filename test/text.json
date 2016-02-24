@@ -1,0 +1,71 @@
+{
+   "settings": {
+      "inputs": {
+         "comment": {
+            "label": "Commento",
+            "value": "",
+            "type": "string",
+            "hidden": true
+         },
+         "sollecito": {
+            "label": "sollecito",
+            "type": "textRef",
+            "value": "sollecito",
+            "dynamic": true,
+            "isCollection": false,
+            "hidden": false
+         },
+         "esito_approvazione_in":
+         {
+            "label":"Esito approvazione",
+            "value":"esito",
+            "type":"textRef",
+            "hidden":false
+         }
+      },
+      "outputs": {
+         "reason": {
+            "label": "Motivazione",
+            "value": "",
+            "type": "key",
+            "hidden": true
+         },
+         "userToken": {
+            "label": "Actual Owner",
+            "value": "humanToken",
+            "type": "userToken",
+            "hidden": true
+         },
+         "sollecito": {
+            "label": "sollecito",
+            "type": "textRef",
+            "value": "sollecito",
+            "dynamic": true,
+            "isCollection": false,
+            "hidden": false
+         },
+         "rif_progressivo_fascicolo":{
+            "label":"rif_progressivo_fascicolo",
+            "type":"textRef",
+            "value":"rif_progressivo_fascicolo",
+            "dynamic":true,
+            "isCollection":false,
+            "hidden":false
+         }
+      },
+      "props": {
+         "name": {
+            "label": "Nome",
+            "value": "Gestione invio sollecito",
+            "type": "text",
+            "hidden": false
+         },
+         "description": {
+            "label": "Note",
+            "value": "Form esempio tipo text",
+            "type": "note",
+            "hidden": false
+         }
+      }
+   }
+}

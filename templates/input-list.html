@@ -1,0 +1,8 @@
+<div class="{{containerCss}}">
+    {{#if elementValues}}
+    <select class="{{elementCss}}" name="{{pinName}}">
+        {{#each elementValues}}
+        <option value="{{this}}" selected="{{> selected ../this}}">{{this}}</option>
+        {{/each}}
+    </select>{{/if}}
+</div>

@@ -1,0 +1,22 @@
+<div class="form-group">
+    {{>label docname}}
+    {{> (whichPartial docnum.elem) docnum}}
+    {{> (whichPartial docname.elem) docname}}
+
+</div>
+<div class="form-group">
+    {{>label type_id}}
+    {{> (whichPartial type_id.elem) type_id}}
+</div>
+<div class="form-group">
+    {{>label tipo_protocollazione}}
+    {{> radio tipo_protocollazione}}
+</div>
+<div class="form-group">
+    {{>label abstract}}
+    {{> textarea abstract}}
+</div>
+
+<p class="help-block">{{helpValue}}</p>
+</div>
+</div>

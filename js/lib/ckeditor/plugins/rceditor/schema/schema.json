@@ -1,0 +1,26 @@
+"text": {
+	"type":"text",
+	"values":[""],
+	"checked":""
+},
+"boolean": {
+	"type":"checkbox",
+	"values":[""],
+	"checked":"checked"
+},
+"datetime": {
+	"type":"datetime-local",
+	"values":[""],
+	"checked":"checked"
+},
+"tp": {
+	"type":"radio",
+	"values":["E", "I", "U"],
+	"checked":"checked"
+},
+"acl": {
+	"type":"radio",
+	"values":["NORMAL","EDIT","FULL"],
+	"checked":"checked"
+}
+

@@ -1,0 +1,15 @@
+<div class="form-group">
+    {{>label classifica}}
+    {{> (whichPartial classifica.elem) classifica}}
+</div>
+<div class="form-group">
+    {{>label parent_classifica}}
+    {{> (whichPartial parent_classifica.elem) parent_classifica}}
+</div>
+<div class="form-group">
+    {{>label des_titolario}}
+    {{> (whichPartial des_titolario.elem) des_titolario}}
+</div>
+
+<p class="help-block">{{helpValue}}</p>
+

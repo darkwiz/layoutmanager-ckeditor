@@ -1,0 +1,64 @@
+{
+  "settings": {
+    "inputs":{
+      "comment":{
+        "label":"Commento",
+        "value":"",
+        "type":"string",
+        "hidden":true
+      },
+      "data_inizio_pubblicazione":{
+        "label":"data_inizio_pubblicazione",
+        "type":"datetimeRef",
+        "value":"data_inizio_pubblicazione",
+        "dynamic":true,
+        "isCollection":false,
+        "hidden":false
+      },
+      "data_fine_pubblicazione":{
+        "label":"data_fine_pubblicazione",
+        "type":"datetimeRef",
+        "value":"data_fine_pubblicazione",
+        "dynamic":true,
+        "isCollection":false,
+        "hidden":false
+      }
+    },
+    "outputs":{
+      "reason":{
+        "label":"Motivazione",
+        "value":"",
+        "type":"key",
+        "hidden":true
+      },
+      "userToken":{
+        "label":"Actual Owner",
+        "value":"humanToken",
+        "type":"userToken",
+        "hidden":false
+      },
+      "data_fine_pubblicazione":{
+        "label":"data_fine_pubblicazione",
+        "type":"datetimeRef",
+        "value":"data_fine_pubblicazione",
+        "dynamic":true,
+        "isCollection":false,
+        "hidden":false
+      }
+    },
+    "props": {
+      "name": {
+        "label": "Nome",
+        "value": "Form esempio tipo data",
+        "type": "text",
+        "hidden": false
+      },
+      "description": {
+        "label": "Note",
+        "value": "example",
+        "type": "note",
+        "hidden": false
+      }
+    }
+  }
+}

@@ -1,0 +1,117 @@
+/* line 5, ../sass/app.sass */
+form {
+  border: 1px solid red;
+  display: block;
+  margin-top: 0em;
+}
+
+/* line 10, ../sass/app.sass
+br {
+  clear: both;
+}
+ */
+
+/* line 13, ../sass/app.sass */
+:disabled {
+  cursor: not-allowed;
+}
+
+/* line 16, ../sass/app.sass */
+span {
+  padding-top: 7px;
+  margin-bottom: 0;
+}
+
+/* line 21, ../sass/app.sass */
+div.div-container {
+  padding: 15px 15px 15px;
+  margin: 0 -15px 15px;
+  border: 1px solid #e5e5e5;
+  overflow: hidden;
+}
+/* line 27, ../sass/app.sass */
+div.header {
+  text-align: center;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* line 34, ../sass/app.sass */
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+
+/* line 37, ../sass/app.sass */
+.modal-wide .modal-body {
+  overflow-y: visible;
+}
+
+.modal-footer {
+    overflow-y:visible;
+}
+
+@media (min-width: 768px) {
+  /* line 42, ../sass/app.sass */
+  div.div-container {
+    margin-right: 0;
+    margin-left: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+  }
+}
+/* line 50, ../sass/app.sass */
+#loading {
+  z-index: 99999;
+  display: none;
+  width: 50px;
+  height: 57px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -28px 0 0 -25px;
+}
+
+/* line 60, ../sass/app.sass */
+.description {
+  width: 33%;
+  display: inline-block;
+  float: left;
+  background: #c2c2c2;
+}
+/* line 65, ../sass/app.sass */
+.description pre, .description code {
+  white-space: pre-line;
+  background-color: #ffffff;
+}
+
+/* line 69, ../sass/app.sass */
+.hrow {
+  display: flex;
+}
+
+/* line 72, ../sass/app.sass */
+.col {
+  flex: 1;
+  padding: 1em;
+  border: solid;
+  border-color: #FFFFFF;
+  border-radius: 0.5em;
+}
+
+/* line 79, ../sass/app.sass */
+.edit {
+  position: absolute;
+  right: 0.1em;
+  top: 0.1em;
+  width: 24px;
+  height: 24px;
+  background-image: url('../img/pencil.png');
+  display:block;
+  cursor:pointer;
+}
+
+/* line 84, ../sass/app.sass */
+.edit-hidden {
+  display: none;
+}

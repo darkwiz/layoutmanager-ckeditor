@@ -1,0 +1,41 @@
+{
+   "_comment": "Test Classifica",
+   "settings":{
+      "inputs":{
+         "Titolario in": {
+            "label": "Titolario",
+            "type": "classifica",
+            "isCollection": false,
+            "value": "classifica_example_in"
+         }
+      },
+      "outputs":{
+         "Titolario out": {
+            "label": "Titolario",
+            "type": "classifica",
+            "isCollection": false,
+            "value": "classifica_example_out"
+         },
+         "reason":{
+            "label":"Motivazione",
+            "value":"",
+            "type":"key",
+            "hidden":true
+         }
+      },
+      "props":{
+         "name":{
+            "label":"Nome",
+            "value":"Test Classifica",
+            "type":"text",
+            "hidden":false
+         },
+         "description":{
+            "label":"Note",
+            "value":"Classifica",
+            "type":"note",
+            "hidden":false
+         }
+      }
+   }
+}

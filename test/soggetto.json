@@ -1,0 +1,57 @@
+{
+  "_comment": "Test Soggetto",
+  "settings": {
+    "inputs": {
+      "comment": {
+        "label": "Commento",
+        "value": "",
+        "type": "string",
+        "hidden": true
+      },
+      "soggetto_pf": {
+        "label": "soggetto_pf",
+        "type": "soggetto",
+        "value": "soggetto_pf",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "outputs": {
+      "reason": {
+        "label": "Motivazione",
+        "value": "",
+        "type": "key",
+        "hidden": true
+      },
+      "userToken": {
+        "label": "Actual Owner",
+        "value": "humanToken",
+        "type": "userToken",
+        "hidden": false
+      },
+      "soggetto_banca": {
+        "label": "soggetto_banca",
+        "type": "soggetto",
+        "value": "soggetto_banca",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "props": {
+      "name": {
+        "label": "Nome",
+        "value": "Gestione penali",
+        "type": "text",
+        "hidden": false
+      },
+      "description": {
+        "label": "Note",
+        "value": "",
+        "type": "note",
+        "hidden": false
+      }
+    }
+  }
+}
