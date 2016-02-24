@@ -484,8 +484,12 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 label: 'Source Titolario',
                                 'default': '',
                                 validate: function () {
-                                    if (!this.getValue()) {
-                                       alert("pippo")
+                                    var dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor(),
+                                        urlTitolario = dialog.getContentElement('tab-fascicolo', 'fascicolo-titolario');
+                                    console.log(urlTitolario.isVisible());
+                                    if (urlTitolario.isVisible() && !urlTitolario.getValue()) {
+                                        alert("Scegli un Url per il titolario!")
                                         return false;
                                     }
                                 }
