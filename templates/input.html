@@ -1,12 +1,12 @@
 {{#if childModel}}
 <div class="{{containerCss}}">
   <div id="{{elementId}}">
-    <input type="{{elementType}}" name="{{pinName}}" class="{{elementCss}}" value="${ {{pinValue}} }" />
+    <input type="{{elementType}}" name="{{pinName}}" class="{{elementCss}}" value="{{pinValue}}" />
   </div>
 </div>
 {{else}}
 <div class="{{containerCss}}" >
-  <input type="{{elementType}}" name="{{pinName}}" class="{{elementCss}}" value="${ {{pinValue}} }" {{ disabledIf this.disabled }} />
+  <input type="{{elementType}}" name="{{pinName}}" class="{{elementCss}}" value="{{pinValue}}" {{ disabledIf this.disabled }} />
 </div>
 {{/if}}
 

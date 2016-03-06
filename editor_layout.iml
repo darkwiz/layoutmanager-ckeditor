@@ -20,7 +20,7 @@
     <orderEntry type="library" name="lodash-DefinitelyTyped" level="project" />
     <orderEntry type="library" name="jquery-DefinitelyTyped" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="compass-import-once (v1.0.5, RVM: ruby-2.1.2) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="json (v1.8.1, RVM: ruby-2.1.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.8.4, RVM: ruby-2.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass (v3.4.21, RVM: ruby-2.1.2) [gem]" level="application" />
   </component>
 </module>

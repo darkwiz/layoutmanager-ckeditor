@@ -10,7 +10,7 @@ define(["handlebars",
     });
 
     Handlebars.registerHelper("isEmpty", function (obj) {
-        console.log((obj.length === 0));
+        //console.log((obj.length === 0));
         return (obj.length === 0);
     });
 

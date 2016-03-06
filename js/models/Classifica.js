@@ -13,7 +13,7 @@ define(['models/Base',
         var Input = Input.Input;
         var ClassificaReadOnly = Base.extend({
             defaults: {
-                type:"classifica",
+               // type:"classifica",
                 elem:"classifica",
                 classifica: _.extend({}, Span.prototype.defaults), //per out e in/out tipo lookup
                 des_titolario: _.extend({}, Span.prototype.defaults),
@@ -25,17 +25,17 @@ define(['models/Base',
 
                 this.classifica = _.clone(this.get("classifica"));
                 this.classifica.labelValue =  "CLASSIFICA:";
-                this.classifica.pinValue =  options.PIN.value + ".CLASSIFICA" ;
+                this.classifica.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".CLASSIFICA", options.PIN.pintype);
                 this.set("classifica", this.classifica);
 
                 this.des_titolario = _.clone(this.get("des_titolario"));
                 this.des_titolario.labelValue = "DES_TITOLARIO:";
-                this.des_titolario.pinValue =  options.PIN.value + ".DES_TITOLARIO" ;
+                this.des_titolario.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".DES_TITOLARIO" , options.PIN.pintype) ;
                 this.set("des_titolario", this.des_titolario);
 
                 this.parent_classifica = _.clone(this.get("parent_classifica"));
                 this.parent_classifica.labelValue = "PARENT_CLASSIFICA:";
-                this.parent_classifica.pinValue =  options.PIN.value + ".PARENT_CLASSIFICA" ;
+                this.parent_classifica.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".PARENT_CLASSIFICA", options.PIN.pintype) ;
                 this.set("parent_classifica", this.parent_classifica);
 
             }
@@ -69,12 +69,12 @@ define(['models/Base',
                 this.set("parent_classifica", this.parent_classifica);
 
             },
-            includeChild: function (child) {
+            /*includeChild: function (child) {
                 child.bind('change', this.onChildChange, this);
             },
             onChildChange: function (child) {
                 child.trigger("change", this);
-            },
+            },*/
             addOption: function(value) {
                 Lookup.prototype.addOption.call(this.childModel, value);
             },

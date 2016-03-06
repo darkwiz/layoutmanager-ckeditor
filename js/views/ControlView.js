@@ -25,10 +25,22 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             initialize: function() {
                 _.bindAll(this); // every function that uses 'this' as the current object should be in here
 
+                this._editor = CKEDITOR.instances.mycanvas;
+
                 this.model.on('update', this.update, this);
                 this.model.on('change:elementValues', this.updateControl, this);
                 //questo viene fatto in automatico
                 //this.$el = $(this.el);
+
+                this._editor.on('setcontainerClass', function( event ) {
+                    this.model.setcontainerClass(event.data.selected);
+                }, this);
+
+                this.listenTo(this._editor,'loadFascicoli', function( event ) {
+                    console.log("fired", event.urlTitolario);
+                    console.log(this);
+                    event.promise = this.model.loadFascicoli(event.urlTitolario);
+                });
             },
 
             // Renders the view's template to the UI
@@ -43,6 +55,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
             },
             update: function () {
+                console.log("fired here here")
                 if(this.$label[0])
                     this.$label.removeClass(this.$label[0].className).addClass(this.model.get('labelCss'));
                 if(this.$control[0])
@@ -59,6 +72,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             onEdit: function(event) {
                 console.log("clicked");
                 var pintype = $(event.currentTarget).data("pin");
+                var controltype = $(event.currentTarget).data("type");
+                this._editor.config.customValues.picked = controltype;
                 if (pintype == "in")
                     CKEDITOR.currentInstance.openDialog( 'pinin' );
                 else if (pintype == "out")

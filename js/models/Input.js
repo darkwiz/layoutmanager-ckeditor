@@ -4,13 +4,14 @@ define(["models/Base"], function (Base) {
   var Input = Base.extend({
    // general state and behavior for all pinin controls elements
     defaults: _.extend({
-        type:"text",
+        //type:"text",
         elem:"input",
         elementType:"text",
         elementCss:"form-control",
-        elementValues: [""],
+        //elementValues: [""],
       }, Base.prototype.defaults),
       initialize: function(attrs, options) {
+          options = options || {};
           Base.prototype.initialize.call(this, attrs, options);
           var type = options.type;
           if(type == "email"){

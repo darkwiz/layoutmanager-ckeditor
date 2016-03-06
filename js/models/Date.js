@@ -7,7 +7,7 @@ define(['models/Year', 'models/Base', 'models/Input'], function (Year, Base, Inp
     var ReadOnlyDate = Base.extend({
         // general state and behavior for all pinin controls elements
         defaults: _.extend({
-            type:"date",
+           // type:"date",
             elem:"span-date",
             elementType:"text",
             elementValues: [""],
@@ -17,7 +17,7 @@ define(['models/Year', 'models/Base', 'models/Input'], function (Year, Base, Inp
 
     var Date = Year.extend({
             defaults: _.extend({
-                type:"date",
+                //type:"date",
                 elem: "date",
                 elementValues: [""],
                 elementCss : "",

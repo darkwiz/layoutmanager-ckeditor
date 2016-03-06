@@ -10,18 +10,20 @@ define(['models/Base','models/Input','models/Span', 'models/Lookup'],
         var Soggetto = Base.extend({
             defaults: {
                 elem: 'soggetto',
-                type: 'soggetto',
+                //type: 'soggetto',
                 name: _.extend({}, Input.prototype.defaults),
                 IndirizzoTelematico: _.extend({}, Input.prototype.defaults) //TODO:This should be an email
             },
             initialize: function(attrs, options) {
+                Base.prototype.initialize.call(this, attrs, options);
+
                 this.name = _.clone(this.get("name"));
-                this.name.pinValue =  options.PIN.value + ".name" ;
+                this.name.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".name", options.PIN.pintype);
                 this.name.labelValue =  "Nome Soggetto:";
                 this.set("name", this.name);
 
                 this.email = _.clone(this.get("IndirizzoTelematico"));
-                this.email.pinValue =  options.PIN.value + ".IndirizzoTelematico" ;
+                this.email.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".IndirizzoTelematico", options.PIN.pintype);
                 this.email.labelValue = "IndirizzoTelematico:";
                 this.set("IndirizzoTelematico", this.email);
 
@@ -50,7 +52,7 @@ define(['models/Base','models/Input','models/Span', 'models/Lookup'],
                 var childModels = this.get("childModels");
                 this.childModel = childModels.add({elementId: options.PIN.value}); //lookup classifica
 
-                this.name.labelValue = options.PIN.label;
+
                 this.name.elementId = options.PIN.value;
                 this.name.childModel = true;
                 this.set("name", this.name);

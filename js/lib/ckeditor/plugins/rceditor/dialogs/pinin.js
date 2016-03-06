@@ -6,7 +6,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
         minHeight: 200,
         onLoad: function() {
             var self = this;
-            require(["utils"], function(utils){
+            require(["jquery", "underscore", "backbone","utils"], function($, _, Backbone, utils){
                 var select = self.getContentElement('tab-basic', 'colselect'),
                     opts = utils.getColOpts();
                 for ( var i = 0 ; i < opts.length ; i++){
@@ -20,6 +20,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
                 utils.hideTabs.call(self);
+                _.extend(editor, Backbone.Events);
             });
 
         },
@@ -78,6 +79,10 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         optionVal = new Array("none", "fascicolo");
 
                         break;
+                    case 'cartella':
+                        optionNames = new Array("<Scegli un controllo>","Generico");
+                        optionVal = new Array("none", "cartella");
+                        break;
                     default:
                         optionNames = new Array("<none>"),
                             optionVal = new Array("");
@@ -88,6 +93,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 editor._collection = CollectionManager.getCollection('collection');
                 ViewManager.getView('simpleview', {collection: editor._collection});
                 utils.removeAllOptions( values );
+
+                console.log(editor.config.customValues.picked); //TODO:Works, refactor code editor._model
 
                 if (editor._model){
                     var model = editor._collection.get(editor._model);
@@ -151,7 +158,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         id = dialog.getContentElement("tab-adv", "id");
 
                                     //data.type = this.getValue();
-                                    editor._model.setControlLabel(this.getValue());
+                                    editor.fire("changeElement", {label: this.getValue()});
+                                    //editor._model.setControlLabel(this.getValue());
 
                                     // label.setText( this.getValue() + ": " );
 
@@ -179,10 +187,22 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         editor = dialog.getParentEditor(),
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         selectedPin = editor.config.customValues.pin;
-                                    editor._model = editor._collection.add({}, {
+                                        editor.trigger('changeElement',{
+                                            type: selected,
+                                            PIN: selectedPin
+                                        });
+
+                                       /* CKEditor events
+                                       editor.fire("changeElement",
+                                            {
+                                                type: selected,
+                                                PIN: selectedPin
+                                            }
+                                        );*/
+                                  /*  editor._model = editor._collection.add({}, {
                                         type: selected,
                                         PIN: selectedPin
-                                    });
+                                    });*/
                                     utils.toggleField(wselect, selected);
 
                                     //toggleTabs.call(dialog, 'tab-'+ selected);
@@ -212,7 +232,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                     var selected = this.getValue(),
                                         dialog = this.getDialog(),
                                         editor = dialog.getParentEditor();
-                                    editor._model.setcontainerClass(selected);
+                                    editor.fire('setcontainerClass', {selected: selected});
+                                    //editor._model.setcontainerClass(selected);
 
                                 }
                             }
@@ -232,6 +253,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
+                        //TODO: La remove va fatta cliccando sulla x dell'elemento che ha un riferimento
+                        editor.fire('removeElement', {selected: selected});
                         var control = editor._collection.remove(editor._model);
                         console.log(control);
                         // alert( 'Clicked: ' + this.id );

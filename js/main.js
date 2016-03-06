@@ -29,7 +29,8 @@ requirejs.config({
             deps: ["jquery.bootstrap"]
         },
         "app":{ deps: ["ckeditor.jquery"]}
-    }
+    },
+    urlArgs: "bust=" +  (new Date()).getTime() //remove in production!!!
 });
 
 requirejs(["app", "jquery.bootstrap","domReady!", "magic"], function(App) {

@@ -102,6 +102,7 @@ define(['underscore'],  function( _ ) {
                 'tab-autocomplete': ['tab-lookup'],
                 'tab-actor': ['tab-lookup'],
                 'tab-fascicolo': ['tab-fascicolo'],
+                'tab-cartella': ['tab-lookup']
             }[id]);
             for (var i in tabs) {
                 this.hidePage( tabs[i] );
