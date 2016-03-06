@@ -14,7 +14,7 @@ define(['models/Lookup',
                 childModels: new Scripts()
             },
             initialize: function (attrs, options) {
-
+                Input.prototype.initialize.call(this, attrs, options);
                 var childModels = this.get("childModels");
                 this.childModel = childModels.add({elementId: options.PIN.value}); //lookup classifica
 

@@ -10,16 +10,16 @@ define(["handlebars",
     "text!templates/input-checkbox.html",
     "text!templates/input-list.html",
     "text!templates/span.html",
+    "text!templates/edit-control.html",
     "text!templates/soggetto.html", //Rename single-soggetto
     "text!templates/object.html",  //Rename single-obj
     "text!templates/document.html",
     "text!templates/classifica.html",
     "text!templates/fascicolo.html",
+    "text!templates/cartella.html",
     "text!templates/single-simple.html"
-], function(Handlebars, label, input, textarea,
-            date, spanDate, spanLink,  inputAlt,
-            inputCheckbox, inputList,
-            span, soggetto, object, document, classifica, fascicolo, singleSimple){
+], function(Handlebars, label, input, textarea, date, spanDate, spanLink,  inputAlt, inputCheckbox, inputList,
+            span, editControl, soggetto, object, document, classifica, fascicolo, cartella,  singleSimple){
     "use strict";
 
     //Templates
@@ -29,9 +29,11 @@ define(["handlebars",
         soggettotpl = Handlebars.compile(soggetto),
         documenttpl = Handlebars.compile(document),
         classificatpl = Handlebars.compile(classifica),
-        fascicolotpl = Handlebars.compile(fascicolo);
+        fascicolotpl = Handlebars.compile(fascicolo),
+        cartellatpl = Handlebars.compile(cartella);
 
     //Partials
+    Handlebars.registerPartial('edit-control', editControl);
     Handlebars.registerPartial('label', label);
     Handlebars.registerPartial('span', span);
     Handlebars.registerPartial('span-date', spanDate);
@@ -74,7 +76,8 @@ define(["handlebars",
                 "soggetto": soggettotpl,
                 "document": documenttpl,
                 "classifica":classificatpl,
-                "fascicolo":fascicolotpl
+                "fascicolo":fascicolotpl,
+                "cartella":cartellatpl
             }[type]);
         }
     }

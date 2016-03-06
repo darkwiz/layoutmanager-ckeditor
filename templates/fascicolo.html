@@ -1,5 +1,5 @@
 {{#if collection}}
-   ${ {{ classifica.pinValue }} } / ${ {{anno_fascicolo.pinValue}} }/ ${ {{progr_fascicolo.pinValue}} } - $ { {{des_fascicolo.pinValue}} }
+    {{ classifica.pinValue }} / {{anno_fascicolo.pinValue}} /  {{progr_fascicolo.pinValue}}  -  {{des_fascicolo.pinValue}}
 {{else}}
 <div class="form-group">
     {{>label classifica}}
@@ -25,4 +25,5 @@
 </div>
 
 <p class="help-block">{{helpValue}}</p>
+{{> edit-control }}
 {{/if}}

@@ -13,7 +13,8 @@ define(["backbone",
 	"models/Actor",
 	"models/Document",
 	"models/Classifica",
-	"models/Fascicolo"], function(Backbone,
+	"models/Fascicolo",
+    "models/Cartella"], function(Backbone,
 								  Null,
 								  Base,
 								  Radio,
@@ -28,7 +29,8 @@ define(["backbone",
 								  Actor,
 								  Document,
 								  Classifica,
-								  Fascicolo) {
+								  Fascicolo,
+								  Cartella) {
 
 
 	/*Control Factory singleton */
@@ -128,6 +130,11 @@ define(["backbone",
 			in: Fascicolo.FascicoloReadOnly,
 			out: Fascicolo.Fascicolo,
 			inout: Fascicolo.Fascicolo
+		},
+		'cartella':{
+			in: Cartella.CartellaReadOnly,
+			out: Cartella.Cartella,
+			inout: Cartella.Cartella
 		}
 	};
 

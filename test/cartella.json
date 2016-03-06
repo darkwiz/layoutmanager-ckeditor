@@ -1,0 +1,67 @@
+{
+  "_comment": "Test cartella",
+  "settings": {
+    "inputs": {
+      "comment": {
+        "label": "Commento",
+        "value": "",
+        "type": "string",
+        "hidden": true
+      },
+      "cartella_in": {
+        "label": "cartella_in",
+        "type": "cartella",
+        "value": "cartella_in",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "cartella_attuale": {
+        "label": "cartella_attuale",
+        "type": "cartella",
+        "value": "cartella_attuale",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "outputs": {
+      "reason": {
+        "label": "Motivazione",
+        "value": "",
+        "type": "key",
+        "hidden": true
+      },
+      "cartella_attuale": {
+        "label": "cartella_attuale",
+        "type": "cartella",
+        "value": "cartella_attuale",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "cartella_nuova": {
+        "label": "cartella_nuova",
+        "type": "cartella",
+        "value": "cartella_nuova",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "props": {
+      "name": {
+        "label": "Nome",
+        "value": "Form Test Cartella",
+        "type": "text",
+        "hidden": false
+      },
+      "description": {
+        "label": "Note",
+        "value": "",
+        "type": "note",
+        "hidden": false
+      }
+    }
+  }
+}

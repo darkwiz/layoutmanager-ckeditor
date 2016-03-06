@@ -16,7 +16,7 @@ define(['models/Base'], function (Base) {
 
   var AclRadio = Radio.extend({
     defaults: {
-        type:"acl",
+        //type:"acl",
         elem: "radio",
         elementValues: {
           NORMAL: "NORMAL",
@@ -35,7 +35,7 @@ define(['models/Base'], function (Base) {
 
     var TpRadio = Radio.extend({
     defaults: {
-        type:"tp",
+        //type:"tp",
         elem: "radio",
         elementValues: {
           E: "Esterno",

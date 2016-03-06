@@ -76,6 +76,10 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         optionNames = new Array("<Scegli un controllo>","Autocomplete");
                         optionVal = new Array("none", "fascicolo");
                         break;
+                    case 'cartella':
+                        optionNames = new Array("<Scegli un controllo>","Autocomplete");
+                        optionVal = new Array("none", "cartella");
+                        break;
                     default:
                         optionNames = new Array("<none>"),
                             optionVal = new Array("");
@@ -85,14 +89,17 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                 editor._collection = CollectionManager.getCollection('collection');
                 ViewManager.getView('simpleview', {collection: editor._collection});
                 utils.removeAllOptions( values );
-
+                if (editor._model){
+                    var model = editor._collection.get(editor._model);
+                }
                 for ( var i = 0 ; i < optionNames.length ; i++){
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
-                    // if ( i == 0 )
-                    // {
-                    //     oOption.setAttribute('selected', 'selected');
-                    //     oOption.selected = true;
-                    // }
+
+                    if ( model && optionVal[ i ] == model.get('type') ) //TODO: check this assertion
+                    {
+                        oOption.setAttribute('selected', 'selected');
+                        oOption.selected = true;
+                    }
                 }
             });
         },
@@ -484,8 +491,12 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 label: 'Source Titolario',
                                 'default': '',
                                 validate: function () {
-                                    if (!this.getValue()) {
-                                       alert("pippo")
+                                    var dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor(),
+                                        urlTitolario = dialog.getContentElement('tab-fascicolo', 'fascicolo-titolario');
+                                    console.log(urlTitolario.isVisible());
+                                    if (urlTitolario.isVisible() && !urlTitolario.getValue()) {
+                                        alert("Scegli un Url per il titolario!")
                                         return false;
                                     }
                                 }

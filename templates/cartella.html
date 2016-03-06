@@ -1,0 +1,25 @@
+{{#if horizontal}}
+{{log this}}
+    {{>label}} {{parent_folder_id.pinValue}} > {{folder_name.pinValue}}
+<div class="form-group">
+    {{>label des_folder}}
+    {{> (whichPartial des_folder.elem) des_folder}}
+</div>
+{{else}}
+<div class="form-group">
+    {{>label parent_folder_id}}
+    {{> (whichPartial parent_folder_id.elem) parent_folder_id}}
+</div>
+<div class="form-group">
+    {{>label folder_name}}
+    {{> (whichPartial folder_name.elem) folder_name}}
+</div>
+<div class="form-group">
+    {{>label des_folder}}
+    {{> (whichPartial des_folder.elem) des_folder}}
+</div>
+
+<p class="help-block">{{helpValue}}</p>
+{{/if}}
+
+{{> edit-control }}

@@ -1,5 +1,5 @@
 // View.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "views/ControlView", "views/ScriptView"],
+define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "views/ControlView", "views/ScriptView", "collections/Collection"],
 
     function($, _, Backbone, Handlebars, templates, ControlView, ScriptView){
         "use strict";
@@ -36,6 +36,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
 
                 //this.$el = (this.getEditorInstanceName().$);
                 //this.setElement(this.getEditorInstanceName().$);
+                console.log(CKEDITOR.instances.mycanvas);
+                this._editor = CKEDITOR.instances.mycanvas;
 
                 // This will be called when an item is added. pushed or unshift
                 this.collection.on('add', this.addOne, this);
@@ -46,13 +48,21 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.collection.on('change', this.updateOne, this);
                 //chiamato una volta on init
                 this._viewPointers = {};
-
+                 //TODO: cambia da CKEDITOR.currentINstance a this._editor
                 this.$scripts = $(CKEDITOR.currentInstance.getSelection().document.$.body);// essendo la view singleton per ogni area viene invocata l'initialize
+                //funziona!
+                /*this._editor.on("changeElement",
+                    function( eventProperties ) {
+                        this.collection.add({}, eventProperties.data);
+                    }, this);*/
 
+                this.listenTo(this._editor, "changeElement", function(data) {
+                    this.collection.add({}, data);
+                });
             },
             addOne: function(control){
                 this.$el = $(this.getEditorInstanceName().$).closest('div');
-                 console.log(this.getEditorInstanceName().$);
+                // console.log(this.getEditorInstanceName().$);
                 var view = new ControlView({model: control});
                 this._viewPointers[control.cid] = view;
                 //Jquery wrapped el
@@ -105,13 +115,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.collection.on("add", this.addOne, this);
                 this.collection.on('remove',  this.removeOne, this);
                 this.collection.on('change', this.updateOne, this);
-            }
-
-             */
-
-
-            // remove: function(){
-                // return Backbone.View.prototype.remove.apply(this, arguments);}
+            },
+            remove: function(){
+               return Backbone.View.prototype.remove.apply(this, arguments);
+            }*/
         });
 
         // Returns the View class

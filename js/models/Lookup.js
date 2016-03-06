@@ -13,15 +13,19 @@ define(["models/Base"], function (Base) {
                // "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js",
                // "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.min.js",
                 ],
-            fromUrl:true,
+            fromUrl:false,
             source: [],
             sourceUrl: 'http://jsonplaceholder.typicode.com/users',
         }, Base.prototype.defaults),
         initialize: function(attrs, options) {
-            Base.prototype.initialize.call(this, attrs, options);
+            //Base.prototype.initialize.call(this, attrs, options);
             this.on('invalid', function(model,error){
                 alert(error);
             });
+        },
+        setSource: function(options) {
+            this.set("fromUrl", false);
+            this.set("source", options);
         },
         addOption: function(value){
             this.set("fromUrl", false);
