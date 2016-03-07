@@ -11,7 +11,6 @@ requirejs.config({
         "handlebars":"lib/handlebars",
         "ckeditor.core": "lib/ckeditor/ckeditor",
         "ckeditor.jquery": "lib/ckeditor/adapters/jquery",
-        "gridmanager": "lib/jquery.gridmanager.min",
         "templates":"../templates",
         "plugin":"lib/ckeditor/plugins/rceditor",
         "magic": "lib/magicsuggest-min"
@@ -24,7 +23,6 @@ requirejs.config({
             exports: 'Handlebars'
         },
         "ckeditor.jquery": { deps: ["jquery", "ckeditor.core" ]},
-        "gridmanager": { deps: ["jquery.ui","ckeditor.jquery" ]},
         "magic": {
             deps: ["jquery.bootstrap"]
         },

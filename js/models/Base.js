@@ -17,7 +17,7 @@ define(["jquery", "underscore","backbone"],
               this.set("pinType", pin.pintype);
           }
       },
-      setcontainerClass: function(width) {
+      setContainerClass: function(width) {
           var part = 'col-sm-',
               container = this.get('containerCss'),
               label = this.get('labelCss');

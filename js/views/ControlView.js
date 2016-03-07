@@ -5,6 +5,15 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
         "use strict";
 
+        Backbone.View.prototype.close = function(){ //remove zombie views
+            console.log("removed control");
+            this.remove();
+            this.unbind();
+            if (this.onClose){
+                this.onClose();
+            }
+        };
+
         var ControlView = Backbone.View.extend({
 
             tagName:  "div",
@@ -22,20 +31,22 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
 
             // View constructor
-            initialize: function() {
+            initialize: function(options) {
                 _.bindAll(this); // every function that uses 'this' as the current object should be in here
 
-                this._editor = CKEDITOR.instances.mycanvas;
-
+                //this._editor = CKEDITOR.instances.mycanvas;
+                this._editor = options._editor;
                 this.model.on('update', this.update, this);
                 this.model.on('change:elementValues', this.updateControl, this);
                 //questo viene fatto in automatico
                 //this.$el = $(this.el);
 
-                this._editor.on('setcontainerClass', function( event ) {
-                    this.model.setcontainerClass(event.data.selected);
-                }, this);
-
+                this.listenTo(this._editor, 'setContainerClass', function( event ) {
+                    this.model.setContainerClass(event.selected);
+                });
+                this.listenTo(this._editor, 'setControlLabel', function(event) {
+                    this.model.setControlLabel(event.label);
+                });
                 this.listenTo(this._editor,'loadFascicoli', function( event ) {
                     console.log("fired", event.urlTitolario);
                     console.log(this);
@@ -64,6 +75,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             onClose: function(){
                 this.model.unbind("update", this.update);
                 this.model.unbind("change:elementValues", this.updateControl);
+                this.stopListening(this._editor);
             },
             updateControl: function(model) {
                 var partial = Handlebars.partials[this.model.get('elem')]
@@ -72,15 +84,16 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             onEdit: function(event) {
                 console.log("clicked");
                 var pintype = $(event.currentTarget).data("pin");
-                var controltype = $(event.currentTarget).data("type");
-                this._editor.config.customValues.picked = controltype;
+                this._editor.config.customValues.picked = $(event.currentTarget).data("type");
+
                 if (pintype == "in")
-                    CKEDITOR.currentInstance.openDialog( 'pinin' );
+                    this._editor.openDialog( 'pinin' );
                 else if (pintype == "out")
-                    CKEDITOR.currentInstance.openDialog( 'pinout' );
+                    this._editor.openDialog( 'pinout' );
                 else
-                    CKEDITOR.currentInstance.openDialog( 'pinedit' );
-            }
+                    this._editor.openDialog( 'pinedit' ); //Old: CKEDITOR.currentInstance.open...
+            },
+
     });
 
         // Returns the View class
