@@ -33,12 +33,34 @@
 				}
 
 				bodyHtml += '>';
+				var css = [
+					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
+					window.location.origin + "/editor/css/lib/magicsuggest-min.css"
+				];
+				var js = [
+					 "https://code.jquery.com/jquery-2.2.0.min.js",
+					 "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js",
+					  window.location.origin +"/editor/js/lib/magicsuggest-min.js"
+				];
+
+				buildJsHtml = function( js ) {
+					js = [].concat( js );
+					var item,
+						retval = [];
+					for ( var i = 0; i < js.length; i++ ) {
+						if ( ( item = js[ i ] ) ) {
+								retval.push( '<script type="text/javascript" src="' + item + '"></script>' );
+						}
+					}
+					return retval.join( '' );
+				};
 
 				sHTML = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
 					'<head>' +
 						baseTag +
+					    buildJsHtml( js ) +
 						'<title>' + editor.lang.preview.preview + '</title>' +
-						CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) +
+						CKEDITOR.tools.buildStyleHtml( css ) + //editor.config.contentCss
 					'</head>' + bodyHtml +
 						editor.getData() +
 					'</body></html>';

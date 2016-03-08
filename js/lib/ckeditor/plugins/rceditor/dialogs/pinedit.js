@@ -506,7 +506,7 @@
                                     onClick: function () {
                                         //Delete selected option.
                                         var self = this;
-                                        require(["utils"], function (utils) {
+                                        require(["utils", "vent"], function (utils, vent) {
                                             var dialog = self.getDialog(),
                                                 editor = dialog.getParentEditor(),
                                                 urlTitolario = dialog.getContentElement('tab-fascicolo', 'urlTitolario'),
@@ -514,8 +514,8 @@
                                                 cmbFascicoli = dialog.getContentElement('tab-fascicolo', 'cmbFascicoli');
 
                                             var args = {urlTitolario: urlTitolario.getValue(), promise: undefined}
-                                            editor.trigger("loadFascicoli", args);
-/*
+                                            vent.trigger("loadFascicoli", args);
+                                            /*
                                             if(editor._model)
                                                 var promise =  editor._model.loadFascicoli(urlTitolario.getValue());*/
                                             args.promise.done(function( data ) {

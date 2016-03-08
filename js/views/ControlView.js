@@ -1,7 +1,7 @@
 // ControlView.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
+define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "vent"],
 
-    function($, _, Backbone, Handlebars, Templates){
+    function($, _, Backbone, Handlebars, Templates, vent){
 
         "use strict";
 
@@ -32,13 +32,13 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
                 //questo viene fatto in automatico
                 //this.$el = $(this.el);
 
-                this.listenTo(this._editor, 'setContainerClass', function( event ) {
+                this.listenTo(vent, 'setContainerClass', function( event ) {
                     this.model.setContainerClass(event.selected);
                 });
-                this.listenTo(this._editor, 'setControlLabel', function(event) {
+                this.listenTo(vent, 'setControlLabel', function(event) {
                     this.model.setControlLabel(event.label);
                 });
-                this.listenTo(this._editor,'loadFascicoli', function( event ) {
+                this.listenTo(vent,'loadFascicoli', function( event ) {
                     console.log("fired", event.urlTitolario);
                     console.log(this);
                     event.promise = this.model.loadFascicoli(event.urlTitolario);

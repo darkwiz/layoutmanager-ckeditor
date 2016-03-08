@@ -20,7 +20,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
                 utils.hideTabs.call(self);
-                _.extend(editor, Backbone.Events);
+               // _.extend(editor, Backbone.Events);
             });
 
         },
@@ -157,8 +157,11 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         editor = dialog.getParentEditor();
                                         //id = dialog.getContentElement("tab-adv", "id");
 
+                                    var self = this;
+                                    require(["vent"], function(vent) {
+                                        vent.trigger("setControlLabel", {label: self.getValue()});
+                                    })
 
-                                    editor.trigger("setControlLabel", {label: this.getValue()});
 
                                 }
                             },
@@ -177,14 +180,14 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                             items: [ [ "<none>",    '' ] ],
                             onChange: function() {
                                 var self = this;
-                                require(["utils"], function(utils) {
+                                require(["utils", "vent"], function(utils, vent) {
                                     var selected = self.getValue(),
                                         dialog = self.getDialog(),
                                         editor = dialog.getParentEditor(),
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         selectedPin = editor.config.customValues.pin;
 
-                                    editor.trigger('changeElement',{
+                                    vent.trigger('changeElement',{
                                             type: selected,
                                             PIN: selectedPin
                                         });
@@ -221,7 +224,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                     var selected = this.getValue(),
                                         dialog = this.getDialog(),
                                         editor = dialog.getParentEditor();
-                                    editor.trigger('setContainerClass', {selected: selected});
+                                    require(["vent"], function(vent) {
+                                        vent.trigger('setContainerClass', {selected: selected});
+                                    });
                                     //editor._model.setcontainerClass(selected);
 
                                 }

@@ -1,7 +1,8 @@
 // View.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "views/ControlView", "views/ScriptView", "collections/Collection"],
+define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
+    "views/ControlView", "views/ScriptView", "collections/Collection", "vent"],
 
-    function($, _, Backbone, Handlebars, templates, ControlView, ScriptView){
+    function($, _, Backbone, Handlebars, templates, ControlView, ScriptView, Collection, vent){
         "use strict";
 
         var View = Backbone.View.extend({
@@ -51,7 +52,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                         this.collection.add({}, eventProperties.data);
                     }, this);*/
 
-                this.listenTo(this._editor, "changeElement", function(data) {
+                this.listenTo(vent, "changeElement", function(data) {
+                    console.log("changed")
                     this.collection.add({}, data);
                 });
             },

@@ -1,6 +1,6 @@
 // Lookup.js
 // --------
-define(["models/Base"], function (Base) {
+define(["models/Base", "appconfig"], function (Base, config) {
     return Base.extend({
         // general state and behavior for all pinin controls elements
         defaults: _.extend({
@@ -10,8 +10,6 @@ define(["models/Base"], function (Base) {
             libraries: [
                // "https://code.jquery.com/jquery-2.2.0.min.js",
                // "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js",
-               // "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js",
-               // "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.min.js",
                 ],
             fromUrl:false,
             source: [],
@@ -22,6 +20,7 @@ define(["models/Base"], function (Base) {
             this.on('invalid', function(model,error){
                 alert(error);
             });
+            //potremmo passare alla preview via appconfig le libraries..
         },
         setSource: function(options) {
             this.set("fromUrl", false);
