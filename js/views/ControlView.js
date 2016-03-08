@@ -40,7 +40,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 });
                 this.listenTo(vent,'loadFascicoli', function( event ) {
                     console.log("fired", event.urlTitolario);
-                    console.log(this);
+                    console.log(this.model.toJSON());
                     event.promise = this.model.loadFascicoli(event.urlTitolario);
                 });
             },

@@ -113,7 +113,12 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
 
                 return selection;*/
                 //return CKEDITOR.currentInstance.getSelection().getStartElement();
-            }
+            },
+            onClose: function( ){
+                for(var view in this._viewPointers) {
+                    this._viewPointers[view].close();
+                }
+            },
             /*  onClose: function( event ){
                 console.log("close")
                 this.collection.off("add", this.addOne);

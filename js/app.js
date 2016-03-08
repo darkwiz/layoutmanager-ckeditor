@@ -22,6 +22,19 @@ return {
         //   var height = $(window).height() - 200;
         //   $(this).find(".modal-body").css("max-height", height);
         // });
+
+        Backbone.View.prototype.close = function(){ //remove zombie views
+            if(this.model)
+                console.log("removed view w/ model:", this.model.toJSON());
+            if(this.collection)
+                console.log("removed view w/ collection:", this.collection.toJSON());
+            this.remove();
+            this.unbind();
+            if (this.onClose){
+                this.onClose();
+            }
+        };
+
         var router = new Router();
 
         // $(config.wrapper).find('button').
