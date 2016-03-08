@@ -9,7 +9,73 @@
       </div>
       <div class="modal-body">
               <!-- Modal body -->
-            <textarea id="mycanvas" class="container-fluid" >
+            {{log uniqueId}}
+            <textarea id="mycanvas" class="container-fluid">
+              <form action='complete' method='POST' enctype='multipart/form-data' id="formInvio" class='form-horizontal'>
+
+                <div class="row">
+                  <div class="col-md-12 initial">
+                    <div class="layoutmanager">
+                      <div class="container-fluid layout-container">
+                        <div class="row layout-row">
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 layout-column">
+                            <div class="layout-column-one layout-column-editable">
+                              <div>
+                                <h3>{{name.value}}</h3>
+                                <h5>{{description.value}}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12 initial">
+                    <div class="layoutmanager">
+                      <div class="container-fluid layout-container">
+                        <div class="row layout-row">
+                          <div class="layout-column col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                            <div class="layout-column-one layout-column-editable">
+                              <p>&nbsp;</p>
+
+                            </div>
+                          </div>
+
+                          <div class="layout-column col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                            <div class="layout-column-two layout-column-editable">
+                              <p>&nbsp;</p>
+
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 initial">
+                    <div class="layoutmanager">&nbsp;</div>
+
+                    <div class="layoutmanager">
+                      <div class="container-fluid layout-container">
+                        <div class="row layout-row">
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 layout-column">
+                            <div class="layout-column-one layout-column-editable">
+                              <div>
+                                <button class='btn btn-small btn-primary'  name='' value='Complete' type="button" >Completa attività</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </textarea>
 
       </div>

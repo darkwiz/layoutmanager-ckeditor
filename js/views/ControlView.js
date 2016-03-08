@@ -1,7 +1,7 @@
 // ControlView.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
+define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "vent"],
 
-    function($, _, Backbone, Handlebars, Templates){
+    function($, _, Backbone, Handlebars, Templates, vent){
 
         "use strict";
 
@@ -22,21 +22,23 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
 
             // View constructor
-            initialize: function() {
+            initialize: function(options) {
                 _.bindAll(this); // every function that uses 'this' as the current object should be in here
 
                 this._editor = CKEDITOR.instances.mycanvas;
-
+                //this._editor = options._editor;
                 this.model.on('update', this.update, this);
                 this.model.on('change:elementValues', this.updateControl, this);
                 //questo viene fatto in automatico
                 //this.$el = $(this.el);
 
-                this._editor.on('setcontainerClass', function( event ) {
-                    this.model.setcontainerClass(event.data.selected);
-                }, this);
-
-                this.listenTo(this._editor,'loadFascicoli', function( event ) {
+                this.listenTo(vent, 'setContainerClass', function( event ) {
+                    this.model.setContainerClass(event.selected);
+                });
+                this.listenTo(vent, 'setControlLabel', function(event) {
+                    this.model.setControlLabel(event.label);
+                });
+                this.listenTo(vent,'loadFascicoli', function( event ) {
                     console.log("fired", event.urlTitolario);
                     console.log(this);
                     event.promise = this.model.loadFascicoli(event.urlTitolario);
@@ -72,15 +74,16 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             onEdit: function(event) {
                 console.log("clicked");
                 var pintype = $(event.currentTarget).data("pin");
-                var controltype = $(event.currentTarget).data("type");
-                this._editor.config.customValues.picked = controltype;
+                this._editor.config.customValues.picked = $(event.currentTarget).data("type");
+
                 if (pintype == "in")
-                    CKEDITOR.currentInstance.openDialog( 'pinin' );
+                    this._editor.openDialog( 'pinin' );
                 else if (pintype == "out")
-                    CKEDITOR.currentInstance.openDialog( 'pinout' );
+                    this._editor.openDialog( 'pinout' );
                 else
-                    CKEDITOR.currentInstance.openDialog( 'pinedit' );
-            }
+                    this._editor.openDialog( 'pinedit' ); //Old: CKEDITOR.currentInstance.open...
+            },
+
     });
 
         // Returns the View class

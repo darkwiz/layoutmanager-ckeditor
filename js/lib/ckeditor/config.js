@@ -14,9 +14,9 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		{ name: 'links' },
 		{ name: 'insert' },
-		{ name: 'forms' },
-    { name: 'kdm'},
-    { name: 'LayoutManager'},
+		//{ name: 'forms' },
+        { name: 'kdm'},
+        { name: 'LayoutManager'},
 		{ name: 'tools' },
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'others' },
@@ -28,10 +28,10 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];
 
-	config.extraPlugins = 'xml,ajax,lineutils,widget,richcombo,rceditor,basewidget,layoutmanager,autogrow';
-	config.removePlugins = 'devtools,forms,image';
+	config.extraPlugins = 'lineutils,widget,rceditor,basewidget,layoutmanager,autogrow,sourcedialog,preview';
+	config.removePlugins = 'devtools,forms,image,sourcearea';
 	//config.autoParagraph = false;
-	config.enterMode = CKEDITOR.ENTER_DIV; // inserts `<div></div>` instead of p
+	//config.enterMode = CKEDITOR.ENTER_DIV;  inserts `<div></div>` instead of p
 	config.allowedContent = true;
 	config.contentsCss = [ CKEDITOR.basePath + 'contents.css', 'css/app.css'];
 	config.layoutmanager_loadbootstrap = true;

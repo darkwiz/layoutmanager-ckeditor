@@ -44,6 +44,27 @@ CKEDITOR.plugins.add( 'rceditor',
                             //From richcombo source: add(value, html, text) -but!- if(text) item = text
                             self.add( pins[i].name , pins[i].label + " ["+ pins[i].type +"] [" + pins[i].pintype + "]" , pins[i]);
                         }
+
+                       /*  Styling combo
+                        setTimeout(function(){
+                            resizeComboPanel(editor.name);
+                        }, 10);
+
+                        $('.cke_combo_button').click(function(){
+                            setTimeout(function(){
+                                resizeComboPanel(editor.name);
+                            }, 10);
+                        });
+
+                        var resizeComboPanel = function(target){
+                            console.log(target)
+                            var li_height = $("#" + target).closest("li").height();
+                            var drop_down_height = li_height - 50;
+                            if(drop_down_height > 170){
+                                drop_down_height = 170;
+                            }
+                            $("#cke_" + target + " > .cke_combopanel").css('height', drop_down_height + 'px');
+                        }*/
                     },
 
                     onClick : function( value )

@@ -14,7 +14,7 @@ return {
     init : function() {
        //$.extend(config, conf);
        //INSERT ROUTER??
-        $(config.dialogId).html(dialog);
+        //$(config.dialogId).html(dialog);
         // $("#myBtn").click(function(){
         //           $("#tallModal").modal()
         // });
@@ -31,7 +31,7 @@ return {
         //     });
 
         //this.buildGrid();
-        this.clearEditor(); //don't work well...
+        //this.clearEditor(); //don't work well...
         //this.getProcessSettings(this.handleDesignerResponse);
 
         //var buttons = document.getElementsByClassName('btn btn-primary');
@@ -49,7 +49,20 @@ return {
         //        }
         //    })(buttons, i);}
 
-
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {
+            $( document )
+                .off( 'focusin.bs.modal' ) // guard against infinite focus loop
+                .on( 'focusin.bs.modal', $.proxy( function( e ) {
+                    if (
+                        this.$element[ 0 ] !== e.target && !this.$element.has( e.target ).length
+                            // CKEditor compatibility fix start.
+                        && !$( e.target ).closest( '.cke_dialog, .cke' ).length
+                    // CKEditor compatibility fix end.
+                    ) {
+                        this.$element.trigger( 'focus' );
+                    }
+                }, this ) );
+        };
 
 
 

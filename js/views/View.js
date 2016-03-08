@@ -1,16 +1,9 @@
 // View.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "views/ControlView", "views/ScriptView", "collections/Collection"],
+define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
+    "views/ControlView", "views/ScriptView", "collections/Collection", "vent"],
 
-    function($, _, Backbone, Handlebars, templates, ControlView, ScriptView){
+    function($, _, Backbone, Handlebars, templates, ControlView, ScriptView, Collection, vent){
         "use strict";
-        Backbone.View.prototype.close = function(){ //remove zombie views
-            console.log("removed");
-            this.remove();
-            this.unbind();
-            if (this.onClose){
-                this.onClose();
-            }
-        }
 
         var View = Backbone.View.extend({
 
@@ -35,10 +28,13 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 _.bindAll(this);// every function that uses 'this' as the current object should be in here
 
                 //this.$el = (this.getEditorInstanceName().$);
-                //this.setElement(this.getEditorInstanceName().$);
-                console.log(CKEDITOR.instances.mycanvas);
+                //console.log(CKEDITOR.instances.mycanvas);
                 this._editor = CKEDITOR.instances.mycanvas;
 
+                //this._editor = CKEDITOR.instances.mycanvas;
+                //this.setElement(this.getEditorInstanceName().$);
+                //this._editor.focus();
+                //this.setElement(this.getEditorInstanceName().$);
                 // This will be called when an item is added. pushed or unshift
                 this.collection.on('add', this.addOne, this);
                 // This will be called when an item is removed, popped or shifted
@@ -49,19 +45,23 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 //chiamato una volta on init
                 this._viewPointers = {};
                  //TODO: cambia da CKEDITOR.currentINstance a this._editor
-                this.$scripts = $(CKEDITOR.currentInstance.getSelection().document.$.body);// essendo la view singleton per ogni area viene invocata l'initialize
+                this.$scripts = $(this._editor.getSelection().document.$.body);// essendo la view singleton per ogni area viene invocata l'initialize
                 //funziona!
                 /*this._editor.on("changeElement",
                     function( eventProperties ) {
                         this.collection.add({}, eventProperties.data);
                     }, this);*/
 
-                this.listenTo(this._editor, "changeElement", function(data) {
+                this.listenTo(vent, "changeElement", function(data) {
+                    console.log("changed")
                     this.collection.add({}, data);
                 });
             },
             addOne: function(control){
+                this._editor = CKEDITOR.instances.mycanvas;
+               // var selection = this.getEditorInstanceName();
                 this.$el = $(this.getEditorInstanceName().$).closest('div');
+
                 // console.log(this.getEditorInstanceName().$);
                 var view = new ControlView({model: control});
                 this._viewPointers[control.cid] = view;
@@ -101,7 +101,18 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this._viewPointers[script.cid].close();
             },
             getEditorInstanceName: function() {
-                return CKEDITOR.currentInstance.getSelection().getStartElement();
+                var element = this._editor.instanceReady;
+                return this._editor.getSelection().getStartElement();
+               /* this._editor.focus();
+                var element = this._editor.document.getBody().getLast(),
+                    element2 = this._editor.getSelection().getStartElement(),
+                    selection = this._editor.getSelection();
+
+                selection.selectElement(element);
+                //selection.scrollIntoView();
+
+                return selection;*/
+                //return CKEDITOR.currentInstance.getSelection().getStartElement();
             }
             /*  onClose: function( event ){
                 console.log("close")

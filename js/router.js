@@ -24,7 +24,7 @@ define(["jquery", "backbone", "models/Form" ,"views/FormView"],
             initialize: function( options ) {
                 // Tells Backbone to start watching for hashchange events
                 if (!Backbone.History.started)
-                  Backbone.history.start();
+                   Backbone.history.start();
 
             },
 
@@ -37,24 +37,18 @@ define(["jquery", "backbone", "models/Form" ,"views/FormView"],
 
             },
 
-          showEditor: function() {
-               var form = new Form();
-               this.view = new FormView({model: form});
-
-          },
           test: function(datasource) {
                var form = new Form({},{data_path: datasource});
                this.view = new FormView({model: form});
-
           },
           index: function(){
               if (this.view)
-                this.view.dispose();
-           }
+                this.view.dispose('hide');
+              }
 
         });
 
-        // Returns the DesktopRouter class
+        // Returns the Router class
         return Router;
 
     }

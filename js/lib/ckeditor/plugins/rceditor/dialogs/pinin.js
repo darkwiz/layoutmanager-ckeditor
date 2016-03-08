@@ -20,13 +20,13 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
                 utils.hideTabs.call(self);
-                _.extend(editor, Backbone.Events);
+               // _.extend(editor, Backbone.Events);
             });
 
         },
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View', 'utils', 'viewmanager'], function(CollectionManager, View, utils, ViewManager){
+            require(['utils',"collectionmanager", "views/View"], function(utils,CollectionManager, View){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
@@ -90,21 +90,22 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 }
 
 
-                editor._collection = CollectionManager.getCollection('collection');
-                ViewManager.getView('simpleview', {collection: editor._collection});
+                /*var collection = CollectionManager.getCollection('collection');
+                new View({collection: collection});*/
+
                 utils.removeAllOptions( values );
 
-                console.log(editor.config.customValues.picked); //TODO:Works, refactor code editor._model
+                //console.log(); TODO:Works, refactor code editor._model
 
-                if (editor._model){
+                /*if (editor._model){
                     var model = editor._collection.get(editor._model);
-                }
+                }*/
                 for ( var i = 0 ; i < optionNames.length ; i++){
 
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
                     //console.log("Opt val:", optionVal[ i ]);
                     //console.log("Model type:", model &&  model.get('type'));
-                    if ( model && optionVal[ i ] == model.get('type') ) //TODO: check this assertion
+                    if (  optionVal[ i ] == editor.config.customValues.picked ) //TODO: check this assertion
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -152,18 +153,16 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                 label: 'Label',
                                 'default': editor.config.customValues.pin.label,
                                 commit: function(data) {
-                                    var label = data.label,
-                                        dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor(),
-                                        id = dialog.getContentElement("tab-adv", "id");
+                                    var dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor();
+                                        //id = dialog.getContentElement("tab-adv", "id");
 
-                                    //data.type = this.getValue();
-                                    editor.fire("changeElement", {label: this.getValue()});
-                                    //editor._model.setControlLabel(this.getValue());
+                                    var self = this;
+                                    require(["vent"], function(vent) {
+                                        vent.trigger("setControlLabel", {label: self.getValue()});
+                                    })
 
-                                    // label.setText( this.getValue() + ": " );
 
-                                    // label.setAttribute('for',  id.getValue() );
                                 }
                             },
                             //put here other children
@@ -181,28 +180,23 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                             items: [ [ "<none>",    '' ] ],
                             onChange: function() {
                                 var self = this;
-                                require(["utils"], function(utils) {
+                                require(["utils", "vent"], function(utils, vent) {
                                     var selected = self.getValue(),
                                         dialog = self.getDialog(),
                                         editor = dialog.getParentEditor(),
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         selectedPin = editor.config.customValues.pin;
-                                        editor.trigger('changeElement',{
+
+                                    vent.trigger('changeElement',{
                                             type: selected,
                                             PIN: selectedPin
                                         });
 
-                                       /* CKEditor events
-                                       editor.fire("changeElement",
-                                            {
-                                                type: selected,
-                                                PIN: selectedPin
-                                            }
-                                        );*/
-                                  /*  editor._model = editor._collection.add({}, {
+                                    /*editor.fire('changeElement',{
                                         type: selected,
                                         PIN: selectedPin
                                     });*/
+
                                     utils.toggleField(wselect, selected);
 
                                     //toggleTabs.call(dialog, 'tab-'+ selected);
@@ -217,8 +211,6 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         dialog = this.getDialog(),
                                         editor = dialog.getParentEditor();
 
-                                     /* Riga da rivedere passiamo ancora l'editor e la model al commit finale... */
-                                     // var control = getView({model: editor._model, el: editor.element.$});
 
                             }
                         },
@@ -232,7 +224,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                     var selected = this.getValue(),
                                         dialog = this.getDialog(),
                                         editor = dialog.getParentEditor();
-                                    editor.fire('setcontainerClass', {selected: selected});
+                                    require(["vent"], function(vent) {
+                                        vent.trigger('setContainerClass', {selected: selected});
+                                    });
                                     //editor._model.setcontainerClass(selected);
 
                                 }
@@ -255,7 +249,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         editor = dialog.getParentEditor();
                         //TODO: La remove va fatta cliccando sulla x dell'elemento che ha un riferimento
                         editor.fire('removeElement', {selected: selected});
-                        var control = editor._collection.remove(editor._model);
+                        //var control = editor._collection.remove(editor._model);
                         console.log(control);
                         // alert( 'Clicked: ' + this.id );
                          }
