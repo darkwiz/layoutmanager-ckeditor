@@ -28,7 +28,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];
 
-	config.extraPlugins = 'lineutils,widget,rceditor,basewidget,layoutmanager,autogrow,sourcedialog';
+	config.extraPlugins = 'lineutils,widget,rceditor,basewidget,layoutmanager,autogrow,sourcedialog,preview';
 	config.removePlugins = 'devtools,forms,image,sourcearea';
 	//config.autoParagraph = false;
 	//config.enterMode = CKEDITOR.ENTER_DIV;  inserts `<div></div>` instead of p

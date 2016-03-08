@@ -3,14 +3,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
 
     function($, _, Backbone, Handlebars, templates, ControlView, ScriptView){
         "use strict";
-        Backbone.View.prototype.close = function(){ //remove zombie views
-            console.log("removed view");
-            this.remove();
-            this.unbind();
-            if (this.onClose){
-                this.onClose();
-            }
-        };
 
         var View = Backbone.View.extend({
 
@@ -36,9 +28,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
 
                 //this.$el = (this.getEditorInstanceName().$);
                 //console.log(CKEDITOR.instances.mycanvas);
+                this._editor = CKEDITOR.instances.mycanvas;
 
-               // this._editor = CKEDITOR.instances.mycanvas;
-                this._editor = options._editor;
+                //this._editor = CKEDITOR.instances.mycanvas;
+                //this.setElement(this.getEditorInstanceName().$);
                 //this._editor.focus();
                 //this.setElement(this.getEditorInstanceName().$);
                 // This will be called when an item is added. pushed or unshift
@@ -63,9 +56,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 });
             },
             addOne: function(control){
-                var editor = this._editor;
+                this._editor = CKEDITOR.instances.mycanvas;
                // var selection = this.getEditorInstanceName();
                 this.$el = $(this.getEditorInstanceName().$).closest('div');
+
                 // console.log(this.getEditorInstanceName().$);
                 var view = new ControlView({model: control});
                 this._viewPointers[control.cid] = view;
@@ -105,7 +99,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this._viewPointers[script.cid].close();
             },
             getEditorInstanceName: function() {
-                var element = this._editor.getSelection().getStartElement();
+                var element = this._editor.instanceReady;
                 return this._editor.getSelection().getStartElement();
                /* this._editor.focus();
                 var element = this._editor.document.getBody().getLast(),

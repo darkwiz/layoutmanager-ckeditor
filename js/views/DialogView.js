@@ -33,7 +33,7 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
             render: function() {
 
                 this.$el.html(this.template(this.model.toJSON()));
-                $("#"+ this.model.get("uniqueId")).attr( 'contenteditable', 'true' );
+                //$("#"+ this.model.get("uniqueId")).attr( 'contenteditable', 'true' );
                 $('#tallModal').modal({ backdrop: 'static', keyboard: false}); // dont show modal on instantiation
 
                 $(".modal-wide").on("show.bs.modal", function() {

@@ -5,15 +5,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
         "use strict";
 
-        Backbone.View.prototype.close = function(){ //remove zombie views
-            console.log("removed control");
-            this.remove();
-            this.unbind();
-            if (this.onClose){
-                this.onClose();
-            }
-        };
-
         var ControlView = Backbone.View.extend({
 
             tagName:  "div",
@@ -34,8 +25,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             initialize: function(options) {
                 _.bindAll(this); // every function that uses 'this' as the current object should be in here
 
-                //this._editor = CKEDITOR.instances.mycanvas;
-                this._editor = options._editor;
+                this._editor = CKEDITOR.instances.mycanvas;
+                //this._editor = options._editor;
                 this.model.on('update', this.update, this);
                 this.model.on('change:elementValues', this.updateControl, this);
                 //questo viene fatto in automatico
@@ -75,7 +66,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             onClose: function(){
                 this.model.unbind("update", this.update);
                 this.model.unbind("change:elementValues", this.updateControl);
-                this.stopListening(this._editor);
             },
             updateControl: function(model) {
                 var partial = Handlebars.partials[this.model.get('elem')]

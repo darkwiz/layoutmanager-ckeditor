@@ -26,7 +26,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
         },
         onShow: function() {
             var self = this;
-            require(['utils'], function(utils){
+            require(['utils',"collectionmanager", "views/View"], function(utils,CollectionManager, View){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
@@ -90,8 +90,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 }
 
 
-                //editor._collection = CollectionManager.getCollection('collection');
-                //ViewManager.getView('simpleview', {collection: editor._collection});
+                /*var collection = CollectionManager.getCollection('collection');
+                new View({collection: collection});*/
 
                 utils.removeAllOptions( values );
 
