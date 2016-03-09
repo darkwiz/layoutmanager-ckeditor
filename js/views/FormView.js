@@ -1,19 +1,11 @@
 // FormView.js
 //Cannot add Router to modules invoke..circular deps
 define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.html", "appconfig","views/View",
-    "views/DialogView","collectionmanager"],
+    "views/DialogView","collectionmanager", "collections/Collection"],
 
-    function($, _, Backbone, Handlebars, template, config, View, DialogView, CollectionManager){
+    function($, _, Backbone, Handlebars, template, config, View, DialogView, CollectionManager, Collection){
 
         "use strict";
-        Backbone.View.prototype.close = function(){ //remove zombie views
-            console.log("removed view");
-            this.remove();
-            this.unbind();
-            if (this.onClose){
-                this.onClose();
-            }
-        };
 
         var FormView = Backbone.View.extend({
 
@@ -59,7 +51,7 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
                         this._prepareCkeditor.call(this)
                             .done( //then ok
                                 console.log("dfd resolved"),
-                                this._setEditorCollection
+                                this._setEditorCollection.bind(this)
                             )
                     }.bind(this)
 
@@ -97,6 +89,7 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
                     var self = this;
                     CKEDITOR.on( 'instanceDestroyed', function () {
                         self.view.close();
+                        self.appview.close();
                     } );
                     var editor = CKEDITOR.instances.mycanvas;
                     if (editor) {
@@ -110,7 +103,7 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
 
                 }.bind(this)).modal(options);
 
-                //this.appview.close();
+
 
             },
             _prepareCkeditor: function () {
@@ -142,8 +135,8 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
             _setEditorCollection: function() {
 
                 // = new View({collection: collection}); //, _editor: this.model.get("uniqueId")
-                var collection = CollectionManager.getCollection('collection');
-                //var collection = CollectionManager.getCollection('collection');
+               // var collection = CollectionManager.getCollection('collection');
+                var collection = new Collection();
                 this.appview = new View({collection: collection});
                 //this.appview = ViewManager.getView('simpleview', {collection: collection});
             }

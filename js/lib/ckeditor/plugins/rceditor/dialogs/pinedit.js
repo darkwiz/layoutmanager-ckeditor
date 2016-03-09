@@ -6,7 +6,7 @@
         minHeight: 200,
         onLoad: function() {
             var self = this;
-            require(["jquery", "underscore", "backbone","utils"], function($, _, Backbone, utils){
+            require(["utils"], function(utils){
                 var select = self.getContentElement('tab-basic', 'colselect'),
                     opts = utils.getColOpts();
                 for ( var i = 0 ; i < opts.length ; i++){
@@ -20,12 +20,11 @@
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
                 utils.hideTabs.call(self);
-                _.extend(editor, Backbone.Events);
             });
         },
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View', 'utils', 'viewmanager'], function(CollectionManager, View, utils, ViewManager){
+            require(['utils'], function(utils){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
@@ -78,27 +77,24 @@
                         optionVal = new Array("none", "cartella");
                         break;
                     default:
-                        optionNames = new Array("<none>"),
-                            optionVal = new Array("");
-                    //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
+                        optionNames = new Array("<none>");
+                        optionVal = new Array("");
                 }
-                editor._collection = CollectionManager.getCollection('collection');
-                ViewManager.getView('simpleview', {collection: editor._collection});
+
 
                 utils.removeAllOptions( values );
 
-                if (editor._model){
-                    var model = editor._collection.get(editor._model);
-                }
                 for ( var i = 0 ; i < optionNames.length ; i++){
+
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
 
-                    if ( model && optionVal[ i ] == model.get('type') )
+                    if (  optionVal[ i ] == editor.config.customValues.picked )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
                     }
                 }
+
             });
         },
         onOk: function() {
@@ -118,10 +114,10 @@
             // if ( isInsertMode ){
             //     editor.insertElement(data.element);
             //     }
-            if (editor._model)
+           // if (editor._model)
                 this.commitContent( data );
-            else
-                alert( 'Nessun controllo è stato scelto');
+           // else
+              //  alert( 'Nessun controllo è stato scelto');
 
             //this.setupContent( 'clear' ); //TODO: Aggiungere al plugin per ripulire la tab list
             // Element might be replaced by commitment.
@@ -145,17 +141,12 @@
                                 label: 'Label',
                                 'default': editor.config.customValues.pin.label,
                                 commit: function(data) {
-                                    var label = data.label,
-                                        dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor();
-                                    id = dialog.getContentElement("tab-adv", "id");
+                                    var label = this.getValue();
 
-                                    //data.type = this.getValue();
-                                    editor._model.setControlLabel(this.getValue());
+                                    require(["vent"], function(vent) {
+                                        vent.trigger("setControlLabel", {label: label});
+                                    });
 
-                                    // label.setText( this.getValue() + ": " );
-
-                                    // label.setAttribute('for',  id.getValue() );
                                 }
                             } //put here other children
                         ]
@@ -172,26 +163,22 @@
                                 items: [ [ "<none>",    '' ] ],
                                 onChange: function() {
                                     var self = this;
-                                    require(["utils"], function(utils) {
+                                    require(["utils", "vent"], function(utils, vent) {
                                         var selected = self.getValue(),
                                             dialog = self.getDialog(),
-                                            editor = dialog.getParentEditor()
-                                        wselect = dialog.getContentElement("tab-basic", "colselect"),
+                                            editor = dialog.getParentEditor(),
+                                            wselect = dialog.getContentElement("tab-basic", "colselect"),
                                             selectedPin = editor.config.customValues.pin;
-                                        editor._model = editor._collection.add({}, {
+                                        vent.trigger('changeElement',{
                                             type: selected,
                                             PIN: selectedPin
                                         });
+
                                         utils.toggleField(wselect, selected);
 
                                         //TODO: Risolvere il problema del toggle delle schede in casi tipi complessi
                                         utils.toggleTabs.call(dialog, 'tab-' + selected);
-                                        // if( selected == 'boolean')
-                                        //       {  toggleField(checkbox, selected); }
-                                        //       else {
-                                        //           toggleField(checkbox, false);
-                                        //           checkbox.setValue('');
-                                        //        }
+
                                     });
                                 },
                                 setup: function( element ) {
@@ -202,8 +189,6 @@
                                         dialog = this.getDialog(),
                                         editor = dialog.getParentEditor();
 
-                                    /* Riga da rivedere passiamo ancora l'editor e la model al commit finale... */
-                                    // var control = getView({model: editor._model, el: editor.element.$});
 
                                 }
                             },{
@@ -213,10 +198,11 @@
                                 'default': 'none',
                                 items:  [['--- Select Field Width ---',0]],
                                 onChange: function() {
-                                    var selected = this.getValue(),
-                                        dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor();
-                                    editor._model.setcontainerClass(selected);
+                                    var selected = this.getValue();
+
+                                    require(["vent"], function(vent) {
+                                        vent.trigger('setContainerClass', {selected: selected});
+                                    });
 
                                 }
                             }   //Add here on same row
@@ -272,14 +258,16 @@
                                         this.setValue( '' );
                                 },
                                 commit: function( data ){
-                                    var label = data.label,
+                                    var url = this.getValue(),
                                         dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor(),
                                         selectValue = dialog.getContentElement('tab-lookup', 'sourceVal');
 
                                     console.log(selectValue.isVisible());
-                                    if(editor._model && selectValue.isVisible() && selectValue.getValue() == "url" )
-                                        editor._model.setUrl(this.getValue());
+                                    if(selectValue.isVisible() && selectValue.getValue() == "url" ){
+                                        require(["vent"], function(vent) {
+                                            vent.trigger('setUrl', {url: url});
+                                        });
+                                    }
 
                                 }
                             }]
@@ -331,18 +319,17 @@
                                 onClick: function() {
                                     //Add new option.
                                     var self = this;
-                                    require(["utils"], function(utils) {
+                                    require(["utils", "vent"], function(utils, vent) {
                                         var dialog = self.getDialog(),
                                             editor = dialog.getParentEditor(),
                                             optValue = dialog.getContentElement('tab-lookup', 'txtOptValue'),
                                             values = dialog.getContentElement('tab-lookup', 'cmbValue');
-                                        if (editor._model) {
-                                            utils.addOption(values, optValue.getValue(), optValue.getValue(), dialog.getParentEditor().document);
+                                        utils.addOption(values, optValue.getValue(), optValue.getValue(), editor.document);
 
-                                            console.log(optValue.getValue());
-                                            editor._model.addOption(optValue.getValue());
-                                            optValue.setValue('');
-                                        }
+                                        vent.trigger('addOption', {option: optValue.getValue()});
+
+                                        optValue.setValue('');
+
                                     });
 
                                 }
@@ -356,18 +343,18 @@
                                     onClick: function() {
                                         //Delete selected option.
                                         var self = this;
-                                        require(["utils"], function(utils) {
+                                        require(["utils", "vent"], function(utils, vent) {
                                             var dialog = self.getDialog(),
                                                 optValue = dialog.getContentElement('tab-lookup', 'txtOptValue'),
-                                                values = dialog.getContentElement('tab-lookup', 'cmbValue');
-                                            if (editor._model) {
+                                                values = dialog.getContentElement('tab-lookup', 'cmbValue'),
                                                 iIndex = utils.getSelectedIndex(values);
 
-                                                if (iIndex >= 0) {
-                                                    console.log(iIndex);
-                                                    editor._model.removeOption(iIndex);
-                                                    utils.removeSelectedOptions(values);}
+                                            if (iIndex >= 0) {
+                                                console.log(iIndex);
+                                                vent.trigger('removeOption', {option: iIndex});
+                                                utils.removeSelectedOptions(values);
                                             }
+
                                         });
                                     }
                                 }
@@ -427,15 +414,15 @@
                                 onClick: function() {
                                     //Add new option.
                                     var self = this;
-                                    require(["utils"], function(utils) {
+                                    require(["utils", "vent"], function(utils, vent) {
                                         var dialog = self.getDialog(),
                                             editor = dialog.getParentEditor(),
                                             optValue = dialog.getContentElement('tab-list', 'txtOptValue'),
                                             values = dialog.getContentElement('tab-list', 'cmbValue');
-                                        utils.addOption(values, optValue.getValue(), optValue.getValue(), dialog.getParentEditor().document);
+                                        utils.addOption(values, optValue.getValue(), optValue.getValue(), editor.document);
 
                                         console.log(optValue.getValue());
-                                        editor._model.addOption(optValue.getValue());
+                                        vent.trigger('addOption', {option: optValue.getValue()});
                                         optValue.setValue('');
                                     });
 
@@ -451,7 +438,7 @@
                                     onClick: function() {
                                         //Delete selected option.
                                         var self = this;
-                                        require(["utils"], function(utils) {
+                                        require(["utils", "vent"], function(utils, vent) {
                                             var dialog = self.getDialog(),
                                                 optValue = dialog.getContentElement('tab-list', 'txtOptValue'),
                                                 values = dialog.getContentElement('tab-list', 'cmbValue');
@@ -460,7 +447,9 @@
 
                                             if (iIndex >= 0) {
                                                 console.log(iIndex);
-                                                editor._model.removeOption(iIndex);
+
+                                                vent.trigger('removeOption', {option: iIndex});
+
                                                 utils.removeSelectedOptions(values);
                                             }
                                         });
@@ -515,17 +504,15 @@
 
                                             var args = {urlTitolario: urlTitolario.getValue(), promise: undefined}
                                             vent.trigger("loadFascicoli", args);
-                                            /*
-                                            if(editor._model)
-                                                var promise =  editor._model.loadFascicoli(urlTitolario.getValue());*/
+
                                             args.promise.done(function( data ) {
                                                 console.log(data);
 
                                                 for (var i in data.titolario) {
-                                                    utils.addOption(cmbTitolari, data.titolario[i], data.titolario[i], dialog.getParentEditor().document);
+                                                    utils.addOption(cmbTitolari, data.titolario[i], data.titolario[i], editor.document);
                                                 }
                                                 for (var i in data.fascicolo_padre){
-                                                    utils.addOption(cmbFascicoli, data.fascicolo_padre[i], data.fascicolo_padre[i], dialog.getParentEditor().document);
+                                                    utils.addOption(cmbFascicoli, data.fascicolo_padre[i], data.fascicolo_padre[i], editor.document);
                                                 }
 
                                             });
@@ -596,8 +583,8 @@
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
-                    var control = editor._collection.remove(editor._model);
-                    console.log(control.toJSON());
+                    //var control = editor._collection.remove(editor._model);
+                    //console.log(control.toJSON());
                     // alert( 'Clicked: ' + this.id );
                 }
             } ]

@@ -40,9 +40,17 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 });
                 this.listenTo(vent,'loadFascicoli', function( event ) {
                     console.log("fired", event.urlTitolario);
-                    console.log(this);
+                    console.log(this.model.toJSON());
                     event.promise = this.model.loadFascicoli(event.urlTitolario);
                 });
+                this.listenTo(vent, 'addOption', function( event ) {
+                    console.log(this.model.toJSON());
+                    this.model.addOption(event.option);
+                });
+                this.listenTo(vent, 'removeOption', function( event ) {
+                    this.model.removeOption(event.option);
+                });
+
             },
 
             // Renders the view's template to the UI

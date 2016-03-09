@@ -6,7 +6,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
         minHeight: 200,
         onLoad: function() { //chiamata per ogni istanza dell'editor alla prima apertura della dialog
             var self = this;
-            require(["utils",'collectionmanager','views/View'], function(utils) {
+            require(["utils"], function(utils) {
                 var select = self.getContentElement('tab-basic', 'colselect'),
                     opts = utils.getColOpts();
                 for (var i = 0; i < opts.length; i++) {
@@ -18,14 +18,13 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                     }
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
-                self.getContentElement('tab-lookup', 'txtOptValue').disable();
                 utils.hideTabs.call(self);
             });
 
         },
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View', 'utils', 'viewmanager'], function(CollectionManager, View, utils, ViewManager ){
+            require(['utils'], function( utils ){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
@@ -81,21 +80,18 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         optionVal = new Array("none", "cartella");
                         break;
                     default:
-                        optionNames = new Array("<none>"),
-                            optionVal = new Array("");
-                    //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
+                        optionNames = new Array("<none>");
+                        optionVal = new Array("");
                 }
 
-                editor._collection = CollectionManager.getCollection('collection');
-                ViewManager.getView('simpleview', {collection: editor._collection});
+
                 utils.removeAllOptions( values );
-                if (editor._model){
-                    var model = editor._collection.get(editor._model);
-                }
+
                 for ( var i = 0 ; i < optionNames.length ; i++){
+
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
 
-                    if ( model && optionVal[ i ] == model.get('type') ) //TODO: check this assertion
+                    if (  optionVal[ i ] == editor.config.customValues.picked )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -120,13 +116,13 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
             // if ( isInsertMode ){
             //     editor.insertElement(data.element);
             //     }
-            if (editor._model){
+           // if (editor._model){
                 this.commitContent( data );
-            }
-            else{
-                alert( 'Nessun controllo è stato scelto');
-                return false;
-            }
+            //}
+            //else{
+            //    alert( 'Nessun controllo è stato scelto');
+            //    return false;
+            //}
             //this.setupContent( 'clear' ); //TODO: Aggiungere al plugin per ripulire la tab list
             // Element might be replaced by commitment.
             // if ( !isInsertMode )
@@ -149,18 +145,12 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             label: 'Label',
                             'default': editor.config.customValues.pin.label,
                             commit: function(data) {
-                                var label = data.label,
-                                    self = this,
-                                    dialog = this.getDialog(),
-                                    editor = dialog.getParentEditor();
-                                id = dialog.getContentElement("tab-adv", "id");
+                                var label = this.getValue();
 
-                                //data.type = this.getValue();
-                                editor._model.setControlLabel(this.getValue());
+                                require(["vent"], function(vent) {
+                                    vent.trigger("setControlLabel", {label: label});
+                                });
 
-                                // label.setText( this.getValue() + ": " );
-
-                                // label.setAttribute('for',  id.getValue() );
                             }
                         } //put here other children
                     ]
@@ -177,27 +167,22 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             items: [ [ "<none>",    '' ] ],
                             onChange: function() {
                                 var self = this;
-                                require(["utils"], function(utils) {
+                                require(["utils", "vent"], function(utils, vent) {
                                     var selected = self.getValue(),
                                         dialog = self.getDialog(),
-                                        editor = dialog.getParentEditor()
-                                    wselect = dialog.getContentElement("tab-basic", "colselect"),
+                                        editor = dialog.getParentEditor(),
+                                        wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         selectedPin = editor.config.customValues.pin;
-                                    //pinvalue è usa
-                                    editor._model = editor._collection.add({}, {
+                                    vent.trigger('changeElement',{
                                         type: selected,
                                         PIN: selectedPin
                                     });
+
                                     utils.toggleField(wselect, selected);
 
                                     //TODO: Risolvere il problema del toggle delle schede in casi tipi complessi
                                     utils.toggleTabs.call(dialog, 'tab-' + selected);
-                                    // if( selected == 'boolean')
-                                    //       {  toggleField(checkbox, selected); }
-                                    //       else {
-                                    //           toggleField(checkbox, false);
-                                    //           checkbox.setValue('');
-                                    //        }
+
                                 });
                             },
                             setup: function( element ) {
@@ -208,8 +193,6 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     dialog = this.getDialog(),
                                     editor = dialog.getParentEditor();
 
-                                /* Riga da rivedere passiamo ancora l'editor e la model al commit finale... */
-                                // var control = getView({model: editor._model, el: editor.element.$});
 
                             }
                         },{
@@ -219,10 +202,11 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             'default': 'none',
                             items:  [['--- Select Field Width ---',0]],
                             onChange: function() {
-                                var selected = this.getValue(),
-                                    dialog = this.getDialog(),
-                                    editor = dialog.getParentEditor();
-                                editor._model.setcontainerClass(selected);
+                                var selected = this.getValue();
+
+                                require(["vent"], function(vent) {
+                                    vent.trigger('setContainerClass', {selected: selected});
+                                });
 
                             }
                         }   //Add here on same row
@@ -253,7 +237,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                             urlValue = dialog.getContentElement('tab-lookup', 'UrlValue'),
                                             txtOptValue = dialog.getContentElement('tab-lookup', 'txtOptValue');
                                         //document.getElementById(this.getButton('ok').domId).style.display='none';
-                                        //urlValue.getElement.hide() funziona!
+                                        //urlValue.getElement.hide()
 
                                         utils.toggleField(urlValue, (selected == "url"));
                                         utils.toggleField(txtOptValue, !(selected == "url"));
@@ -278,14 +262,16 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                         this.setValue( '' );
                                 },
                                 commit: function( data ){
-                                    var label = data.label,
+                                    var url = this.getValue(),
                                         dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor(),
                                         selectValue = dialog.getContentElement('tab-lookup', 'sourceVal');
 
                                     console.log(selectValue.isVisible());
-                                    if(editor._model && selectValue.isVisible() && selectValue.getValue() == "url" )
-                                        editor._model.setUrl(this.getValue());
+                                    if(selectValue.isVisible() && selectValue.getValue() == "url" ){
+                                        require(["vent"], function(vent) {
+                                            vent.trigger('setUrl', {url: url});
+                                        });
+                                    }
 
                                 }
                             }]
@@ -337,18 +323,17 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 onClick: function() {
                                     //Add new option.
                                     var self = this;
-                                    require(["utils"], function(utils) {
+                                    require(["utils", "vent"], function(utils, vent) {
                                         var dialog = self.getDialog(),
                                             editor = dialog.getParentEditor(),
                                             optValue = dialog.getContentElement('tab-lookup', 'txtOptValue'),
                                             values = dialog.getContentElement('tab-lookup', 'cmbValue');
-                                        if (editor._model) {
-                                            utils.addOption(values, optValue.getValue(), optValue.getValue(), dialog.getParentEditor().document);
+                                        utils.addOption(values, optValue.getValue(), optValue.getValue(), editor.document);
 
-                                            console.log(optValue.getValue());
-                                            editor._model.addOption(optValue.getValue());
-                                            optValue.setValue('');
-                                        }
+                                        vent.trigger('addOption', {option: optValue.getValue()});
+
+                                        optValue.setValue('');
+
                                     });
 
                                 }
@@ -362,18 +347,18 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     onClick: function() {
                                         //Delete selected option.
                                         var self = this;
-                                        require(["utils"], function(utils) {
+                                        require(["utils", "vent"], function(utils, vent) {
                                             var dialog = self.getDialog(),
                                                 optValue = dialog.getContentElement('tab-lookup', 'txtOptValue'),
-                                                values = dialog.getContentElement('tab-lookup', 'cmbValue');
-                                            if (editor._model) {
+                                                values = dialog.getContentElement('tab-lookup', 'cmbValue'),
                                                 iIndex = utils.getSelectedIndex(values);
 
-                                                if (iIndex >= 0) {
-                                                    console.log(iIndex);
-                                                    editor._model.removeOption(iIndex);
-                                                    utils.removeSelectedOptions(values);}
+                                            if (iIndex >= 0) {
+                                                console.log(iIndex);
+                                                vent.trigger('removeOption', {option: iIndex});
+                                                utils.removeSelectedOptions(values);
                                             }
+
                                         });
                                     }
                                 }
@@ -433,18 +418,18 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 onClick: function() {
                                     //Add new option.
                                     var self = this;
-                                    require(["utils"], function(utils) {
+                                    require(["utils", "vent"], function(utils, vent) {
                                         var dialog = self.getDialog(),
                                             editor = dialog.getParentEditor(),
                                             optValue = dialog.getContentElement('tab-list', 'txtOptValue'),
                                             values = dialog.getContentElement('tab-list', 'cmbValue');
-
-                                        utils.addOption(values, optValue.getValue(), optValue.getValue(), dialog.getParentEditor().document);
+                                        utils.addOption(values, optValue.getValue(), optValue.getValue(), editor.document);
 
                                         console.log(optValue.getValue());
-                                        editor._model.addOption(optValue.getValue());
+                                        vent.trigger('addOption', {option: optValue.getValue()});
                                         optValue.setValue('');
                                     });
+
 
                                 }
                             },
@@ -457,7 +442,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     onClick: function() {
                                         //Delete selected option.
                                         var self = this;
-                                        require(["utils"], function(utils) {
+                                        require(["utils", "vent"], function(utils, vent) {
                                             var dialog = self.getDialog(),
                                                 optValue = dialog.getContentElement('tab-list', 'txtOptValue'),
                                                 values = dialog.getContentElement('tab-list', 'cmbValue');
@@ -466,7 +451,9 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
 
                                             if (iIndex >= 0) {
                                                 console.log(iIndex);
-                                                editor._model.removeOption(iIndex);
+
+                                                vent.trigger('removeOption', {option: iIndex});
+
                                                 utils.removeSelectedOptions(values);
                                             }
                                         });
@@ -517,8 +504,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
-                    var control = editor._collection.remove(editor._model);
-                    console.log(control.toJSON());
+                    //var control = editor._collection.remove(editor._model);
+                    //console.log(control.toJSON());
                     // alert( 'Clicked: ' + this.id );
                 }
             } ]
