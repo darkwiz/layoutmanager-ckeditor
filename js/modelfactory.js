@@ -149,7 +149,8 @@ define(["backbone",
 				return existingControl;
 			} else {
 				//[text/bool...][in/out]
-				var control = new constructors[options.type][options.PIN.pintype](attrs, options);
+				var control = constructors[options.type][options.PIN.pintype]
+					//new constructors[options.type][options.PIN.pintype](attrs, options);
 
 				existingControls[options.PIN.name +"_"+ options.type] =  control;
 

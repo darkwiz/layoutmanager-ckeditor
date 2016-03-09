@@ -81,16 +81,22 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             },
             onEdit: function(event) {
                 console.log("clicked");
-                var pintype = $(event.currentTarget).data("pin");
-                this._editor.config.customValues.picked = $(event.currentTarget).data("type");
+                var currentTarget = $(event.currentTarget);
+                var customValues = this._editor.config.customValues;
 
-                if (pintype == "in")
+                //customValues.picked.type = currentTarget.data("type");
+                //customValues.picked.id = currentTarget.data("id");
+                customValues.picked = _.find(customValues.pins, {name: currentTarget.data("id")});
+
+                vent.trigger("attach", {id: currentTarget.data("id")});
+                if (currentTarget.data("pin") == "in")
                     this._editor.openDialog( 'pinin' );
-                else if (pintype == "out")
+                else if (currentTarget.data("pin") == "out")
                     this._editor.openDialog( 'pinout' );
                 else
-                    this._editor.openDialog( 'pinedit' ); //Old: CKEDITOR.currentInstance.open...
-            },
+                    this._editor.openDialog( 'pinedit' );
+            }
+
 
     });
 

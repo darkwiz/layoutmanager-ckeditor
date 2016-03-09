@@ -1,12 +1,30 @@
-define(['jquery','underscore','backbone', 'modelfactory'], function ($, _, Backbone, Factory) {
+define(['jquery','underscore','backbone', 'modelfactory', "models/Base"], function ($, _, Backbone, Factory, Base) {
     return Backbone.Collection.extend({
-        initialize: function(attrs, options){
+        /*initialize: function(attrs, options){
             console.log('init');
-        },
-        model: function(attrs, options) {
+        },*/
+       /* model: function(attrs, options) {
             return Factory.createControl(attrs, options);
-        },
-        idAttribute: 'pinValue'
+        }*/
+
+        model: Base.extend({
+            constructor: function (attrs, options) {
+                var model = Factory.createControl(attrs, options);
+                return new model(attrs, options);
+                }
+            }),
+            idAttribute: '_id'
+            /*
+            var Collection = Backbone.Collection.extend({
+                model: Backbone.Model.extend({
+                    constructor: function (attrs, options) {
+                        var model = attrs.foo ? MyFooModel : MyBarModel;
+                        return new model(attrs, options);
+                    },
+
+                    idAttribute: '_id' // or whatever you need
+                })
+            });*/
 
         // add: function(models, options){
 
@@ -22,5 +40,5 @@ define(['jquery','underscore','backbone', 'modelfactory'], function ($, _, Backb
         //     return Backbone.Collection.prototype.add.call(this, models, options);
 
         // }
-    });
+        });
 });

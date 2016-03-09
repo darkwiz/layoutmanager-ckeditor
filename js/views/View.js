@@ -17,6 +17,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
 
             // View Event Handlers
             events:{
+
             //    "blur .form-group": "onClose", //se usiamo una vista sigleton non possiamo dethachare gli eventi
             //    "focus .form-group": "onOpen"
             },
@@ -52,10 +53,16 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                         this.collection.add({}, eventProperties.data);
                     }, this);*/
 
-                this.listenTo(vent, "changeElement", function(data) {
-                    console.log("changed")
-                    this.collection.add({}, data);
-                });
+                this.listenTo(vent, "changeElement", this.addModelToCollection);
+                this.listenTo(vent, 'detach', this.detach);
+                this.listenTo(vent, 'attach', this.attach);
+            },
+            addModelToCollection: function(evdata) {
+                var model = this.collection.get(evdata.PIN.name);
+                if (model){
+                    this.collection.remove(model)
+                }
+                this.collection.add({_id: evdata.PIN.name},  evdata );
             },
             addOne: function(control){
                 this._editor = CKEDITOR.instances.mycanvas;
@@ -64,7 +71,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
 
                 // console.log(this.getEditorInstanceName().$);
                 var view = new ControlView({model: control});
-                this._viewPointers[control.cid] = view;
+                this._viewPointers[control.id] = view;
                 //Jquery wrapped el
                 this.$el.html(view.render().el); // view.render returns this, so this.el refers to the div-container appended
 
@@ -75,7 +82,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 //this.setElement(this.getEditorInstanceName());
             },
             removeOne: function(control) {
-                this._viewPointers[control.cid].close();
+                this._viewPointers[control.id].close();
 
                 if(control.has("childModels")){
                     var scripts = control.get("childModels");
@@ -83,8 +90,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 }
             },
             updateOne: function(control) {
-                console.log('view updated', this._viewPointers[control.cid]);
-                var view = this._viewPointers[control.cid];
+                //console.log('view updated', this._viewPointers[control.id]);
+                var view = this._viewPointers[control.id];
                 //control.trigger('update');
                 //view.render();
             },
@@ -94,47 +101,33 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
             },
             addOneSub: function (script) {
                 var scriptview = new ScriptView({ model: script });
-                this._viewPointers[script.cid] = scriptview;
+                this._viewPointers[script.id] = scriptview;
                 this.$scripts.append(scriptview.render().el);
             },
             removeSubModel: function (script) {
-                this._viewPointers[script.cid].close();
+                this._viewPointers[script.id].close();
             },
             getEditorInstanceName: function() {
-                var element = this._editor.instanceReady;
                 return this._editor.getSelection().getStartElement();
-               /* this._editor.focus();
-                var element = this._editor.document.getBody().getLast(),
-                    element2 = this._editor.getSelection().getStartElement(),
-                    selection = this._editor.getSelection();
-
-                selection.selectElement(element);
-                //selection.scrollIntoView();
-
-                return selection;*/
-                //return CKEDITOR.currentInstance.getSelection().getStartElement();
             },
             onClose: function( ){
                 for(var view in this._viewPointers) {
                     this._viewPointers[view].close();
                 }
             },
-            /*  onClose: function( event ){
-                console.log("close")
-                this.collection.off("add", this.addOne);
-                this.collection.off('remove',  this.removeOne);
-                this.collection.off('change', this.updateOne);
+            attach: function (data){
+                this._viewPointers[data.id].delegateEvents();
             },
+            detach: function () {
 
+                for(var view in this._viewPointers) {
+                    this._viewPointers[view].stopListening();
+                    this._viewPointers[view].onClose();
+                }
+                //this._viewPointers[data.id].undelegateEvents();
 
-            onOpen: function( event ){
-                this.collection.on("add", this.addOne, this);
-                this.collection.on('remove',  this.removeOne, this);
-                this.collection.on('change', this.updateOne, this);
-            },
-            remove: function(){
-               return Backbone.View.prototype.remove.apply(this, arguments);
-            }*/
+            }
+
         });
 
         // Returns the View class

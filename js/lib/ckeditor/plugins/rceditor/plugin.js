@@ -74,16 +74,19 @@ CKEDITOR.plugins.add( 'rceditor',
                             if ( value == el.name ){
                                 if ( el.pintype == "in") {
                                     config.customValues.pin = el;
+                                    config.customValues.picked = null; //per la funzione di edit
                                     editor.execCommand('pinin');
                                     return true;
                                 }
                                 else if( el.pintype == "out" ){
                                     config.customValues.pin = el;
+                                    config.customValues.picked = null;
                                     editor.execCommand('pinout');
                                     return true;
                                 }
                                 else {
                                     config.customValues.pin = el;
+                                    config.customValues.picked = null;
                                     editor.execCommand('pinedit');
                                 }
                             }

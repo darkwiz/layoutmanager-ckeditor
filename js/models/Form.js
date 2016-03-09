@@ -28,10 +28,13 @@ define(["jquery","underscore", "backbone", "appconfig"], function ($, _,  Backbo
             return response.settings.props;
         },
         flattenArray: function(collection, type) {
+            var i =1;
             return _.filter(collection, function(value, key) {
                 //se type è in o out assegna chiave come nome, altrimenti combina con type
                 value.name = (_.isString(key)) ? key : value.name + "_" + type;
                 value.pintype = type;
+                value.id = i;
+                i++;
                 return (!value.hidden) ? value : null ;
             });
         },

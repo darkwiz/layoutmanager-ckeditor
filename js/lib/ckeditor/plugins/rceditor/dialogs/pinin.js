@@ -91,6 +91,10 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
 
                 utils.removeAllOptions( values );
+
+                require(["vent"], function(vent) {
+                    vent.trigger("detach"); //on dialog open detach previous views
+                });
                /* editor._collection = CollectionManager.getCollection('collection');
                 ViewManager.getView('simpleview', {collection: editor._collection});*/
 
@@ -98,7 +102,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
 
-                    if (  optionVal[ i ] == editor.config.customValues.picked )
+                    var picked = editor.config.customValues.picked;
+                    if ( picked &&  optionVal[ i ] == picked.type )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -109,7 +114,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
         onOk: function() {
             var editor = this.getParentEditor(),
                 element = this.element,
-                isInsertMode = !element;
+                isInsertMode = !element,
+                selectedPin = editor.config.customValues.pin;
 
 
             // if ( isInsertMode ) {
@@ -124,7 +130,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
             //     editor.insertElement(data.element);
             //     }
 
+
             this.commitContent( data );
+
 
             // Element might be replaced by commitment.
             // if ( !isInsertMode )
@@ -177,7 +185,11 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         dialog = self.getDialog(),
                                         editor = dialog.getParentEditor(),
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
-                                        selectedPin = editor.config.customValues.pin;
+                                        config = editor.config.customValues,
+                                        selectedPin = config.picked ? config.picked : config.pin;
+
+
+                                    console.log("Selected PIN: " + selectedPin.name );
 
                                     vent.trigger('changeElement',{
                                             type: selected,

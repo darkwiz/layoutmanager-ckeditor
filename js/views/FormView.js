@@ -50,7 +50,6 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
                     function(){
                         this._prepareCkeditor.call(this)
                             .done( //then ok
-                                console.log("dfd resolved"),
                                 this._setEditorCollection.bind(this)
                             )
                     }.bind(this)

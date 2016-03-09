@@ -2,6 +2,7 @@
 define(["jquery", "underscore","backbone"],
     function ($, _, Backbone) {
   return Backbone.Model.extend({
+      idAttribute: '_id',
       defaults: {
           labelCss:"control-label col-sm-3",
           containerCss:"control-container col-sm-9"
@@ -15,6 +16,7 @@ define(["jquery", "underscore","backbone"],
               this.set("labelValue", pin.label);
               this.set("pinName", pin.value);
               this.set("pinType", pin.pintype);
+             // this.set("_id", pin.name);
           }
       },
       setContainerClass: function(width) {

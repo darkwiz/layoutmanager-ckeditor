@@ -83,12 +83,15 @@
 
 
                 utils.removeAllOptions( values );
+                require(["vent"], function(vent) {
+                    vent.trigger("detach"); //on dialog open detach previous views
+                });
 
                 for ( var i = 0 ; i < optionNames.length ; i++){
 
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
-
-                    if (  optionVal[ i ] == editor.config.customValues.picked )
+                    var picked = editor.config.customValues.picked;
+                    if ( picked &&  optionVal[ i ] == picked.type )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -116,6 +119,11 @@
             //     }
            // if (editor._model)
                 this.commitContent( data );
+
+
+            require(["vent"], function(vent) {
+                vent.trigger("detach");
+            });
            // else
               //  alert( 'Nessun controllo è stato scelto');
 
@@ -168,7 +176,10 @@
                                             dialog = self.getDialog(),
                                             editor = dialog.getParentEditor(),
                                             wselect = dialog.getContentElement("tab-basic", "colselect"),
-                                            selectedPin = editor.config.customValues.pin;
+                                            config = editor.config.customValues,
+                                            selectedPin = config.picked ? config.picked : config.pin;
+
+                                        console.log("Selected PIN: " + selectedPin.name );
                                         vent.trigger('changeElement',{
                                             type: selected,
                                             PIN: selectedPin

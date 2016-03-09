@@ -86,12 +86,16 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
 
 
                 utils.removeAllOptions( values );
+                require(["vent"], function(vent) {
+                    vent.trigger("detach"); //on dialog open detach previous views
+                });
 
                 for ( var i = 0 ; i < optionNames.length ; i++){
 
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
 
-                    if (  optionVal[ i ] == editor.config.customValues.picked )
+                    var picked = editor.config.customValues.picked;
+                    if ( picked &&  optionVal[ i ] == picked.type )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -102,7 +106,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
         onOk: function() {
             var editor = this.getParentEditor(),
                 element = this.element,
-                isInsertMode = !element;
+                isInsertMode = !element,
+                selectedPin = editor.config.customValues.pin;
 
 
             // if ( isInsertMode ) {
@@ -116,14 +121,14 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
             // if ( isInsertMode ){
             //     editor.insertElement(data.element);
             //     }
-           // if (editor._model){
-                this.commitContent( data );
-            //}
-            //else{
-            //    alert( 'Nessun controllo è stato scelto');
-            //    return false;
-            //}
-            //this.setupContent( 'clear' ); //TODO: Aggiungere al plugin per ripulire la tab list
+
+
+            this.commitContent( data );
+
+            require(["vent"], function(vent) {
+                vent.trigger("detach", {id: selectedPin.name});
+            });
+
             // Element might be replaced by commitment.
             // if ( !isInsertMode )
             //     editor.getSelection().selectElement( data.element );
@@ -172,7 +177,10 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                         dialog = self.getDialog(),
                                         editor = dialog.getParentEditor(),
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
-                                        selectedPin = editor.config.customValues.pin;
+                                        config = editor.config.customValues,
+                                        selectedPin = config.picked ? config.picked : config.pin;
+
+                                    console.log("Selected PIN: " + selectedPin.name );
                                     vent.trigger('changeElement',{
                                         type: selected,
                                         PIN: selectedPin
