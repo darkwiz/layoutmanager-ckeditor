@@ -6,7 +6,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
         minHeight: 200,
         onLoad: function() { //chiamata per ogni istanza dell'editor alla prima apertura della dialog
             var self = this;
-            require(["utils",'collectionmanager','views/View'], function(utils) {
+            require(["utils"], function(utils) {
                 var select = self.getContentElement('tab-basic', 'colselect'),
                     opts = utils.getColOpts();
                 for (var i = 0; i < opts.length; i++) {
@@ -18,14 +18,13 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                     }
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
-                self.getContentElement('tab-lookup', 'txtOptValue').disable();
                 utils.hideTabs.call(self);
             });
 
         },
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View', 'utils', 'viewmanager'], function(CollectionManager, View, utils, ViewManager ){
+            require(['utils'], function( utils ){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 

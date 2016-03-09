@@ -6,7 +6,7 @@
         minHeight: 200,
         onLoad: function() {
             var self = this;
-            require(["jquery", "underscore", "backbone","utils"], function($, _, Backbone, utils){
+            require(["utils"], function(utils){
                 var select = self.getContentElement('tab-basic', 'colselect'),
                     opts = utils.getColOpts();
                 for ( var i = 0 ; i < opts.length ; i++){
@@ -20,7 +20,6 @@
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
                 utils.hideTabs.call(self);
-                _.extend(editor, Backbone.Events);
             });
         },
         onShow: function() {

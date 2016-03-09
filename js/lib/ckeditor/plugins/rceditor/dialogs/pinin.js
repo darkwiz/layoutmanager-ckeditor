@@ -6,7 +6,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
         minHeight: 200,
         onLoad: function() {
             var self = this;
-            require(["jquery", "underscore", "backbone","utils"], function($, _, Backbone, utils){
+            require(["utils"], function(utils){
                 var select = self.getContentElement('tab-basic', 'colselect'),
                     opts = utils.getColOpts();
                 for ( var i = 0 ; i < opts.length ; i++){
@@ -92,8 +92,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
                 utils.removeAllOptions( values );
                /* editor._collection = CollectionManager.getCollection('collection');
-                ViewManager.getView('simpleview', {collection: editor._collection});
-*/
+                ViewManager.getView('simpleview', {collection: editor._collection});*/
 
                 for ( var i = 0 ; i < optionNames.length ; i++){
 
