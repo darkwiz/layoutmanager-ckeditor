@@ -47,7 +47,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 this._viewPointers = {};
                  //TODO: cambia da CKEDITOR.currentINstance a this._editor
                 this.$scripts = $(this._editor.getSelection().document.$.body);// essendo la view singleton per ogni area viene invocata l'initialize
-                //funziona!
+
                 /*this._editor.on("changeElement",
                     function( eventProperties ) {
                         this.collection.add({}, eventProperties.data);
@@ -117,6 +117,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
             },
             attach: function (data){
                 this._viewPointers[data.id].delegateEvents();
+                //trovare un modo per effettuare il bind fra la model e la view riguardo ai vari listen to
             },
             detach: function () {
 

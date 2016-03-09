@@ -84,9 +84,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 var currentTarget = $(event.currentTarget);
                 var customValues = this._editor.config.customValues;
 
-                //customValues.picked.type = currentTarget.data("type");
+
                 //customValues.picked.id = currentTarget.data("id");
                 customValues.picked = _.find(customValues.pins, {name: currentTarget.data("id")});
+                customValues.picked.type = currentTarget.data("type");
 
                 vent.trigger("attach", {id: currentTarget.data("id")});
                 if (currentTarget.data("pin") == "in")
