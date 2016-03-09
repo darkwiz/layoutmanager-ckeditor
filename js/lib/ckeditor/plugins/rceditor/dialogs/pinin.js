@@ -26,7 +26,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
         },
         onShow: function() {
             var self = this;
-            require(['utils',"collectionmanager", "views/View"], function(utils,CollectionManager, View){
+            require(['utils'], function(utils){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
@@ -90,22 +90,16 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 }
 
 
-                /*var collection = CollectionManager.getCollection('collection');
-                new View({collection: collection});*/
-
                 utils.removeAllOptions( values );
+               /* editor._collection = CollectionManager.getCollection('collection');
+                ViewManager.getView('simpleview', {collection: editor._collection});
+*/
 
-                //console.log(); TODO:Works, refactor code editor._model
-
-                /*if (editor._model){
-                    var model = editor._collection.get(editor._model);
-                }*/
                 for ( var i = 0 ; i < optionNames.length ; i++){
 
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
-                    //console.log("Opt val:", optionVal[ i ]);
-                    //console.log("Model type:", model &&  model.get('type'));
-                    if (  optionVal[ i ] == editor.config.customValues.picked ) //TODO: check this assertion
+
+                    if (  optionVal[ i ] == editor.config.customValues.picked )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -153,14 +147,13 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                 label: 'Label',
                                 'default': editor.config.customValues.pin.label,
                                 commit: function(data) {
-                                    var dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor();
+                                    var label = this.getValue();
+                                        //dialog = this.getDialog(), To get some values fromanother tab
                                         //id = dialog.getContentElement("tab-adv", "id");
 
-                                    var self = this;
                                     require(["vent"], function(vent) {
-                                        vent.trigger("setControlLabel", {label: self.getValue()});
-                                    })
+                                        vent.trigger("setControlLabel", {label: label});
+                                    });
 
 
                                 }
@@ -192,7 +185,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                             PIN: selectedPin
                                         });
 
-                                    /*editor.fire('changeElement',{
+                                    /* Old with ckeditor events
+                                    editor.fire('changeElement',{
                                         type: selected,
                                         PIN: selectedPin
                                     });*/
@@ -221,13 +215,11 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                 'default': 'none',
                                 items:  [['--- Select Field Width ---',0]],
                                 onChange: function() {
-                                    var selected = this.getValue(),
-                                        dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor();
+                                    var selected = this.getValue();
+
                                     require(["vent"], function(vent) {
                                         vent.trigger('setContainerClass', {selected: selected});
                                     });
-                                    //editor._model.setcontainerClass(selected);
 
                                 }
                             }
