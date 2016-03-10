@@ -1,9 +1,11 @@
 <div class="{{containerCss}}">
+    <div>
     {{#each elementValues}}
         <label>
             <input type="{{../elementType}}" name="{{../pinName}}" class="{{../elementCss}}" id="{{../elementId}}" value="{{@key}}" {{ disabledIf ../disabled }}>
             {{this}}
         </label>
     {{/each}}
+    </div>
 </div>
 

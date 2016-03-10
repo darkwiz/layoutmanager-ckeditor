@@ -89,7 +89,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
                 }
 
-
+                self.setupContent();//calls all setup functions
                 utils.removeAllOptions( values );
 
                 require(["vent"], function(vent) {
@@ -153,6 +153,22 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                 type: 'text',
                                 label: 'Label',
                                 'default': editor.config.customValues.pin.label,
+                                setup: function( ) {
+                                    var self = this;
+                                    require(["jquery","vent"], function($,vent) {
+                                        var domelem = document.getElementById(self.getDialog().getContentElement( 'tab-basic', 'label').domId);
+                                        $label = $(domelem);
+                                        $label.on('keyup',function(e){
+                                            var labelval = $label.find('input').val();
+                                            if(labelval) {
+                                                vent.trigger("setControlLabel", {label: labelval});
+                                            } else {
+                                                vent.trigger("setControlLabel", {label: " "});
+                                            }
+                                        });
+
+                                    });
+                                },
                                 commit: function(data) {
                                     var label = this.getValue();
                                         //dialog = this.getDialog(), To get some values fromanother tab
@@ -207,9 +223,6 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                     //toggleTabs.call(dialog, 'tab-'+ selected);
 
                                 });
-                            },
-                            setup: function( element ) {
-                                this.setValue( element.getAttribute( 'value' ) );
                             },
                             commit: function( data ) {
                                     var head = CKEDITOR.document.getHead(),

@@ -29,6 +29,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 //this._editor = options._editor;
                 this.model.on('update', this.update, this);
                 this.model.on('change:elementValues', this.updateControl, this);
+                this.model.on('change:labelValue', this.updateLabel, this);
                 //questo viene fatto in automatico
                 //this.$el = $(this.el);
 
@@ -65,7 +66,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
 
             },
             update: function () {
-                console.log("fired here here")
+                console.log("fired here here, Label", this.$label[0]);
                 if(this.$label[0])
                     this.$label.removeClass(this.$label[0].className).addClass(this.model.get('labelCss'));
                 if(this.$control[0])
@@ -74,10 +75,16 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             onClose: function(){
                 this.model.unbind("update", this.update);
                 this.model.unbind("change:elementValues", this.updateControl);
+                this.model.unbind('change:labelValue', this.updateLabel);
             },
             updateControl: function(model) {
                 var partial = Handlebars.partials[this.model.get('elem')]
                 this.$control.html(partial(model.toJSON()));
+            },
+            updateLabel: function(control) {
+                console.log(this.$label[0])
+                if(this.$label[0])
+                    this.$label.html(control.get("labelValue"));
             },
             onEdit: function(event) {
                 console.log("clicked");

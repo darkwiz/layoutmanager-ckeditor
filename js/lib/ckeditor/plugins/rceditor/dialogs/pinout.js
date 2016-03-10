@@ -84,7 +84,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         optionVal = new Array("");
                 }
 
-
+                self.setupContent();
                 utils.removeAllOptions( values );
                 require(["vent"], function(vent) {
                     vent.trigger("detach"); //on dialog open detach previous views
@@ -149,6 +149,22 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             type: 'text',
                             label: 'Label',
                             'default': editor.config.customValues.pin.label,
+                            setup: function( ) {
+                                var self = this;
+                                require(["jquery","vent"], function($,vent) {
+                                    var domelem = document.getElementById(self.getDialog().getContentElement( 'tab-basic', 'label').domId);
+                                    $label = $(domelem);
+                                    $label.on('keyup',function(e){
+                                        var labelval = $label.find('input').val();
+                                        if(labelval) {
+                                            vent.trigger("setControlLabel", {label: labelval});
+                                        } else {
+                                            vent.trigger("setControlLabel", {label: " "});
+                                        }
+                                    });
+
+                                });
+                            },
                             commit: function(data) {
                                 var label = this.getValue();
 
@@ -192,9 +208,6 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     utils.toggleTabs.call(dialog, 'tab-' + selected);
 
                                 });
-                            },
-                            setup: function( element ) {
-                                this.setValue( element.getAttribute( 'value' ) );
                             },
                             commit: function( data ) {
                                 var head = CKEDITOR.document.getHead(),

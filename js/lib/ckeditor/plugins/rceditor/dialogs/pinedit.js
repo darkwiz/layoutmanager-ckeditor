@@ -81,7 +81,7 @@
                         optionVal = new Array("");
                 }
 
-
+                self.setupContent();
                 utils.removeAllOptions( values );
                 require(["vent"], function(vent) {
                     vent.trigger("detach"); //on dialog open detach previous views
@@ -118,6 +118,7 @@
             //     editor.insertElement(data.element);
             //     }
            // if (editor._model)
+
                 this.commitContent( data );
 
 
@@ -148,10 +149,26 @@
                                 type: 'text',
                                 label: 'Label',
                                 'default': editor.config.customValues.pin.label,
+                                setup: function( ) {
+                                    var self = this;
+                                    require(["jquery","vent"], function($,vent) {
+                                        var domelem = document.getElementById(self.getDialog().getContentElement( 'tab-basic', 'label').domId);
+                                        $label = $(domelem);
+                                        $label.on('keyup',function(e){
+                                            var labelval = $label.find('input').val();
+                                            if(labelval) {
+                                                vent.trigger("setControlLabel", {label: labelval});
+                                            } else {
+                                                vent.trigger("setControlLabel", {label: " "});
+                                            }
+                                        });
+
+                                    });
+                                },
                                 commit: function(data) {
                                     var label = this.getValue();
 
-                                    require(["vent"], function(vent) {
+                                    require(["jquery","vent"], function($,vent) {
                                         vent.trigger("setControlLabel", {label: label});
                                     });
 
@@ -191,9 +208,6 @@
                                         utils.toggleTabs.call(dialog, 'tab-' + selected);
 
                                     });
-                                },
-                                setup: function( element ) {
-                                    this.setValue( element.getAttribute( 'value' ) );
                                 },
                                 commit: function( data ) {
                                     var head = CKEDITOR.document.getHead(),

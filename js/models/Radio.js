@@ -7,9 +7,7 @@ define(['models/Base'], function (Base) {
         elementType: "radio",
         elementCss : "",
         containerCss: "col-sm-9",
-        elementValues: {
-          a:""
-        }
+        elementValues: {}
       }, Base.prototype.defaults)
     });
 
