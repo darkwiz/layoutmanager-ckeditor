@@ -1,0 +1,89 @@
+{
+  "settings": {
+    "inputs": {
+      "comment": {
+        "label": "Commento",
+        "value": "",
+        "type": "string",
+        "hidden": true
+      },
+      "sollecito": {
+        "label": "sollecito",
+        "type": "textRef",
+        "value": "sollecito",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "esito_approvazione_in":
+      {
+        "label":"Esito approvazione",
+        "value":"esito",
+        "type":"textRef",
+        "hidden":false
+      },
+      "fascicolo_nuovo": {
+        "label": "fascicolo_nuovo",
+        "type": "fascicolo",
+        "value": "fascicolo_nuovo",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "outputs": {
+      "reason": {
+        "label": "Motivazione",
+        "value": "",
+        "type": "key",
+        "hidden": true
+      },
+      "data_fine_pubblicazione":{
+        "label":"data_fine_pubblicazione",
+        "type":"datetimeRef",
+        "value":"data_fine_pubblicazione",
+        "dynamic":true,
+        "isCollection":false,
+        "hidden":false
+      },
+      "sollecito": {
+        "label": "sollecito",
+        "type": "textRef",
+        "value": "sollecito",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "fascicolo_nuovo": {
+        "label": "fascicolo_nuovo",
+        "type": "fascicolo",
+        "value": "fascicolo_nuovo",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "rif_progressivo_fascicolo":{
+        "label":"rif_progressivo_fascicolo",
+        "type":"textRef",
+        "value":"rif_progressivo_fascicolo",
+        "dynamic":true,
+        "isCollection":false,
+        "hidden":false
+      }
+    },
+    "props": {
+      "name": {
+        "label": "Nome",
+        "value": "Demo Form",
+        "type": "text",
+        "hidden": false
+      },
+      "description": {
+        "label": "Note",
+        "value": "Descrizione form di esempio",
+        "type": "note",
+        "hidden": false
+      }
+    }
+  }
+}

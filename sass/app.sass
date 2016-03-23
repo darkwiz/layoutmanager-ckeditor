@@ -2,10 +2,10 @@
 $edit-icon: url('../img/pencil.png')
 
 
-form
-  border: 1px solid red
-  display: block
-  margin-top: 0em
+//form
+//  border: 1px solid red
+//  display: block
+//  margin-top: 0em
 
 br
   clear: both
@@ -21,14 +21,13 @@ div
   &.div-container
     padding: 15px 15px 15px
     margin: 0 -15px 15px
-    border: 1px solid #e5e5e5
+    //border: 1px solid #e5e5e5
     overflow: hidden
 
   &.header
     text-align: center
     height: auto
     margin: 0 auto
-
 
 
 .modal.modal-wide .modal-dialog
@@ -43,9 +42,14 @@ div
       margin-right: 0
       margin-left: 0
       background-color: #fff
-      border: 1px solid #ddd
-      border-radius: 4px 4px 0 0
+      //border: 1px solid #ddd
+      //border-radius: 4px 4px 0 0
 
+.btn-margin-left
+  margin-left: 2px
+
+.btn-margin-right
+  margin-right: 2px
 
 #loading
   z-index: 99999
@@ -73,14 +77,31 @@ div
   flex: 1 /* additionally, equal width */
   padding: 1em
   border: solid
-  border-color: #FFFFFF
+  border-color: #ffffff
   border-radius: 0.5em
 
 .edit
   position: absolute
   right: .1em
   top: .1em
+  width: 24px
+  height: 24px
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAk1BMVEUAAAAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfBJbUhZAAAAMHRSTlMAAQIFBgoLDA4aKy0zOUBNV1lcXl9hYmNkZmdoaWttd3h7oqutr7CytLe5wd7i6PUUO4Y7AAAAkUlEQVQokXXMRw7CQBQE0SaanHMecjBQ9z8di5GRvmfcy1dSS8GGn3mIknbAPuJbiJZaDwC6OR9/m770rU/Al2fZ+BR8eVif+ftvsx11OCrup5Lx+d/tzyLzs/Vlga8yv1hfZ361vinwQYFXk9T7zbpGzpe864VLUrjnvQK4JA1cbQBXD1yO96FVCVjqNCIo6QcSEx/GQZ6UkgAAAABJRU5ErkJggg==)
+  display: block
+  cursor: pointer
 
 .edit-hidden
   display: none
 
+.remove
+  position: absolute
+  right: .1em
+  top: 2.5em
+  width: 24px
+  height: 24px
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAgVBMVEUAAAAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAHGl0KAAAAKnRSTlMAAQMFBgcJDEdLWFlbXF1odXeFiIuRkpSVl5itr7m6vsfIytXX4ubo6f1TzZtTAAAAr0lEQVQoz22Q1xaCQAxEZ6mKBStiwS7q/P8H+rAlAdmn5N6zJ5kAQPleGoQ3areRrVYkD8EUJJvIc3JvhFtTksoUrjsCH1eyNsLJBAuKEX4GTB26R6iuMTrGv1sMDBnH/0zgPXMXDhiZ+80Ux0T9qM0w12ba28qb2V8Oa+Yyt2PGsmcmW2+AVu2v8iSodC6z8/cEoqaT15pXDmfkDpXnQHTiRd1nzWfu61SfB6kBgB9Z7jbscyDPiwAAAABJRU5ErkJggg==)
+  display: block
+  cursor: pointer
+
+.remove-hidden
+  display: none

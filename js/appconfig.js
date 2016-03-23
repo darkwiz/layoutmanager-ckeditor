@@ -11,7 +11,8 @@ define(function () {
                           pins: [],
                           props: {},
                           picked: "" //non usato al momento
-                        }
+                        },
+                        startupFocus : true
                     }
         }
     }

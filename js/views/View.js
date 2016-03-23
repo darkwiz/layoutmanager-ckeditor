@@ -1,8 +1,8 @@
 // View.js
 define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
-    "views/ControlView", "views/ScriptView", "collections/Collection", "vent"],
+    "views/ControlView", "views/ScriptView", "collections/Collection", "vent", "templates/templates",],
 
-    function($, _, Backbone, Handlebars, templates, ControlView, ScriptView, Collection, vent){
+    function($, _, Backbone, Handlebars, templates, ControlView, ScriptView, Collection, vent, Templates){
         "use strict";
 
         var View = Backbone.View.extend({
@@ -17,9 +17,13 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
 
             // View Event Handlers
             events:{
-
             //    "blur .form-group": "onClose", //se usiamo una vista sigleton non possiamo dethachare gli eventi
             //    "focus .form-group": "onOpen"
+            },
+
+            getTemplate: function(model){
+                var type = model.get('elem');
+                return Templates.getTemplate(type);
             },
 
 
@@ -46,16 +50,19 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 //chiamato una volta on init
                 this._viewPointers = {};
                  //TODO: cambia da CKEDITOR.currentINstance a this._editor
-                this.$scripts = $(this._editor.getSelection().document.$.body);// essendo la view singleton per ogni area viene invocata l'initialize
+                if(this._editor)
+                    this.$scripts = $(this._editor.getSelection().document.$.body);// essendo la view singleton per ogni area viene invocata l'initialize
 
                 /*this._editor.on("changeElement",
                     function( eventProperties ) {
                         this.collection.add({}, eventProperties.data);
                     }, this);*/
 
+
                 this.listenTo(vent, "changeElement", this.addModelToCollection);
                 this.listenTo(vent, 'detach', this.detach);
                 this.listenTo(vent, 'attach', this.attach);
+
             },
             addModelToCollection: function(evdata) {
                 var model = this.collection.get(evdata.PIN.name);
@@ -64,22 +71,53 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 }
                 this.collection.add({_id: evdata.PIN.name},  evdata );
             },
+
             addOne: function(control){
                 this._editor = CKEDITOR.instances.mycanvas;
                // var selection = this.getEditorInstanceName();
                 this.$el = $(this.getEditorInstanceName().$).closest('div');
 
                 // console.log(this.getEditorInstanceName().$);
-                var view = new ControlView({model: control});
-                this._viewPointers[control.id] = view;
+                this._viewPointers[control.id] = new ControlView({model: control});
                 //Jquery wrapped el
-                this.$el.html(view.render().el); // view.render returns this, so this.el refers to the div-container appended
+                this.template = this.getTemplate(control);
+
+                this.$el.html(this.template(control.toJSON()));
+                //this.$el.html(view.render().el); view.render returns this, so this.el refers to the div-container appended
+
+                this.assign(this._viewPointers[control.id], '.div-container');
 
                 if(control.has("childModels")){
                    // this.$scripts = $(".cke_contents"); //.cke_contents
                     this.addAllChildModels(control)
                 }
                 //this.setElement(this.getEditorInstanceName());
+                return this;
+            },
+            addRow: function(control){
+                this._editor = CKEDITOR.instances.mycanvas;
+                this._editor.focus();
+                var content = this._editor.document.getById( 'content' );
+                this._viewPointers[control.get("_id")] = new ControlView({model: control});
+
+                this.template = this.getTemplate(control);
+
+                this.$content = $(content.$);
+
+                //this.$content.append(this.template(control.toJSON()));
+                //this.$el.html(view.render().el); view.render returns this, so this.el refers to the div-container appended
+
+                this.assign(this._viewPointers[control.get("_id")], '.div-container');
+
+                if(control.has("childModels")){
+                    // this.$scripts = $(".cke_contents"); //.cke_contents
+                    this.addAllChildModels(control)
+                }
+                //this.setElement(this.getEditorInstanceName());
+                return this;
+            },
+            assign : function (view, selector) {
+                view.setElement(this.$(selector)).render();
             },
             removeOne: function(control) {
                 this._viewPointers[control.id].close();
@@ -120,7 +158,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 //trovare un modo per effettuare il bind fra la model e la view riguardo ai vari listen to
             },
             detach: function () {
-
                 for(var view in this._viewPointers) {
                     this._viewPointers[view].stopListening();
                     this._viewPointers[view].onClose();

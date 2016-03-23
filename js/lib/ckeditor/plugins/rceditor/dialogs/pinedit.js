@@ -27,6 +27,7 @@
             require(['utils'], function(utils){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
+                console.log(selectedPin);
 
 
                 switch(selectedPin.type)
@@ -91,7 +92,8 @@
 
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
                     var picked = editor.config.customValues.picked;
-                    if ( picked &&  optionVal[ i ] == picked.type )
+
+                    if ( picked &&  optionVal[ i ] == picked.control )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -121,9 +123,8 @@
 
                 this.commitContent( data );
 
-
             require(["vent"], function(vent) {
-                vent.trigger("detach");
+                vent.trigger("store");
             });
            // else
               //  alert( 'Nessun controllo è stato scelto');
@@ -150,6 +151,8 @@
                                 label: 'Label',
                                 'default': editor.config.customValues.pin.label,
                                 setup: function( ) {
+                                    //Risolvere il Problema con i tipi complessi:
+                                    //edita tutte le label!!
                                     var self = this;
                                     require(["jquery","vent"], function($,vent) {
                                         var domelem = document.getElementById(self.getDialog().getContentElement( 'tab-basic', 'label').domId);
@@ -166,11 +169,13 @@
                                     });
                                 },
                                 commit: function(data) {
-                                    var label = this.getValue();
+                                    //Problema con i tipi complessi:
+                                    //edita tutte le label!!
+                                   /* var label = this.getValue();
 
                                     require(["jquery","vent"], function($,vent) {
                                         vent.trigger("setControlLabel", {label: label});
-                                    });
+                                    });*/
 
                                 }
                             } //put here other children
@@ -497,16 +502,14 @@
                             id: 'urlTitolario',
                             type: 'text',
                             label: 'URL Titolario',
-                            'default': 'https://kdm-test-ws.herokuapp.com/',
+                            'default': 'https://kdm-test-ws.herokuapp.com/'
                             /* validate: function ()git status {
                              if (!this.getValue()) {
                              alert("pippo")
                              return false;
                              }
                              },*/
-                            commit: function() {
 
-                            }
                         }, {
                             type: 'vbox',
                             padding: 5,

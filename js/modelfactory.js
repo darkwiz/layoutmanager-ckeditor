@@ -143,21 +143,24 @@ define(["backbone",
 		createControl: function(attrs, options){
 
 			/*Find out if a particular obj has been created before*/
-
-			var existingControl = existingControls[options.PIN.name +"_"+ options.type];
-			if(existingControl){
-				return existingControl;
-			} else {
-				//[text/bool...][in/out]
-				var control = constructors[options.type][options.PIN.pintype]
+			if (options.PIN) {
+				var existingControl = existingControls[options.PIN.name + "_" + options.type];
+				if (existingControl) {
+					return existingControl;
+				} else {
+					//[text/bool...][in/out]
+					var control = constructors[options.type][options.PIN.pintype]
 					//new constructors[options.type][options.PIN.pintype](attrs, options);
 
-				existingControls[options.PIN.name +"_"+ options.type] =  control;
+					existingControls[options.PIN.name + "_" + options.type] = control;
 
-				return control;
+					return control;
 
+				}
 			}
-
+			else {
+				return Null;
+			}
 		}
 
 	};

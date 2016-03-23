@@ -1,9 +1,9 @@
 // FormView.js
 //Cannot add Router to modules invoke..circular deps
 define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.html", "appconfig","views/View",
-    "views/DialogView","collectionmanager", "collections/Collection"],
+    "views/DialogView", "collections/Collection"],
 
-    function($, _, Backbone, Handlebars, template, config, View, DialogView, CollectionManager, Collection){
+    function($, _, Backbone, Handlebars, template, config, View, DialogView, Collection){
 
         "use strict";
 
@@ -16,69 +16,65 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
 
             template: Handlebars.compile(template),
 
-            /*  events: {
-             "click .close": "dispose"
-             },*/
+
+             events: {
+              "click .load": "load"
+             },
 
             // View constructor
             initialize: function(options) {
-                _.bindAll(this); // every function that uses 'this' as the current object should be in here
+                _.bindAll(this);
                 this.model.on('change', this.render, this);
-
-                //this.model.fetch();
-                //this.ckeditor = {};
+                this.listenTo(Collection, 'reset', _.debounce(this._setEditorCollection, 0));
 
 
+                this.dform = this.model.fetch();
 
-                this.deferred = this.model.fetch();
 
-                 /*filtered.done(
-                    function() {
-                        self.render();
-                        self.show()
-                   });*/
+
+            },
+            load: function(e) {
+                e.preventDefault();
+                Collection.fetch({reset: true});
+            },
+            _createAppView: function() {
+                this.appview = new View({collection: Collection});
+                this.assign(this.appview, '.app-container');
+            },
+            _setEditorCollection: function() {
+
+                this._editor = CKEDITOR.instances.mycanvas;
+
+
+                    Collection.each(function(value) {
+                        this._editor.execCommand("12");
+                        var content = this._editor.document.getElementById( 'content' );
+                        this.$content = $(content.$);
+                        this.appview.addRow.call(this.appview, value);
+                    }.bind(this));
+
+
 
             },
 
-            // Renders the view's template to the UI
             render: function() {
-
-                var filtered = this.deferred.then(
+                var filtered = this.dform.then(
                     this._prepareDialog.bind(this)
-                    );
+                );
                 filtered.done(
                     function(){
                         this._prepareCkeditor.call(this)
                             .done( //then ok
-                                this._setEditorCollection.bind(this)
+                                this._createAppView.bind(this)
                             )
                     }.bind(this)
 
                 );
 
-                /*  this.$el.find('#mycanvas').html(this.template(this.model.toJSON()));
-                 console.log(this.$el.find('#mycanvas'));*/
-                //$(config.canvas).attr( 'contenteditable', 'true' );
-                //CKEDITOR.replace( 'mycanvas' );
-                /* var editor = CKEDITOR.instances.mycanvas;
-                 if (editor) {
-                 console.log('instance exists');
-                 editor.destroy(true);
-                 console.log('destroyed');
-                 }
-                 CKEDITOR.replace( 'mycanvas', config.rte.ckeditor );*/
-                //$(config.canvas).ckeditor(config.rte.ckeditor);
-                /* this.$el.modal({backdrop: 'static', keyboard: false});
-                 $(".modal-wide").on("show.bs.modal", function() {
-                 var height = $(window).height() - 200;
-                 $(this).find(".modal-body").css("max-height", height);
-                 });*/
-
-
-
                 return this;
 
             },
+
             show: function() {
                 $('#tallModal').modal('show');
             },
@@ -124,21 +120,34 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
             },
             _prepareDialog: function() {
                 this.view = new DialogView({model: this.model});
+                this.$el.html(this.template(this.model.toJSON()));
+                //this.$el.html(view.render().el); view.render returns this, so this.el refers to the div-container appended
+
+                this.assign(this.view, '.form-container');
                 // this.$el.html(this.template(this.model.toJSON())); //find('#mycanvas')
                 //$(this.view.render().el).appendTo('#container');
-                this.$el.append(this.view.render().el);
+                //this.$el.append(this.view.render().el);
                 this.show();
              //   this.model.on('change', _setEditorValue.bind(this));
+                return this;
             },
-
+            assign : function (view, selector) {
+                view.setElement(this.$(selector)).render();
+            },
+/*
             _setEditorCollection: function() {
-
                 // = new View({collection: collection}); //, _editor: this.model.get("uniqueId")
                // var collection = CollectionManager.getCollection('collection');
-                var collection = new Collection();
-                this.appview = new View({collection: collection});
+
+                this.dfd.done(
+                    function(){
+                        this._createAppView.
+
+                    }.bind(this)
+                )
+
                 //this.appview = ViewManager.getView('simpleview', {collection: collection});
-            }
+            },*/
         });
 
         // Returns the View class

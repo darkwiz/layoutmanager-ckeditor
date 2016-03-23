@@ -29,6 +29,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
             require(['utils'], function(utils){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
+                    console.log(selectedPin);
 
                 switch(selectedPin.type)
                 {
@@ -103,7 +104,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
 
                     var picked = editor.config.customValues.picked;
-                    if ( picked &&  optionVal[ i ] == picked.type )
+                    if ( picked &&  optionVal[ i ] == picked.control )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -132,6 +133,10 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
 
             this.commitContent( data );
+
+            require(["vent"], function(vent) {
+                vent.trigger("store");
+            });
 
 
             // Element might be replaced by commitment.
@@ -170,14 +175,13 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                     });
                                 },
                                 commit: function(data) {
-                                    var label = this.getValue();
-                                        //dialog = this.getDialog(), To get some values fromanother tab
-                                        //id = dialog.getContentElement("tab-adv", "id");
+                                    //Problema con i tipi complessi:
+                                    //edita tutte le label!!
+                                    /* var label = this.getValue();
 
-                                    require(["vent"], function(vent) {
-                                        vent.trigger("setControlLabel", {label: label});
-                                    });
-
+                                     require(["jquery","vent"], function($,vent) {
+                                     vent.trigger("setControlLabel", {label: label});
+                                     });*/
 
                                 }
                             },

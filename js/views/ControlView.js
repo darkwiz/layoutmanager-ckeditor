@@ -8,7 +8,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
         var ControlView = Backbone.View.extend({
 
             tagName:  "div",
-            className: "div-container",
+            //className: "div-container",
 
             getTemplate: function(model){
                          var type = model.get('elem');
@@ -16,8 +16,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                     },
             // View Event Handlers
             events: {
-                "click #resetButton": "popup",
                 "click .edit": "onEdit",
+                "click .remove": "onRemove"
             },
 
 
@@ -51,14 +51,18 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.listenTo(vent, 'removeOption', function( event ) {
                     this.model.removeOption(event.option);
                 });
+                this.listenTo(vent, 'store', function( ) {
+                    console.log("saved");
+                    this.model.save();
+                });
 
             },
 
             // Renders the view's template to the UI
             render: function() {
-                this.template = this.getTemplate(this.model);
+              /*  this.template = this.getTemplate(this.model);
 
-                this.$el.html(this.template(this.model.toJSON()));
+                this.$el.html(this.template(this.model.toJSON()));*/
 
                 this.$label = this.$('.control-label');
                 this.$control = this.$('.control-container');
@@ -78,7 +82,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.model.unbind('change:labelValue', this.updateLabel);
             },
             updateControl: function(model) {
-                var partial = Handlebars.partials[this.model.get('elem')]
+                var partial = Handlebars.partials[this.model.get('elem')];
                 this.$control.html(partial(model.toJSON()));
             },
             updateLabel: function(control) {
@@ -91,19 +95,29 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 var currentTarget = $(event.currentTarget);
                 var customValues = this._editor.config.customValues;
 
-
                 //customValues.picked.id = currentTarget.data("id");
                 customValues.picked = _.find(customValues.pins, {name: currentTarget.data("id")});
-                customValues.picked.type = currentTarget.data("type");
+                customValues.picked.control = currentTarget.data("type");
+                customValues.pin = customValues.picked;
+                this._editor.config.customValues = customValues;
 
                 vent.trigger("attach", {id: currentTarget.data("id")});
-                if (currentTarget.data("pin") == "in")
+                if (currentTarget.data("pin") == "in"){
                     this._editor.openDialog( 'pinin' );
-                else if (currentTarget.data("pin") == "out")
+                }
+                else if (currentTarget.data("pin") == "out"){
                     this._editor.openDialog( 'pinout' );
-                else
-                    this._editor.openDialog( 'pinedit' );
-            }
+                }
+                else {
+                    this._editor.openDialog('pinedit');
+                }
+
+            },
+            onRemove: function() {
+                this.model.destroy();
+        }
+
+
 
 
     });

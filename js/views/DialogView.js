@@ -26,13 +26,13 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
             initialize: function(options) {
                 _.bindAll(this); // every function that uses 'this' as the current object should be in here
 
-                this.model.on('change', this.render, this);
+                //this.model.on('change', this.render, this);
 
             },
             // Renders the view's template to the UI
             render: function() {
 
-                this.$el.html(this.template(this.model.toJSON()));
+               // this.$el.html(this.template(this.model.toJSON()));
                 //$("#"+ this.model.get("uniqueId")).attr( 'contenteditable', 'true' );
                 $('#tallModal').modal({ backdrop: 'static', keyboard: false}); // dont show modal on instantiation
 

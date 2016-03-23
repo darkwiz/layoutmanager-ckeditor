@@ -35,7 +35,9 @@
 				bodyHtml += '>';
 				var css = [
 					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
-					window.location.origin + "/editor/css/lib/magicsuggest-min.css"
+					window.location.origin + "/editor/css/lib/magicsuggest-min.css",
+					window.location.origin + "/editor/css/app.css",
+					".edit {display:none}"
 				];
 				var js = [
 					 "https://code.jquery.com/jquery-2.2.0.min.js",

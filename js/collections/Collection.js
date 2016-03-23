@@ -1,30 +1,33 @@
-define(['jquery','underscore','backbone', 'modelfactory', "models/Base"], function ($, _, Backbone, Factory, Base) {
-    return Backbone.Collection.extend({
+define(['jquery','underscore','backbone', 'localstorage', 'modelfactory', "models/Base"], function ($, _, Backbone, Store, Factory, Base) {
+    var Collection =  Backbone.Collection.extend({
         /*initialize: function(attrs, options){
-            console.log('init');
-        },*/
-       /* model: function(attrs, options) {
-            return Factory.createControl(attrs, options);
-        }*/
+         console.log('init');
+         },*/
+        /* model: function(attrs, options) {
+         return Factory.createControl(attrs, options);
+         }*/
 
         model: Base.extend({
             constructor: function (attrs, options) {
+                console.log('init:', attrs, 'opt:', options );
                 var model = Factory.createControl(attrs, options);
                 return new model(attrs, options);
-                }
-            }),
-            idAttribute: '_id'
-            /*
-            var Collection = Backbone.Collection.extend({
-                model: Backbone.Model.extend({
-                    constructor: function (attrs, options) {
-                        var model = attrs.foo ? MyFooModel : MyBarModel;
-                        return new model(attrs, options);
-                    },
+            }
+        }),
+        idAttribute: '_id',
+        localStorage: new Store('controls-backbone'),
 
-                    idAttribute: '_id' // or whatever you need
-                })
-            });*/
+        /*
+         var Collection = Backbone.Collection.extend({
+         model: Backbone.Model.extend({
+         constructor: function (attrs, options) {
+         var model = attrs.foo ? MyFooModel : MyBarModel;
+         return new model(attrs, options);
+         },
+
+         idAttribute: '_id' // or whatever you need
+         })
+         });*/
 
         // add: function(models, options){
 
@@ -40,5 +43,7 @@ define(['jquery','underscore','backbone', 'modelfactory', "models/Base"], functi
         //     return Backbone.Collection.prototype.add.call(this, models, options);
 
         // }
-        });
+    });
+
+    return new Collection();
 });

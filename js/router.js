@@ -24,7 +24,7 @@ define(["jquery", "backbone", "models/Form" ,"views/FormView"],
             initialize: function( options ) {
                 // Tells Backbone to start watching for hashchange events
                 if (!Backbone.History.started)
-                   Backbone.history.start();
+                    Backbone.history.start();
 
             },
 
@@ -33,18 +33,18 @@ define(["jquery", "backbone", "models/Form" ,"views/FormView"],
                 //"editor": "showEditor",
                 "test/*datasource": "test",
                 // When there is no hash on the url, the home method is called
-                 "": "index",
+                "": "index",
 
             },
 
-          test: function(datasource) {
-               var form = new Form({},{data_path: datasource});
-               this.view = new FormView({model: form});
-          },
-          index: function(){
-              if (this.view)
-                this.view.dispose('hide');
-              }
+            test: function(datasource) {
+                var form = new Form({},{data_path: datasource});
+                this.view = new FormView({model: form});
+            },
+            index: function(){
+                if (this.view)
+                    this.view.dispose('hide');
+            }
 
         });
 

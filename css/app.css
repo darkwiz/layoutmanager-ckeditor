@@ -1,15 +1,7 @@
-/* line 5, ../sass/app.sass */
-form {
-  border: 1px solid red;
-  display: block;
-  margin-top: 0em;
-}
-
-/* line 10, ../sass/app.sass
+/* line 10, ../sass/app.sass */
 br {
   clear: both;
 }
- */
 
 /* line 13, ../sass/app.sass */
 :disabled {
@@ -26,7 +18,6 @@ span {
 div.div-container {
   padding: 15px 15px 15px;
   margin: 0 -15px 15px;
-  border: 1px solid #e5e5e5;
   overflow: hidden;
 }
 /* line 27, ../sass/app.sass */
@@ -36,31 +27,35 @@ div.header {
   margin: 0 auto;
 }
 
-/* line 34, ../sass/app.sass */
+/* line 33, ../sass/app.sass */
 .modal.modal-wide .modal-dialog {
   width: 90%;
 }
 
-/* line 37, ../sass/app.sass */
+/* line 36, ../sass/app.sass */
 .modal-wide .modal-body {
-  overflow-y: visible;
-}
-
-.modal-footer {
-    overflow-y:visible;
+  overflow-y: auto;
 }
 
 @media (min-width: 768px) {
-  /* line 42, ../sass/app.sass */
+  /* line 41, ../sass/app.sass */
   div.div-container {
     margin-right: 0;
     margin-left: 0;
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px 4px 0 0;
   }
 }
-/* line 50, ../sass/app.sass */
+/* line 48, ../sass/app.sass */
+.btn-margin-left {
+  margin-left: 2px;
+}
+
+/* line 51, ../sass/app.sass */
+.btn-margin-right {
+  margin-right: 2px;
+}
+
+/* line 54, ../sass/app.sass */
 #loading {
   z-index: 99999;
   display: none;
@@ -72,46 +67,63 @@ div.header {
   margin: -28px 0 0 -25px;
 }
 
-/* line 60, ../sass/app.sass */
+/* line 64, ../sass/app.sass */
 .description {
   width: 33%;
   display: inline-block;
   float: left;
   background: #c2c2c2;
 }
-/* line 65, ../sass/app.sass */
+/* line 69, ../sass/app.sass */
 .description pre, .description code {
   white-space: pre-line;
   background-color: #ffffff;
 }
 
-/* line 69, ../sass/app.sass */
+/* line 73, ../sass/app.sass */
 .hrow {
   display: flex;
 }
 
-/* line 72, ../sass/app.sass */
+/* line 76, ../sass/app.sass */
 .col {
   flex: 1;
   padding: 1em;
   border: solid;
-  border-color: #FFFFFF;
+  border-color: #ffffff;
   border-radius: 0.5em;
 }
 
-/* line 79, ../sass/app.sass */
+/* line 83, ../sass/app.sass */
 .edit {
   position: absolute;
   right: 0.1em;
   top: 0.1em;
   width: 24px;
   height: 24px;
-  background-image: url('../img/pencil.png');
-  display:block;
-  cursor:pointer;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAk1BMVEUAAAAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfBJbUhZAAAAMHRSTlMAAQIFBgoLDA4aKy0zOUBNV1lcXl9hYmNkZmdoaWttd3h7oqutr7CytLe5wd7i6PUUO4Y7AAAAkUlEQVQokXXMRw7CQBQE0SaanHMecjBQ9z8di5GRvmfcy1dSS8GGn3mIknbAPuJbiJZaDwC6OR9/m770rU/Al2fZ+BR8eVif+ftvsx11OCrup5Lx+d/tzyLzs/Vlga8yv1hfZ361vinwQYFXk9T7zbpGzpe864VLUrjnvQK4JA1cbQBXD1yO96FVCVjqNCIo6QcSEx/GQZ6UkgAAAABJRU5ErkJggg==);
+  display: block;
+  cursor: pointer;
 }
 
-/* line 84, ../sass/app.sass */
+/* line 93, ../sass/app.sass */
 .edit-hidden {
+  display: none;
+}
+
+/* line 96, ../sass/app.sass */
+.remove {
+  position: absolute;
+  right: 0.1em;
+  top: 2.5em;
+  width: 24px;
+  height: 24px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAgVBMVEUAAAAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAAbfAHGl0KAAAAKnRSTlMAAQMFBgcJDEdLWFlbXF1odXeFiIuRkpSVl5itr7m6vsfIytXX4ubo6f1TzZtTAAAAr0lEQVQoz22Q1xaCQAxEZ6mKBStiwS7q/P8H+rAlAdmn5N6zJ5kAQPleGoQ3areRrVYkD8EUJJvIc3JvhFtTksoUrjsCH1eyNsLJBAuKEX4GTB26R6iuMTrGv1sMDBnH/0zgPXMXDhiZ+80Ux0T9qM0w12ba28qb2V8Oa+Yyt2PGsmcmW2+AVu2v8iSodC6z8/cEoqaT15pXDmfkDpXnQHTiRd1nzWfu61SfB6kBgB9Z7jbscyDPiwAAAABJRU5ErkJggg==);
+  display: block;
+  cursor: pointer;
+}
+
+/* line 106, ../sass/app.sass */
+.remove-hidden {
   display: none;
 }

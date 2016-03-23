@@ -95,7 +95,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
 
                     var picked = editor.config.customValues.picked;
-                    if ( picked &&  optionVal[ i ] == picked.type )
+                    if ( picked &&  optionVal[ i ] == picked.control )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -126,7 +126,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
             this.commitContent( data );
 
             require(["vent"], function(vent) {
-                vent.trigger("detach", {id: selectedPin.name});
+                vent.trigger("store");
             });
 
             // Element might be replaced by commitment.
@@ -166,11 +166,13 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 });
                             },
                             commit: function(data) {
-                                var label = this.getValue();
+                                //Problema con i tipi complessi:
+                                //edita tutte le label!!
+                                /* var label = this.getValue();
 
-                                require(["vent"], function(vent) {
-                                    vent.trigger("setControlLabel", {label: label});
-                                });
+                                 require(["jquery","vent"], function($,vent) {
+                                 vent.trigger("setControlLabel", {label: label});
+                                 });*/
 
                             }
                         } //put here other children

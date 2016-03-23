@@ -11,6 +11,7 @@ define(["handlebars",
     "text!templates/input-list.html",
     "text!templates/span.html",
     "text!templates/edit-control.html",
+    "text!templates/remove-control.html",
     "text!templates/soggetto.html", //Rename single-soggetto
     "text!templates/object.html",  //Rename single-obj
     "text!templates/document.html",
@@ -19,7 +20,7 @@ define(["handlebars",
     "text!templates/cartella.html",
     "text!templates/single-simple.html"
 ], function(Handlebars, label, input, textarea, date, spanDate, spanLink,  inputAlt, inputCheckbox, inputList,
-            span, editControl, soggetto, object, document, classifica, fascicolo, cartella,  singleSimple){
+            span, editControl, removeControl, soggetto, object, document, classifica, fascicolo, cartella,  singleSimple){
     "use strict";
 
     //Templates
@@ -34,6 +35,7 @@ define(["handlebars",
 
     //Partials
     Handlebars.registerPartial('edit-control', editControl);
+    Handlebars.registerPartial('remove-control', removeControl);
     Handlebars.registerPartial('label', label);
     Handlebars.registerPartial('span', span);
     Handlebars.registerPartial('span-date', spanDate);

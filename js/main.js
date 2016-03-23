@@ -6,6 +6,7 @@ requirejs.config({
         "jquery.ui": "lib/jquery-ui.min",
         "underscore": "lib/lodash-min",
         "backbone": "lib/backbone.min",
+        "localstorage": "lib/backbone.localStorage-min",
         "text": "lib/text",
         "domReady":"lib/domready",
         "handlebars":"lib/handlebars",
