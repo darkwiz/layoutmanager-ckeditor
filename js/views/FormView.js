@@ -44,12 +44,11 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
             _setEditorCollection: function() {
 
                 this._editor = CKEDITOR.instances.mycanvas;
+                var range = this._editor.createRange();
+                range.selectNodeContents( this._editor.document.getById( 'content' ) );
 
-
+                this._editor.getSelection().selectRanges( [ range ] );
                     Collection.each(function(value) {
-                        this._editor.execCommand("12");
-                        var content = this._editor.document.getElementById( 'content' );
-                        this.$content = $(content.$);
                         this.appview.addRow.call(this.appview, value);
                     }.bind(this));
 

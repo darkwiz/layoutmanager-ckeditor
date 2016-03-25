@@ -96,15 +96,25 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
             },
             addRow: function(control){
                 this._editor = CKEDITOR.instances.mycanvas;
-                this._editor.focus();
-                var content = this._editor.document.getById( 'content' );
+
                 this._viewPointers[control.get("_id")] = new ControlView({model: control});
 
                 this.template = this.getTemplate(control);
+                var bookmarks = this._editor.getSelection().createBookmarks2();
+                this._editor.execCommand("12");
 
-                this.$content = $(content.$);
+                this._editor.getSelection().selectBookmarks( bookmarks );
 
-                //this.$content.append(this.template(control.toJSON()));
+                var ranges = this._editor.getSelection().getCommonAncestor( );
+                ranges = ranges.getLast();
+                //this._editor.getSelection().selectRanges( ranges );
+                /* console.log( ranges.length );
+                ranges[0].moveToElementEditablePosition( this._editor.document.getElementsByTag( 'p' )[0] );
+                ranges[0].select();*/
+                //this._editor.insertText( 'FOO' );
+                this.$content = $(ranges.$);
+
+                this.$content.append(this.template(control.toJSON()));
                 //this.$el.html(view.render().el); view.render returns this, so this.el refers to the div-container appended
 
                 this.assign(this._viewPointers[control.get("_id")], '.div-container');
