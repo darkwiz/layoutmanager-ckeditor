@@ -41,7 +41,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 //this._editor.focus();
                 //this.setElement(this.getEditorInstanceName().$);
                 // This will be called when an item is added. pushed or unshift
-                this.collection.on('add', this.addOne, this);
+                this.collection.on('add', this.addRow, this);
                 // This will be called when an item is removed, popped or shifted
                 this.collection.on('remove',  this.removeOne, this);
                 // This will be called when an item is updated
@@ -65,11 +65,13 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
 
             },
             addModelToCollection: function(evdata) {
+                console.log("changed:");
                 var model = this.collection.get(evdata.PIN.name);
                 if (model){
                     this.collection.remove(model)
                 }
-                this.collection.add({_id: evdata.PIN.name},  evdata );
+                model = this.collection.add({_id: evdata.PIN.name},  evdata );
+                console.log("changed:", model.toJSON());
             },
 
             addOne: function(control){
@@ -95,46 +97,56 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 return this;
             },
             addRow: function(control){
-                this._editor = CKEDITOR.instances.mycanvas;
+                this._editor = $('#mycanvas').ckeditorGet();
+                //this._editor = CKEDITOR.instances.mycanvas;
+                var index = this.collection.indexOf(control);
+                var range = this._editor.createRange();
+                console.log("changed add:", control.toJSON());
+                this._viewPointers[control.get('_id')] = new ControlView({model: control});
+                //this.assign(view, '.div-container');
+                this.$el.append(this._viewPointers[control.get('_id')].render().el);
+                //this.appview.$content = this._frame.find('.div-container').get(index) ;
 
-                this._viewPointers[control.get("_id")] = new ControlView({model: control});
+                range.selectNodeContents( this._editor.document.find( '.div-container' ).getItem(index) );
+                this._editor.getSelection().selectRanges( [ range ] );
 
-                this.template = this.getTemplate(control);
                 var bookmarks = this._editor.getSelection().createBookmarks2();
                 this._editor.execCommand("12");
-
                 this._editor.getSelection().selectBookmarks( bookmarks );
+                this.setEditableContent();
 
-                var ranges = this._editor.getSelection().getCommonAncestor( );
-                ranges = ranges.getLast();
-                //this._editor.getSelection().selectRanges( ranges );
-                /* console.log( ranges.length );
-                ranges[0].moveToElementEditablePosition( this._editor.document.getElementsByTag( 'p' )[0] );
-                ranges[0].select();*/
-                //this._editor.insertText( 'FOO' );
-                this.$content = $(ranges.$);
-
+                //this._viewPointers[control.get("id")] = new ControlView({model: control});
+                this.template = this.getTemplate(control);
                 this.$content.append(this.template(control.toJSON()));
-                //this.$el.html(view.render().el); view.render returns this, so this.el refers to the div-container appended
-
-                this.assign(this._viewPointers[control.get("_id")], '.div-container');
+                //this.assign(this._viewPointers[control.get("id")], '.div-container');
 
                 if(control.has("childModels")){
                     // this.$scripts = $(".cke_contents"); //.cke_contents
                     this.addAllChildModels(control)
                 }
-                //this.setElement(this.getEditorInstanceName());
+                //this.setElement(this.$content.closest('div'));
                 return this;
             },
             assign : function (view, selector) {
                 view.setElement(this.$(selector)).render();
             },
+            setEditableContent: function () {
+                if (this._editor.getSelection().getStartElement()){
+                    var editable = this._editor.getSelection().getStartElement().find('p').getItem(0);
+                    console.log(editable.getName()); //widget editable area name: (<p></p>)
+                    this.$content = $(editable.$);
+                } else {
+                    console.log(this.$content);
+                }
+            },
             removeOne: function(control) {
-                this._viewPointers[control.id].close();
+                if (this._viewPointers.length > 0) {
+                    this._viewPointers[control.get('_id')].close();
 
-                if(control.has("childModels")){
-                    var scripts = control.get("childModels");
-                    scripts.each( _.bind( this.removeSubModel, this ));
+                    if(control.has("childModels")){
+                        var scripts = control.get("childModels");
+                        scripts.each( _.bind( this.removeSubModel, this ));
+                    }
                 }
             },
             updateOne: function(control) {

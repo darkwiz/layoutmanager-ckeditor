@@ -42,7 +42,7 @@ div.header {
   div.div-wrapper {
     margin-right: 0;
     margin-left: 0;
-    background-color: #fff;
+    background-color: white;
   }
 }
 /* line 48, ../sass/app.sass */
@@ -77,7 +77,7 @@ div.header {
 /* line 69, ../sass/app.sass */
 .description pre, .description code {
   white-space: pre-line;
-  background-color: #ffffff;
+  background-color: white;
 }
 
 /* line 73, ../sass/app.sass */
@@ -90,7 +90,7 @@ div.header {
   flex: 1;
   padding: 1em;
   border: solid;
-  border-color: #ffffff;
+  border-color: white;
   border-radius: 0.5em;
 }
 

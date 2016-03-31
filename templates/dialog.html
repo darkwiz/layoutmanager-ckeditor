@@ -9,7 +9,7 @@
       </div>
       <div class="modal-body">
               <!-- Modal body -->
-            <textarea id="mycanvas" class="container-fluid" contenteditable="true">
+            <textarea id="mycanvas" class="container-fluid" >
               <form action='complete' method='POST' enctype='multipart/form-data' id="formInvio" class='form-horizontal'>
 
                 <div class="row" id="form-header">
@@ -30,7 +30,7 @@
                     </div>
                   </div>
                 </div>
-                <div id="content">Contenuto</div>
+                <div id="content">&nbsp</div>
                 <div class="row">
                   <div class="col-md-12 initial">
                     <div class="layoutmanager">&nbsp;</div>
@@ -56,7 +56,9 @@
 
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn btn-default load">Load Form</a>
+        <a type="button" class="btn btn-default btn-success load" href="#">
+          Load Form
+        </a>
         <a href="#" class="btn btn-default">Close</a>
         <!-- <button type="button" class="btn btn-default" >Close</button> -->
         <!-- <button type="button" class="btn btn-primary">Save changes</button> -->

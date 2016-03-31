@@ -16,8 +16,8 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
 
         var DialogView = Backbone.View.extend({
 
-            tagName:"div",
-            className:"form-container",
+            //tagName:"div",
+            //className:"form-container",
 
             template: Handlebars.compile(template),
 
@@ -34,6 +34,7 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
 
                // this.$el.html(this.template(this.model.toJSON()));
                 //$("#"+ this.model.get("uniqueId")).attr( 'contenteditable', 'true' );
+                //$("#mycanvas").attr( 'contenteditable', 'true' );
                 $('#tallModal').modal({ backdrop: 'static', keyboard: false}); // dont show modal on instantiation
 
                 $(".modal-wide").on("show.bs.modal", function() {

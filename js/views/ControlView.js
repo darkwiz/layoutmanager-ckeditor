@@ -8,7 +8,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
         var ControlView = Backbone.View.extend({
 
             tagName:  "div",
-            //className: "div-container",
+            className: "div-container",
 
             getTemplate: function(model){
                          var type = model.get('elem');
@@ -24,7 +24,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             // View constructor
             initialize: function(options) {
                 _.bindAll(this); // every function that uses 'this' as the current object should be in here
-
+               
                 this._editor = CKEDITOR.instances.mycanvas;
                 //this._editor = options._editor;
                 this.model.on('update', this.update, this);
