@@ -14,7 +14,8 @@ requirejs.config({
         "ckeditor.jquery": "lib/ckeditor/adapters/jquery",
         "templates":"../templates",
         "plugin":"lib/ckeditor/plugins/rceditor",
-        "magic": "lib/magicsuggest-min"
+        "magic": "lib/magicsuggest-min",
+        "logger": "lib/logger"
 },
     shim: {
         "jquery.bootstrap": {
@@ -32,9 +33,10 @@ requirejs.config({
     urlArgs: "bust=" +  (new Date()).getTime() //remove in production!!!
 });
 
-requirejs(["app", "jquery.bootstrap","domReady!", "magic"], function(App) {
+requirejs(["app", "logger", "jquery.bootstrap","domReady!", "magic"], function(App, Logger) {
 
     App.init();
+    Logger.useDefaults(); //Logger.OFF
 
     //async module loading -- OLD
     // require(['appconfig'], function(config){

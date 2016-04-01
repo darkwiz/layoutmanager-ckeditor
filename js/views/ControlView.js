@@ -1,7 +1,7 @@
 // ControlView.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "vent"],
+define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "vent", "logger"],
 
-    function($, _, Backbone, Handlebars, Templates, vent){
+    function($, _, Backbone, Handlebars, Templates, vent, Logger){
 
         "use strict";
 
@@ -30,8 +30,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.model.on('update', this.update, this);
                 this.model.on('change:elementValues', this.updateControl, this);
                 this.model.on('change:labelValue', this.updateLabel, this);
-                //questo viene fatto in automatico
-                //this.$el = $(this.el);
 
                 this.listenTo(vent, 'setContainerClass', function( event ) {
                     this.model.setContainerClass(event.selected);
@@ -40,25 +38,17 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                     this.model.setControlLabel(event.label);
                 });
                 this.listenTo(vent,'loadFascicoli', function( event ) {
-                    console.log("fired", event.urlTitolario);
-                    console.log(this.model.toJSON());
+                    Logger.debug("Fired:", event.urlTitolario);
+                    Logger.debug("Model:",this.model.toJSON());
                     event.promise = this.model.loadFascicoli(event.urlTitolario);
                 });
                 this.listenTo(vent, 'addOption', function( event ) {
-                    console.log(this.model.toJSON());
                     this.model.addOption(event.option);
                 });
                 this.listenTo(vent, 'removeOption', function( event ) {
                     this.model.removeOption(event.option);
                 });
-                this.listenTo(vent, 'store', function( ) {
-                    console.log("saved");
-                    this.model.save();
-                });
-
             },
-
-            // Renders the view's template to the UI
             render: function() {
               /*  this.template = this.getTemplate(this.model);
 
@@ -86,12 +76,12 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.$control.html(partial(model.toJSON()));
             },
             updateLabel: function(control) {
-                console.log(this.$label[0])
+                Logger.info(this.$label[0]);
                 if(this.$label[0])
                     this.$label.html(control.get("labelValue"));
             },
             onEdit: function(event) {
-                console.log("clicked");
+                Logger.info("clicked");
                 var currentTarget = $(event.currentTarget);
                 var customValues = this._editor.config.customValues;
 
@@ -100,25 +90,31 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 customValues.picked.control = currentTarget.data("type");
                 customValues.pin = customValues.picked;
                 this._editor.config.customValues = customValues;
-
                 vent.trigger("attach", {id: currentTarget.data("id")});
                 if (currentTarget.data("pin") == "in"){
-                    this._editor.openDialog( 'pinin' );
+                    this._editor.openDialog( 'pinin' ); //2nd arg callback
                 }
                 else if (currentTarget.data("pin") == "out"){
                     this._editor.openDialog( 'pinout' );
                 }
                 else {
-                    this._editor.openDialog('pinedit');
+                    /* workaround overlay
+                    la class della dialog è cke_dialog
+                    
+                    this._editor.on('pinedit', function (pineditShowEvent) {
+
+                        pineditShowEvent.data[0].element.$.style.zIndex += 10;
+
+                    });*/
+                    this._editor.openDialog( 'pinedit' );
                 }
 
             },
             onRemove: function() {
+                Logger.debug("destroyed");
                 this.model.destroy();
         }
-
-
-
+            
 
     });
 

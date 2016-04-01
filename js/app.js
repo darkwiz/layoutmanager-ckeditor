@@ -25,9 +25,9 @@ return {
 
         Backbone.View.prototype.close = function(){ //remove zombie views
             if(this.model)
-                console.log("removed view w/ model:", this.model.toJSON());
+                //console.log("removed view w/ model:", this.model.toJSON());
             if(this.collection)
-                console.log("removed view w/ collection:", this.collection.toJSON());
+                //console.log("removed view w/ collection:", this.collection.toJSON());
             this.remove();
             this.unbind();
             if (this.onClose){
@@ -91,7 +91,7 @@ return {
         url: config.url,
         type: 'GET',
         contentType: 'application/json',
-        dataTBackbonype: 'json'
+        dataType: 'json'
       })
       .done(function(response) {
        if( response !== null ){

@@ -1,8 +1,8 @@
 // View.js
 define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
-    "views/ControlView", "views/ScriptView", "collections/Collection", "vent", "templates/templates",],
+    "views/ControlView", "views/ScriptView", "collections/Collection", "vent", "templates/templates","logger"],
 
-    function($, _, Backbone, Handlebars, templates, ControlView, ScriptView, Collection, vent, Templates){
+    function($, _, Backbone, Handlebars, templates, ControlView, ScriptView, Collection, vent, Templates, Logger){
         "use strict";
 
         var View = Backbone.View.extend({
@@ -45,7 +45,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 // This will be called when an item is removed, popped or shifted
                 this.collection.on('remove',  this.removeOne, this);
                 // This will be called when an item is updated
-                // var self = this;
                 this.collection.on('change', this.updateOne, this);
                 //chiamato una volta on init
                 this._viewPointers = {};
@@ -65,13 +64,12 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
 
             },
             addModelToCollection: function(evdata) {
-                console.log("changed:");
+                console.log("Changed PIN:", evdata.PIN.name);
                 var model = this.collection.get(evdata.PIN.name);
                 if (model){
                     this.collection.remove(model)
                 }
-                model = this.collection.add({_id: evdata.PIN.name},  evdata );
-                console.log("changed:", model.toJSON());
+                this.collection.add({_id: evdata.PIN.name},  evdata );
             },
 
             addOne: function(control){
@@ -100,25 +98,26 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 this._editor = $('#mycanvas').ckeditorGet();
                 //this._editor = CKEDITOR.instances.mycanvas;
                 var index = this.collection.indexOf(control);
-                var range = this._editor.createRange();
-                console.log("changed add:", control.toJSON());
-                this._viewPointers[control.get('_id')] = new ControlView({model: control});
-                //this.assign(view, '.div-container');
-                this.$el.append(this._viewPointers[control.get('_id')].render().el);
-                //this.appview.$content = this._frame.find('.div-container').get(index) ;
 
-                range.selectNodeContents( this._editor.document.find( '.div-container' ).getItem(index) );
+                var range = this._editor.createRange();
+
+                this._viewPointers[control.id] = new ControlView({model: control});
+                //this.assign(view, '.div-container');
+                this.$el.append(this._viewPointers[control.id].render().el);
+
+                var container = this._editor.document.find( '.div-container' ).getItem(index); //TODO: risolvere il problema dell'index
+                range.selectNodeContents( container );
                 this._editor.getSelection().selectRanges( [ range ] );
 
-                var bookmarks = this._editor.getSelection().createBookmarks2();
+                var selection = this._editor.getSelection();
+                var bookmarks = selection.createBookmarks2(true);
                 this._editor.execCommand("12");
-                this._editor.getSelection().selectBookmarks( bookmarks );
+                selection.getRanges().moveToBookmarks( bookmarks );
                 this.setEditableContent();
 
-                //this._viewPointers[control.get("id")] = new ControlView({model: control});
                 this.template = this.getTemplate(control);
                 this.$content.append(this.template(control.toJSON()));
-                //this.assign(this._viewPointers[control.get("id")], '.div-container');
+                this.assign(this._viewPointers[control.id], '.div-container');
 
                 if(control.has("childModels")){
                     // this.$scripts = $(".cke_contents"); //.cke_contents
@@ -176,6 +175,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 }
             },
             attach: function (data){
+                Logger.debug("Data:", data);
                 this._viewPointers[data.id].delegateEvents();
                 //trovare un modo per effettuare il bind fra la model e la view riguardo ai vari listen to
             },

@@ -1,9 +1,9 @@
 // FormView.js
 //Cannot add Router to modules invoke..circular deps
 define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.html", "appconfig","views/View",
-        "views/DialogView", "collections/Collection", "views/ControlView"],
+        "views/DialogView", "collections/Collection", "logger"],
 
-    function($, _, Backbone, Handlebars, template, config, View, DialogView, Collection, ControlView){
+    function($, _, Backbone, Handlebars, template, config, View, DialogView, Collection, Logger){
 
         "use strict";
 
@@ -18,7 +18,9 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
 
 
             events: {
-                "click .load": "_setEditorCollection"
+                "click .load": "loadForm",
+                "click .store": "storeForm",
+                "click .clear": "clearForm"
             },
 
             // View constructor
@@ -31,16 +33,31 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
 
 
             },
+            storeForm: function (e) {
+                e.preventDefault();
+                var i = 0;
+                Collection.each(function (control) {
+                    control.save();
+                    i++;
+                });
+                Logger.debug(i+' elementi sono stati salvati ');
+            },
+            clearForm: function (e) { //unused
+                e.preventDefault();
+                //_.invoke(Collection.completed(), 'destroy');
+                Collection.each(function (control) {
+                    control.destroy();
+                });
+                Logger.debug('Contenuto local storage:', window.localStorage);
+                return false;
+
+
+            },
             load: function() {
                 this.appview = new View({collection: Collection});
                 this.appview.setElement(this._frame.find('#content'));
             },
-            _createAppView: function() {
-                //this._editor = this.ckeditor;
-                this._frame = $(this._editor.window.getFrame().$).contents();
-                Collection.fetch({reset: true});
-            },
-            _setEditorCollection: function(e) {
+            loadForm: function(e) {
                 e.preventDefault();
                 //var editor = $('#mycanvas').ckeditorGet();
                 //this._editor = CKEDITOR.instances.mycanvas;
@@ -48,13 +65,15 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/dialog.
                 Collection.each(function(value) {
 
                     this.appview.addRow.call(this.appview, value);
-
+                    //this.appview.addRow(value);
                 }.bind(this));
 
-
-
+                Logger.debug('Contenuto local storage:', window.localStorage);
             },
-
+            _createAppView: function() {
+                this._frame = $(this._editor.window.getFrame().$).contents();
+                Collection.fetch({reset: true});
+            },
             render: function() {
                 var filtered = this.dform.then(
                     this._prepareDialog.bind(this)

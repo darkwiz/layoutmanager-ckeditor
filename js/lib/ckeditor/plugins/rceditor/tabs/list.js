@@ -1,4 +1,4 @@
-define(function() {
+define(function() { //Unused: modular tab, require further testing
     var editor,
         self;
     return [

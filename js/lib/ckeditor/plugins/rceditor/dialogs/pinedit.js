@@ -27,7 +27,7 @@
             require(['utils'], function(utils){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
-                console.log(selectedPin);
+               
 
 
                 switch(selectedPin.type)
@@ -122,10 +122,7 @@
            // if (editor._model)
 
                 this.commitContent( data );
-
-            require(["vent"], function(vent) {
-                vent.trigger("store");
-            });
+            
            // else
               //  alert( 'Nessun controllo è stato scelto');
 
@@ -201,7 +198,7 @@
                                             config = editor.config.customValues,
                                             selectedPin = config.picked ? config.picked : config.pin;
 
-                                        console.log("Selected PIN: " + selectedPin.name );
+                                        //console.log("Selected PIN: " + selectedPin.name );
                                         vent.trigger('changeElement',{
                                             type: selected,
                                             PIN: selectedPin
@@ -273,7 +270,7 @@
                                     });
                                 },
                                 setup: function( name ) {
-                                    console.log("setup")
+                                    
                                     if ( name == 'clear' )
                                         removeAllOptions( this );
                                 },
@@ -292,7 +289,7 @@
                                         dialog = this.getDialog(),
                                         selectValue = dialog.getContentElement('tab-lookup', 'sourceVal');
 
-                                    console.log(selectValue.isVisible());
+                                    
                                     if(selectValue.isVisible() && selectValue.getValue() == "url" ){
                                         require(["vent"], function(vent) {
                                             vent.trigger('setUrl', {url: url});
@@ -380,7 +377,7 @@
                                                 iIndex = utils.getSelectedIndex(values);
 
                                             if (iIndex >= 0) {
-                                                console.log(iIndex);
+                                                
                                                 vent.trigger('removeOption', {option: iIndex});
                                                 utils.removeSelectedOptions(values);
                                             }
@@ -451,7 +448,7 @@
                                             values = dialog.getContentElement('tab-list', 'cmbValue');
                                         utils.addOption(values, optValue.getValue(), optValue.getValue(), editor.document);
 
-                                        console.log(optValue.getValue());
+                                        //console.log(optValue.getValue());
                                         vent.trigger('addOption', {option: optValue.getValue()});
                                         optValue.setValue('');
                                     });
@@ -476,7 +473,7 @@
                                             iIndex = utils.getSelectedIndex(values);
 
                                             if (iIndex >= 0) {
-                                                console.log(iIndex);
+                                                
 
                                                 vent.trigger('removeOption', {option: iIndex});
 
@@ -534,7 +531,7 @@
                                             vent.trigger("loadFascicoli", args);
 
                                             args.promise.done(function( data ) {
-                                                console.log(data);
+                                                
 
                                                 for (var i in data.titolario) {
                                                     utils.addOption(cmbTitolari, data.titolario[i], data.titolario[i], editor.document);

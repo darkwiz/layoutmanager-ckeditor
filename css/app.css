@@ -94,8 +94,9 @@ div.header {
   border-radius: 0.5em;
 }
 
-/* line 83, ../sass/app.sass */
-.edit {
+/* Remove/edit html control */
+/* line 86, ../sass/app.sass */
+span.edit {
   position: absolute;
   right: 0.1em;
   top: 0.1em;
@@ -105,14 +106,12 @@ div.header {
   display: block;
   cursor: pointer;
 }
-
-/* line 93, ../sass/app.sass */
-.edit-hidden {
+/* line 98, ../sass/app.sass */
+span.edit-hidden {
   display: none;
 }
-
-/* line 96, ../sass/app.sass */
-.remove {
+/* line 100, ../sass/app.sass */
+span.remove {
   position: absolute;
   right: 0.1em;
   top: 2.5em;
@@ -122,8 +121,7 @@ div.header {
   display: block;
   cursor: pointer;
 }
-
-/* line 106, ../sass/app.sass */
-.remove-hidden {
+/* line 112, ../sass/app.sass */
+span.remove-hidden {
   display: none;
 }

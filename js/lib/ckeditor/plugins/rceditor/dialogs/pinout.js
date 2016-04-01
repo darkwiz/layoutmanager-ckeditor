@@ -124,10 +124,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
 
 
             this.commitContent( data );
-
-            require(["vent"], function(vent) {
-                vent.trigger("store");
-            });
+            
 
             // Element might be replaced by commitment.
             // if ( !isInsertMode )
@@ -197,8 +194,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         config = editor.config.customValues,
                                         selectedPin = config.picked ? config.picked : config.pin;
-
-                                    console.log("Selected PIN: " + selectedPin.name );
+                                    
                                     vent.trigger('changeElement',{
                                         type: selected,
                                         PIN: selectedPin
@@ -270,7 +266,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     });
                                 },
                                 setup: function( name ) {
-                                    console.log("setup")
+                                    
                                     if ( name == 'clear' )
                                         removeAllOptions( this );
                                 },
@@ -289,7 +285,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                         dialog = this.getDialog(),
                                         selectValue = dialog.getContentElement('tab-lookup', 'sourceVal');
 
-                                    console.log(selectValue.isVisible());
+                                  
                                     if(selectValue.isVisible() && selectValue.getValue() == "url" ){
                                         require(["vent"], function(vent) {
                                             vent.trigger('setUrl', {url: url});
@@ -377,7 +373,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                                 iIndex = utils.getSelectedIndex(values);
 
                                             if (iIndex >= 0) {
-                                                console.log(iIndex);
+                                                
                                                 vent.trigger('removeOption', {option: iIndex});
                                                 utils.removeSelectedOptions(values);
                                             }
@@ -448,7 +444,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                             values = dialog.getContentElement('tab-list', 'cmbValue');
                                         utils.addOption(values, optValue.getValue(), optValue.getValue(), editor.document);
 
-                                        console.log(optValue.getValue());
+                                     
                                         vent.trigger('addOption', {option: optValue.getValue()});
                                         optValue.setValue('');
                                     });
@@ -473,7 +469,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                             iIndex = utils.getSelectedIndex(values);
 
                                             if (iIndex >= 0) {
-                                                console.log(iIndex);
+                                                
 
                                                 vent.trigger('removeOption', {option: iIndex});
 
@@ -504,7 +500,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     var dialog = this.getDialog(),
                                         editor = dialog.getParentEditor(),
                                         urlTitolario = dialog.getContentElement('tab-fascicolo', 'fascicolo-titolario');
-                                    console.log(urlTitolario.isVisible());
+                                    
                                     if (urlTitolario.isVisible() && !urlTitolario.getValue()) {
                                         alert("Scegli un Url per il titolario!")
                                         return false;
@@ -528,7 +524,6 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
                     //var control = editor._collection.remove(editor._model);
-                    //console.log(control.toJSON());
                     // alert( 'Clicked: ' + this.id );
                 }
             } ]

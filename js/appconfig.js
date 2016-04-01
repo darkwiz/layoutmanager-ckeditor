@@ -10,7 +10,7 @@ define(function () {
                         customValues: {
                           pins: [],
                           props: {},
-                          picked: "" //non usato al momento
+                          picked: {}
                         },
                         startupFocus : true
                     }

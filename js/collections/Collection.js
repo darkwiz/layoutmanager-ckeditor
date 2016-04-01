@@ -9,13 +9,23 @@ define(['jquery','underscore','backbone', 'localstorage', 'modelfactory', "model
 
         model: Base.extend({
             constructor: function (attrs, options) {
-                console.log('init:', attrs, 'opt:', options );
+                //console.log('init:', attrs, 'opt:', options );
                 var model = Factory.createControl(attrs, options);
                 return new model(attrs, options);
             }
         }),
         idAttribute: '_id',
         localStorage: new Store('controls-backbone'),
+        parse: function(resp, xhr) {
+            for (var i = 0, length = resp.length; i < length; i++) {
+                var model = this.find(resp[i]._id);
+                if (!model && !resp[i].id) {
+                    resp[i].id = resp[i]._id;
+                }
+            }
+
+            return resp;
+        }
 
         /*
          var Collection = Backbone.Collection.extend({

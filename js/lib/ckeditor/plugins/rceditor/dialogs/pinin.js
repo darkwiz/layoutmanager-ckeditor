@@ -29,7 +29,6 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
             require(['utils'], function(utils){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
-                    console.log(selectedPin);
 
                 switch(selectedPin.type)
                 {
@@ -133,10 +132,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
 
             this.commitContent( data );
-
-            require(["vent"], function(vent) {
-                vent.trigger("store");
-            });
+            
 
 
             // Element might be replaced by commitment.
@@ -207,9 +203,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         config = editor.config.customValues,
                                         selectedPin = config.picked ? config.picked : config.pin;
-
-
-                                    console.log("Selected PIN: " + selectedPin.name );
+                                    
 
                                     vent.trigger('changeElement',{
                                             type: selected,
@@ -270,7 +264,6 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         //TODO: La remove va fatta cliccando sulla x dell'elemento che ha un riferimento
                         editor.fire('removeElement', {selected: selected});
                         //var control = editor._collection.remove(editor._model);
-                        console.log(control);
                         // alert( 'Clicked: ' + this.id );
                          }
                     } ]
