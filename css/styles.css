@@ -367,8 +367,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url(/fonts/bootstrap/glyphicons-halflings-regular.eot?1459782878);
-  src: url(/fonts/bootstrap/glyphicons-halflings-regular.eot?&1459782878#iefix) format("embedded-opentype"), url(/fonts/bootstrap/glyphicons-halflings-regular.woff2?1459782878) format("woff2"), url(/fonts/bootstrap/glyphicons-halflings-regular.woff?1459782878) format("woff"), url(/fonts/bootstrap/glyphicons-halflings-regular.ttf?1459782878) format("truetype"), url(/fonts/bootstrap/glyphicons-halflings-regular.svg?1459782878#glyphicons_halflingsregular) format("svg");
+  src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot");
+  src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
 }
 /* line 24, ../../.rvm/gems/ruby-2.2.1@compass/gems/bootstrap-sass-3.3.6/assets/stylesheets/bootstrap/_glyphicons.scss */
 .glyphicon {
@@ -8791,64 +8791,64 @@ button.close {
     display: none !important;
   }
 }
-/* line 17, ../sass/styles.scss */
+/* line 16, ../sass/styles.scss */
 br {
   clear: both;
 }
 
-/* line 21, ../sass/styles.scss */
+/* line 20, ../sass/styles.scss */
 :disabled {
   cursor: not-allowed;
 }
 
-/* line 25, ../sass/styles.scss */
+/* line 24, ../sass/styles.scss */
 span {
   padding-top: 7px;
   margin-bottom: 0;
 }
 
-/* line 31, ../sass/styles.scss */
+/* line 30, ../sass/styles.scss */
 div.div-wrapper {
   padding: 15px 15px 15px;
   margin: 0 -15px 15px;
   overflow: hidden;
 }
-/* line 37, ../sass/styles.scss */
+/* line 36, ../sass/styles.scss */
 div.header {
   text-align: center;
   height: auto;
   margin: 0 auto;
 }
 
-/* line 44, ../sass/styles.scss */
+/* line 43, ../sass/styles.scss */
 .modal.modal-wide .modal-dialog {
   width: 90%;
 }
 
-/* line 48, ../sass/styles.scss */
+/* line 47, ../sass/styles.scss */
 .modal-wide .modal-body {
   overflow-y: auto;
 }
 
 @media (min-width: 768px) {
-  /* line 54, ../sass/styles.scss */
+  /* line 53, ../sass/styles.scss */
   div.div-wrapper {
     margin-right: 0;
     margin-left: 0;
     background-color: white;
   }
 }
-/* line 65, ../sass/styles.scss */
+/* line 64, ../sass/styles.scss */
 .btn-margin-left {
   margin-left: 2px;
 }
 
-/* line 69, ../sass/styles.scss */
+/* line 68, ../sass/styles.scss */
 .btn-margin-right {
   margin-right: 2px;
 }
 
-/* line 73, ../sass/styles.scss */
+/* line 72, ../sass/styles.scss */
 #loading {
   z-index: 99999;
   display: none;
@@ -8860,25 +8860,25 @@ div.header {
   margin: -28px 0 0 -25px;
 }
 
-/* line 84, ../sass/styles.scss */
+/* line 83, ../sass/styles.scss */
 .description {
   width: 33%;
   display: inline-block;
   float: left;
   background: #c2c2c2;
 }
-/* line 89, ../sass/styles.scss */
+/* line 88, ../sass/styles.scss */
 .description pre, .description code {
   white-space: pre-line;
   background-color: white;
 }
 
-/* line 95, ../sass/styles.scss */
+/* line 94, ../sass/styles.scss */
 .hrow {
   display: flex;
 }
 
-/* line 99, ../sass/styles.scss */
+/* line 98, ../sass/styles.scss */
 .col {
   flex: 1;
   padding: 1em;
@@ -8888,7 +8888,7 @@ div.header {
 }
 
 /* Remove/edit html control */
-/* line 109, ../sass/styles.scss */
+/* line 108, ../sass/styles.scss */
 span.edit {
   position: absolute;
   right: 0.1em;
@@ -8899,11 +8899,11 @@ span.edit {
   display: block;
   cursor: pointer;
 }
-/* line 123, ../sass/styles.scss */
+/* line 122, ../sass/styles.scss */
 span.edit-hidden {
   display: none;
 }
-/* line 126, ../sass/styles.scss */
+/* line 125, ../sass/styles.scss */
 span.remove {
   position: absolute;
   right: 0.1em;
@@ -8914,7 +8914,7 @@ span.remove {
   display: block;
   cursor: pointer;
 }
-/* line 140, ../sass/styles.scss */
+/* line 139, ../sass/styles.scss */
 span.remove-hidden {
   display: none;
 }
