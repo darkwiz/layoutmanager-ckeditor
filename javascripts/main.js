@@ -33,6 +33,15 @@ requirejs.config({
     urlArgs: "bust=" +  (new Date()).getTime() //remove in production!!!
 });
 
+requirejs.onError = function (err) {
+    console.log(err.requireType);
+    if (err.requireType === 'timeout') {
+        console.log('modules: ' + err.requireModules);
+    }
+
+    throw err;
+};
+
 requirejs(["app", "logger", "jquery.bootstrap","domReady!", "magic"], function(App, Logger) {
 
     App.init();

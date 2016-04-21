@@ -1,5 +1,5 @@
 // ControlView.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "vent", "logger"],
+define(["jquery", "underscore", "backbone", "handlebars", "templates/templates", "vent", "logger"],
 
     function($, _, Backbone, Handlebars, Templates, vent, Logger){
 

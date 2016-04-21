@@ -1,6 +1,6 @@
 // View.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
-    "views/ControlView", "views/ScriptView", "collections/Collection", "../vent", "templates/templates","logger"],
+define(["jquery", "underscore", "backbone", "handlebars", "templates/templates",
+    "views/ControlView", "views/ScriptView", "collections/Collection", "vent", "templates/templates","logger"],
 
     function($, _, Backbone, Handlebars, templates, ControlView, ScriptView, Collection, vent, Templates, Logger){
         "use strict";
@@ -99,15 +99,15 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 this._editor = $('#mycanvas').ckeditorGet();
                 //this._editor = CKEDITOR.instances.mycanvas;
                // var index = this.collection.indexOf(control);
-
+                console.log(control);
                 var range = this._editor.createRange();
 
-                if( !this._viewPointers[control.id] ){
+
                     this._viewPointers[control.id] = new ControlView({model: control});
                     //this.$el.append(this._viewPointers[control.id].render().el);
-                    var container_tpl = Handlebars.compile('<div id="{{this}}" ></div>');
-                    this.$el.append(container_tpl(control.id));
-                }
+                    var container_tpl = Handlebars.compile('<div id="{{id}}" ></div>');
+                    this.$el.append(container_tpl(control));
+
                 //this._viewPointers[control.id].$el.get(0)
                 var container = this._editor.document.getById( control.id );
 
@@ -140,19 +140,20 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
             setEditableContent: function () {
                 if (this._editor.getSelection().getStartElement()){
                     var editable = this._editor.getSelection().getStartElement().find('p').getItem(0);
-                    console.log(editable.getName()); //widget editable area name: (<p></p>)
+                    //console.log(editable.getName()); //widget editable area name: (<p></p>)
                     this.$content = $(editable.$);
+                    console.log(this.$content);
                 } else {
                     console.log(this.$content);
                 }
             },
             removeOne: function(control) {
-                if (this._viewPointers.length > 0) {
+                if (!_.isEmpty(this._viewPointers)) {
                     this._viewPointers[control.id].close();
 
                     if(control.has("childModels")){
-                        var scripts = control.get("childModels");
-                        scripts.each( _.bind( this.removeSubModel, this ));
+                        var children = control.get("childModels");
+                        children.each( _.bind( this.removeSubModel, this ));
                     }
                 }
             },
@@ -163,16 +164,16 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates",
                 //view.render();
             },
             addAllChildModels: function (control) {
-                var child = control.get("childModels");
-                child.each( _.bind( this.addOneSub, this ));
+                var children = control.get("childModels");
+                children.each( _.bind( this.addOneSub, this ));
             },
             addOneSub: function (script) {
                 var scriptview = new ScriptView({ model: script });
-                this._viewPointers[script.id] = scriptview;
+                this._viewPointers[script.cid] = scriptview; //scripts non hanno id
                 this.$scripts.append(scriptview.render().el);
             },
             removeSubModel: function (script) {
-                this._viewPointers[script.id].close();
+                this._viewPointers[script.cid].close();
             },
             getEditorInstanceName: function() {
                 return this._editor.getSelection().getStartElement();

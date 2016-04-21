@@ -1,7 +1,7 @@
 //Actor.js
-define(['models/Lookup',
+define(["jquery", "underscore", "backbone",'models/Lookup',
         'models/Input'],
-    function (Lookup, Input) {
+    function ($, _, Backbone, Lookup, Input) {
         "use strict";
 
         var Input = Input.Input;

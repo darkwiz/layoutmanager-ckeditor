@@ -10,6 +10,7 @@ define(["jquery", "underscore","backbone"],
                 if (options.PIN){
                     this.set("pinValue", options.PIN.value);
                     this.set("pinName", options.PIN.name);
+                    this.set("id", options.PIN.name);
                 }
             }
         });
